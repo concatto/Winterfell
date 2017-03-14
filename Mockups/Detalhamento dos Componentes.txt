@@ -1,0 +1,7 @@
+Funcionalidades:
+
+PÁGINA PRINCIPAL
+Deverá haver um botão de Login e um botão de Cadastro. Deverá haver uma breve descrição do site, com imagens (simples) e elementos textuais.
+
+PERFIL DE USUÁRIO:
+Imagem de perfil e nome próprio deverão ser bem visíveis. Deverá
