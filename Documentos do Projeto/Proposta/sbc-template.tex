@@ -1,0 +1,76 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{graphicx,url}
+\usepackage{comment}
+\usepackage[linesnumbered,ruled,vlined,portuguese]{algorithm2e}
+
+\usepackage[brazil]{babel}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
+% UTF-8 encoding is recommended by ShareLaTex
+
+
+\sloppy
+
+\title{Proposta de Projeto de Aplicação Web\\ Rede Social para Compartilhamento de Imagens}
+
+\author{Fernando Concatto\inst{1}, Samuel Brati Favarin\inst{1}, Miguel A. Copatti\inst{1},\\ Vinícius A. dos Santos\inst{1}, Vinícius A. Machado\inst{1},\\ José H. Lucena\inst{1}, Hálersson Paris Goes\inst{1}}
+
+\address{Bacharelado em Ciência da Computação -- Universidade do Vale do Itajaí (UNIVALI) \\
+  Caixa Postal 360 -- CEP 88302-202 -- Itajaí -- SC -- Brasil
+  \email{fernandoconcatto@edu.univali.br}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{resumo}
+  A presente proposta de trabalho descreve as funcionalidades fundamentais do projeto de aplicação web para a disciplina de Tópicos Especiais em Programação. O projeto consiste na construção de uma rede social simples, onde as publicações dos usuários são compostas principalmente por imagens. Desta maneira, este documento se propõe a apresentar uma base teórica sobre redes sociais e a detalhar as características essenciais da aplicação a ser desenvolvida.
+\end{resumo}
+
+\section{Introdução} \label{sec:intro}
+
+Redes sociais representam uma grande porção dos websites acessados diariamente na Internet. Usuários destes serviços elaboram seus perfis, fornecendo informações pessoais como nome e localização, e podem estabelecer relações com outros usuários caso julguem apropriado \cite{Mislove2007}. Websites como Facebook, Instagram, Tumblr e Twitter estão entre as redes sociais com a maior quantidade de usuários registrados, com o Facebook liderando esta estatística (aproximadamente 1,8 bilhões de usuários ativos) \cite{Statista2017}.
+
+Uma característica bastante notável nas redes sociais \textit{online} é o foco em interações sociais e no conteúdo compartilhado por usuários, ao invés da apresentação de informações estáticas, este segundo aspecto sendo tipicamente observado em websites tradicionais como \textit{portfólios} e páginas empresariais \cite{Mislove2007}. A possibilidade de estabelecer e participar de círculos sociais, juntamente com a capacidade de disseminar e de discutir ideias e assuntos de interesse, compõem uma porção significativa das motivações para a utilização de redes sociais, segundo relatos de usuários \cite{Cheung2011}.
+
+Neste sentido, este trabalho propõe o desenvolvimento de uma rede social simplificada, onde o principal conteúdo compartilhado entre usuários consiste em imagens. Através deste projeto, espera-se obter uma compreensão mais profunda sobre os fundamentos das redes sociais e as tecnologias que oferecem a infraestrutura para o funcionamento estável das mesmas.
+
+\section{Características e Funcionalidades} \label{sec:funcs}
+
+A aplicação proposta neste projeto consiste em uma rede social, onde a atividade dos usuários representa a principal fonte de conteúdo do website. No contexto deste projeto, este conteúdo será composto principalmente por imagens, sejam elas fotos, desenhos, \textit{screenshots} ou qualquer outro tipo de representação visual.
+
+\subsection{Conta, Cadastro e Login} \label{sec:account}
+
+A aplicação deverá possuir um sistema de gerenciamento de contas, onde cada conta representa um perfil de usuário. Cada conta estará associada unicamente a um \textit{e-mail} e a um nome de usuário, e será protegida por uma senha pessoal.
+
+A página principal da aplicação deverá fornecer um formulário para a criação de uma nova conta, onde o usuário especificará seu nome, \textit{e-mail}, nome de usuário e senha. A página também possuirá uma caixa de diálogo onde o usuário poderá acessar sua conta através de seu \textit{e-mail} ou nome de usuário e sua senha. Além disso, deverá haver algum método de recuperação de senha, em caso de esquecimento.
+
+\subsection{Perfis Pessoais} \label{sub:profiles}
+
+O perfil pessoal de cada usuário conterá o nome próprio do utilizador e, opcionalmente, uma imagem que o identifique. Caso o usuário opte por não definir uma imagem, uma figura padrão será apresentada em seu perfil. A página de perfil também exibirá publicamente quais outros perfis aquele usuário está seguindo e quais imagens foram publicadas por ele. Estes conceitos serão apresentados em detalhe nas seções \ref{sub:following} e \ref{sub:publications}, respectivamente.
+
+Caso a página de perfil sendo visitada corresponda à conta atualmente conectada à aplicação, algumas funcionalidades extras estarão presentes. A primeira delas é a capacidade de editar o nome público e a imagem pessoal do perfil. Além disso, será possível realizar uma nova publicação de conteúdo, conceito este detalhado na seção \ref{sub:publications}. Por fim, um \textit{feed} com as publicações mais recentes dos perfis sendo seguidos, organizadas por data de envio em ordem decrescente, tomará o lugar das imagens publicadas pelo dono do perfil (esta seção deverá ser acessível por algum outro meio, caso o usuário deseje examinar suas próprias publicações).
+
+\subsection{Seguindo Perfis} \label{sub:following}
+
+Como observado na literatura, a habilidade de estabelecer relações com outros indivíduos é uma das principais características das redes sociais. Desta maneira, a aplicação deverá indiscutivelmente oferecer a capacidade de criação e remoção de vínculos entre perfis de usuários. No contexto desta proposta, quando existe um vínculo entre dois perfis, diz-se que o primeiro usuário está ``seguindo'' o próximo. Não haverá nenhum tipo de solicitação de amizade ou permissão a ser concedida. A opção de seguir outro usuário estará presente em perfis que o usuário atual ainda não segue. Caso um vínculo já exista, esta opção será substituída pela remoção da associação existente.
+
+\subsection{Publicações} \label{sub:publications}
+
+Como previamente estabelecido, imagens serão o conteúdo primário das publicações dos usuários. A página do perfil do usuário atualmente conectado deverá possuir uma opção para realizar uma nova publicação, onde uma caixa diálogo será disponibilizada para que o usuário possa inserir os detalhes da publicação. Nos demais perfis, esta opção não estará presente.
+
+Cada publicação será composta por um título, uma breve descrição textual e a imagem em si. A aplicação possuirá uma página específica para cada publicação, onde a imagem será exibida em seu tamanho completo, juntamente com o autor da publicação. A imagem poderá ser enviada nos formatos mais comuns, como PNG, JPG e GIF, e deverá ser limitada em aproximadamente 10MB, evitando assim uma possível sobrecarga do servidor.
+
+\section{Conclusões} \label{sec:conclusions}
+
+Este trabalho propôs o desenvolvimento de uma rede social para compartilhamento de imagens, definindo suas principais características de maneira abstrata, possibilitando então a concretização do conceito apresentado de forma iterativa. Trabalhos futuros oferecerão um enfoque maior nos aspectos técnicos da aplicação, formalizando o projeto através de métodos sistemáticos de modelagem provenientes da disciplina de Engenharia de Software.
+
+\bibliographystyle{sbc}
+\bibliography{sbc-template}
+
+\end{document}
