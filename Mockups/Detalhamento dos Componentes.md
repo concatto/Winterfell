@@ -1,18 +1,23 @@
-Funcionalidades:
+# Funcionalidades:
 
-### PÁGINA PRINCIPAL
-* Deverá haver um botão de Login e um botão de Cadastro. Deverá haver uma breve descrição do site, com imagens (simples) e elementos textuais.
+### PÃGINA PRINCIPAL
+* DeverÃ¡ haver um botÃ£o de Login e um botÃ£o de Cadastro. DeverÃ¡ haver uma breve descriÃ§Ã£o do site, com imagens (simples) e elementos textuais, possivelmente contendo um slider (carousel).
 
-### PERFIL DE USUÁRIO:
-* Imagem de perfil e nome próprio deverão ser bem visíveis. Deverá haver uma barra de pesquisa de usuários.
-* Caso a página seja o perfil próprio, deverá haver uma lista de pessoas que o usuário está seguindo. Também deverá haver a opção de editar a foto de perfil e o nome. Além disso, deverá haver um feed de publicações e a opção de realizar uma nova publicação.
-* Caso a página seja o perfil de outra pessoa, a lista de pessoas será substituída por um botão "Home", a opção de realizar uma publicação será substituída por "Seguir"/"Parar de seguir" e o feed será substituído pelas imagens publicadas pelo usuário.
+### PERFIL DE USUÃRIO:
+* Imagem de perfil e nome prÃ³prio deverÃ£o ser bem visÃ­veis. DeverÃ¡ haver uma barra de pesquisa de usuÃ¡rios.
+* Caso a pÃ¡gina seja o perfil prÃ³prio, deverÃ¡ haver uma lista de pessoas que o usuÃ¡rio estÃ¡ seguindo. TambÃ©m deverÃ¡ haver a opÃ§Ã£o de editar a foto de perfil e o nome. AlÃ©m disso, deverÃ¡ haver um feed de publicaÃ§Ãµes e a opÃ§Ã£o de realizar uma nova publicaÃ§Ã£o.
+* Caso a pÃ¡gina seja o perfil de outra pessoa, a lista de pessoas serÃ¡ substituÃ­da por um botÃ£o "Home", a opÃ§Ã£o de realizar uma publicaÃ§Ã£o serÃ¡ substituÃ­da por "Seguir"/"Parar de seguir" e o feed serÃ¡ substituÃ­do pelas imagens publicadas pelo usuÃ¡rio.
 
-### PUBLICAÇÃO (componente):
-* Deverá conter o título da imagem, a imagem em si, a data de publicação (formato a definir) e a reação mais popular. Deverá haver uma opção para reagir/ver reações, e também deverá explicitar quantas pessoas reagiram.
-* Caso a publicação NÃO seja do perfil sendo visitado atualmente, deverá ser apresentado a imagem e o nome do autor da publicação.
-* Caso a publicação seja DO USUÁRIO, não será possível reagir, apenas ver reações (lógica apenas). Deverá ser possível excluir a publicação.
+### PUBLICAÃ‡ÃƒO (componente):
+* DeverÃ¡ conter o tÃ­tulo da imagem, a imagem em si, a data de publicaÃ§Ã£o (formato a definir) e a reaÃ§Ã£o mais popular. DeverÃ¡ haver uma opÃ§Ã£o para reagir/ver reaÃ§Ãµes, e tambÃ©m deverÃ¡ explicitar quantas pessoas reagiram.
+* Caso a publicaÃ§Ã£o NÃƒO seja do perfil sendo visitado atualmente, deverÃ¡ ser apresentado a imagem e o nome do autor da publicaÃ§Ã£o.
+* Caso a publicaÃ§Ã£o seja DO USUÃRIO, nÃ£o serÃ¡ possÃ­vel reagir, apenas ver reaÃ§Ãµes (lÃ³gica apenas). DeverÃ¡ ser possÃ­vel excluir a publicaÃ§Ã£o.
 
-### REAÇÕES (componente):
-* Deverá apresentar uma quantia (a definir) de emojis (a definir) que representem reações. Cada reação será associada à porcentagem de pessoas que reagiram daquela maneira. A reação selecionada (caso aplicável) deverá ser realçada de alguma maneira.
+### REAÃ‡Ã•ES (componente):
+* DeverÃ¡ apresentar uma quantia (a definir) de emojis (a definir) que representem reaÃ§Ãµes. Cada reaÃ§Ã£o serÃ¡ associada Ã  porcentagem de pessoas que reagiram daquela maneira. A reaÃ§Ã£o selecionada (caso aplicÃ¡vel) deverÃ¡ ser realÃ§ada de alguma maneira.
 
+### CADASTRO (modal):
+* AcessÃ­vel a partir da pÃ¡gina principal. DeverÃ¡ conter campos para inserÃ§Ã£o de nome prÃ³prio, e-mail, nome de usuÃ¡rio e senha. HaverÃ¡ validaÃ§Ã£o nos campos de e-mail (sintaxe invÃ¡lida), nome de usuÃ¡rio (apenas letras, nÃºmeros, hÃ­fen e underscore) e senha (6 a 20 caracteres). Nenhum campo poderÃ¡ estar vazio. Caso alguma validaÃ§Ã£o falhe, uma mensagem informativa deverÃ¡ aparecer abaixo do campo apropriado.
+
+### LOGIN (modal):
+* AcessÃ­vel a partir da pÃ¡gina principal. DeverÃ¡ conter campos para inserÃ§Ã£o do nome de usuÃ¡rio ou e-mail e a senha. Caso a autenticaÃ§Ã£o falhe (nome de usuÃ¡rio invÃ¡lido, senha errada, etc), uma mensagem informativa deverÃ¡ aparecer abaixo dos campos.
