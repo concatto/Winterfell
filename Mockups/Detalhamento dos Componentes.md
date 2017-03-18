@@ -43,6 +43,8 @@
 
 * Solicitação de confirmação apresentada quando o usuário optar por excluir uma publicação própria. Deverá conter uma mensagem informativa e opções para cancelar e confirmar.
 
+***
+
 # Mudanças históricas
 
 * Conceito de reações adicionado.
