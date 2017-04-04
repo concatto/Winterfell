@@ -7,24 +7,53 @@
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <link rel="shortcut icon" href="_icones/shortCut.png"/>
 
-        <style>
-            .hover {
-                -moz-transform: scale(1.5);
-                -webkit-transform: scale(1.5);
-                -o-transform: scale(1.5);
+        <!-- Início do CSS -->
+        <style type="text/css">
+            .reactions .modal-body {
+                text-align: center;
+                
             }
+            
+            .reactions .thumbnail:hover, .reactions .thumbnail.active {
+                transition: background-color 0.5s;
+                background-color: rgba(225, 235, 240, 0.9);
+                box-shadow: 1px 2px 10px rgba(00, 00, 00, 0.7);
+                border-color: rgba(80, 220, 100, 0.9) !important;
+                text-decoration: none;
+                font-weight: bolder;
+                color: #304050;
+                transform: scale(1.1);
+                
+            }
+            
+            .reactions .thumbnail:active, .reactions .thumbnail:focus {
+                text-decoration: none;
+                border-color: #ddd !important;
+            } 
+            
+            .reactions .thumbnail {
+                border-color: #dceedd; /* escolher a cor da borda */
+            }
+            
+            .reactions .thumbnail:hover {
+                transition: 0.5s;
+                
+            }
+            
         </style>
         
-</head>
+    </head>
+    
 <body>
     
 <div class="container">
     <!-- Botao de reagir em uma publicação -->
-    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#btnReact"> Reagir </button>
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#btnReact">Reagir</button>
     
     <!-- Modal -->
-    <div class="modal fade" id="btnReact" role="dialog">
+    <div class="modal fade reactions" id="btnReact" role="dialog"> <!-- classe reactions para não bagunçar outras páginas -->
         <div class="modal-dialog">
             <!-- cabeçalho -->
             <div class="modal-content">
@@ -33,33 +62,23 @@
                     <h4 class="modal-title">Escolha uma reação:</h4>
                 </div>
                 <!-- conteudo -->
-                <div class="modal-body">
-                    
-                    <div class="col-xs-3 img-hover"><a href="#" class="thumbnail"><img class="img-responsive" src="_icones/Confused_96px_1.png" class="img-responsive">20%</a></div>
-                    <div class="col-xs-3"><a href="#" class="thumbnail"><img src="_icones/Like.png" class="img-responsive">15%</a></div>
-                    <div class="col-xs-3"><a href="#" class="thumbnail"><img src="_icones/Poo_96px_3.png" class="img-responsive">11%</a></div>
-                    <div class="col-xs-3"><a href="#" class="thumbnail"><img src="_icones/Like_96px.png" class="img-responsive">8%</a></div>
-                    <div class="col-xs-3"><a href="#" class="thumbnail"><img src="_icones/LOL_96px.png" class="img-responsive">7%</a></div>
-                    <div class="col-xs-3"><a href="#" class="thumbnail"><img src="_icones/OkHand_96px_1.png" class="img-responsive">5%</a></div>
-                    <div class="col-xs-3"><a href="#" class="thumbnail"><img src="_icones/Poison_96px_1.png" class="img-responsive">4%</a></div>
-                    <div class="col-xs-3"><a href="#" class="thumbnail"><img src="_icones/Swearing_Male_96px.png" class="img-responsive">3%</a></div>
-                    <div class="col-xs-3"><a href="#" class="thumbnail"><img src="_icones/Vomited_96px.png" class="img-responsive">3%</a></div>
-                    <div class="col-xs-3"><a href="#" class="thumbnail"><img src="_icones/Evil_96px.png" class="img-responsive">2%</a></div>
-                    <div class="col-xs-3"><a href="#" class="thumbnail"><img src="_icones/Crying_96px.png" class="img-responsive">2%</a></div>
-                    <div class="col-xs-3"><a href="#" class="thumbnail"><img src="_icones/Vomited_96px.png" class="img-responsive">1%</a></div>
-                    
-
-                    
-                    
-
- 
+                <div class="modal-body">   
+                    <div class="col-xs-4"><a href="#" class="thumbnail"><img class="img-responsive" src="_icones/Confused_96px_1.png" class="img-responsive">20%</a></div>
+                    <div class="col-xs-4"><a href="#" class="thumbnail active"><img src="_icones/Like.png" class="img-responsive">15%</a></div>
+                    <div class="col-xs-4"><a href="#" class="thumbnail"><img src="_icones/Poo_96px_3.png" class="img-responsive">11%</a></div>
+                    <div class="col-xs-4"><a href="#" class="thumbnail"><img src="_icones/Like_96px.png" class="img-responsive">8%</a></div>
+                    <div class="col-xs-4"><a href="#" class="thumbnail"><img src="_icones/LOL_96px.png" class="img-responsive">7%</a></div>
+                    <div class="col-xs-4"><a href="#" class="thumbnail"><img src="_icones/OkHand_96px_1.png" class="img-responsive">5%</a></div>
+                    <div class="col-xs-4"><a href="#" class="thumbnail"><img src="_icones/Swearing_Male_96px.png" class="img-responsive">3%</a></div>
+                    <div class="col-xs-4"><a href="#" class="thumbnail"><img src="_icones/Evil_96px.png" class="img-responsive">2%</a></div>
+                    <div class="col-xs-4"><a href="#" class="thumbnail"><img src="_icones/Crying_96px.png" class="img-responsive">2%</a></div>
+                    <div style="clear:both"></div> <!-- div para separar delimitar o conteudo principal do modal  -->
                 </div>
                 <!-- rodapé -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal"> Salvar </button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Reagir</button>
                 </div>
-                
-                
+  
             </div>
         </div>
     </div>
