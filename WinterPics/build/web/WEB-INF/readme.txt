@@ -1,0 +1,1 @@
+Pasta deve conter um arquivo para ser inserida no repositório. Netbeans reclama se esta pasta não existir.
