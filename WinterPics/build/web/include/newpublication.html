@@ -1,0 +1,63 @@
+<div class="modal-dialog modal-lg" role="document"> 
+    <div class="modal-content">
+        <div class="modal-header"> 
+            <h3 class="modal-title">Nova Publicação</h3> 
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="usr">Título:</label>
+                        <input type="text" class="form-control" id="usr" placeholder="Digite um título para sua nova publicação" maxlength="24"><!-- @todo verificar  maxlength definitivo-->
+                    </div>
+                </div>
+            </div>
+            <div class="publicationBox">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <div class="text-center">
+                            <!-- imagem padrao -->
+                            <img id="defaultAvatar" class="img-square avatarImage" alt="" src="" style="width: 200px;height: 200px;">
+                        </div>	
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <label class="btn btn-default" for="newImage">Escolha uma imagem</label>
+                            <input type="file" name="newImage" id="newImage" accept="image/*" onchange="readURL(this);" style="display: none"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="pull-left">
+                <input class="btn btn-danger" value="Cancelar" type="submit" id="cancelBtn" data-dismiss="modal">
+            </div>
+            <div class="pull-right">
+                <input class="btn btn-success" value="Publicar" type="submit" id="publicBtn">
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#defaultAvatar')
+                            .attr('src', e.target.result)
+                            .width("100%")
+                            .height("100%")
+                            .css("max-width", "80%")
+                            .css("max-height", "80%")
+                    ;
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</div>  
