@@ -68,9 +68,11 @@
 			
 			.container .profile-tabs {
 				padding-bottom: 10px;
+				color: inherit;
 			}
 			.container .profile-tabs li a {
 				cursor: pointer;
+				color: inherit;
 			}
 			.container .profile-tabs .active a {
 				border-bottom: lightgreen solid 3px;
@@ -83,7 +85,11 @@
 			.container .profile-tabs a:active,
 			.container .profile-tabs a:focus {
 				background: none;
-				background-color: transparent !important;
+				background-color: #f2f2f2 !important;
+				border-bottom: lightgreen solid 3px;
+				border-radius: 0;
+				color: inherit;
+
 			}
 			.container .profile-tabs .active a:hover,
 			.container .profile-tabs .active a:active,
@@ -94,7 +100,7 @@
 			.postBox{
 				width:auto;
 				height:100px;
-			}
+			}•••••••••
 			
 			.avatarBox .media-body h4 {
 		    margin-top: 10px;
@@ -106,7 +112,6 @@
 			}
 			
 			#editAvatar{
-				float:center;
 				margin-left:-45px;
 				margin-top: 85px;
 				display:none;
@@ -127,57 +132,74 @@
 			#backToTop:hover{
 				opacity:1;
 			}
-	
+			
+			.pencilEdit{
+				cursor: pointer;
+				opacity: 0.8;
+			}
+
+			.pencilEdit:hover{
+				opacity: 1;
+			}
 		</style>  
   </head>
   <body>
     <span>
         <img id="backToTop" src="http://i.imgur.com/8U3snb7.png">
     </span>
-    <nav class="navbar navbar-default navbar-fixed-top">
-		  <div class="container-fluid">
-		  	<!-- NavBar header -->
-		    <div class="navbar-header">
-	        <img class="img-circle" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg">
-		      <a href="#" class="navbar-brand">
-		        	Samuel Brati Favarin
-		      </a>
-      	</div>
-		  	<!-- / NavBar header -->
-		  	<div class="collapse navbar-collapse">
-	        <div class="nav navbar-nav navbar-right">
-	        	<!-- Search form -->
-			      <form class="navbar-form navbar-left" method="get" action="">
-			        <div class="form-group search-friends">
-			        	<button>
-					      	<span class="glyphicon glyphicon-search"></span>
-					      </button>
-			          <input class="form-control" name="search" placeholder="Pesquisar amigos" type="text">
+    <ul class="nav navbar-nav">
+	    <nav class="navbar navbar-default navbar-fixed-top">
+			  <div class="container-fluid">
+			  	<!-- NavBar header -->
+			    <div class="navbar-header">
+		        	<img class="img-circle" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg">
+			      	<a href="#" class="navbar-brand">
+			        	Samuel Brati Favarin
+			      	</a>
+			      	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button> 
+		      	</div>
+				  	<!-- / NavBar header -->
+				<div class="collapse navbar-collapse">
+			        <div class="nav navbar-nav navbar-right">
+			        	<!-- Search form -->
+					      <form class="navbar-form navbar-left" method="get" action="">
+					        <div class="form-group search-friends">
+		                    	<div id="menu" class="nav navbar-nav navbar-right"  style="margin-left: 5px; margin-right: 5px;">
+						        	<button>
+								      	<span class="glyphicon glyphicon-search"></span>
+								    </button>
+						          	<input class="form-control" name="search" placeholder="Pesquisar amigos" type="text">
+						        </div>
+					        </div>
+					      </form>
+			        	<!-- / Search form -->
+			        	<!-- Logout button -->
+			        	<div class="navbar-form navbar-left logout-container" style="margin-left: 5px;">
+				        	<a class="logout btn btn-default" href="#">
+				        		Sair
+				        	</a>
+			        	</div>
+			        	<!-- / Logout button -->
 			        </div>
-			      </form>
-	        	<!-- / Search form -->
-	        	<!-- Logout button -->
-	        	<div class="navbar-form navbar-left logout-container">
-		        	<a class="logout btn btn-default" href="#">
-		        		Sair
-		        	</a>
-	        	</div>
-	        	<!-- / Logout button -->
-	        </div>
-        </div>
-		  </div>
+		        </div>
+			  </div>
 		</nav>
+	</ul>
+
         <div class="avatarBox">
-			<center>
+        	<h4 class = "container" style="text-align: right;"><strong>589</strong> seguidores</h4>	
+			<div style="text-align: center">
 					<div>
-						<center>
-							<h3 id="editAvatar"><span>EDITAR</span></h3>
-						</center>
+						<h3 id="editAvatar"><span style="padding-left: 100px;">EDITAR</span></h3>
 						<img id="mainAvatar" class="img-circle avatarImage" alt="avatar" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg">
 					</div>
-					<h3><strong>Samuel Brati Favarin</strong> <span style="cursor:pointer;" class="glyphicon glyphicon-pencil"></span></h3> 
-					<h4><strong>589</strong> seguidores</h4>		
-					<input class="btn btn-success" value="Nova Publicação" type="button" data-toggle="modal" data-target="#myModal">
+					<h3><strong>Samuel Brati Favarin</strong> <span  class="glyphicon glyphicon-pencil pencilEdit"></span></h3> 	
+					<input class="btn btn-success" value="Nova Publicação" type="button" data-toggle="modal" data-target="#myModal" style="margin-top: 20px;">
 
                       <!-- Modal -->
                          <div class="modal fade" id="myModal" role="dialog">
@@ -203,16 +225,16 @@
                              </div>
                         </div>
 
-			</center>
+			</div>
 		</div>
         <div class="container">
 			<ul class="nav nav-pills nav-justified profile-tabs">
-			  <li role="presentation" class="active"><a href="#">Feed de Publicações</a></li>
-			  <li role="presentation"><a href="#">Minhas publicações</a></li>
+			  <li role="presentation" id="selectFeed1" class="active "><a href="#">Feed de Publicações</a></li>
+			  <li role="presentation" id="selectFeed2" ><a href="#">Minhas publicações</a></li>
 			</ul>
 			
 			<!--Publication panel-->
-			<div class="panel panel-default">
+			<div class="panel panel-default friendPost">
   			<div class="panel-body">
   				<div class="postBox">
   					<!--Avatar BOX -->
@@ -227,12 +249,12 @@
 						</div>
 						
 						<div class="row">
-							<div id="titlee" class="col-sm-12 col-md-10 col-lg-11"> <!-- style="width:33.33%; float:left;" -->
-								<h3>Meus novos amigos!!!</h3>
+							<div id="titlee" class="col-sm-10 col-md-10 col-lg-10 col-xs-9"> 
+								<h4>Meus novos amigos!!!</h4>
 							</div>
 							
-							<div id="percentReact" class="col-sm-12 col-md-2 col-lg-1"> <!-- </div>style="width:33.33%; float:left; margin-left:30%;"> -->
-								<h3 style="float:right;"><span class="glyphicon glyphicon-heart"></span> 57%</h3>
+							<div id="percentReact" class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
+								<h4 style="float:right;"><span class="glyphicon glyphicon-heart"></span> 57%</h4>
 							</div>
 						</div>
 						
@@ -243,7 +265,7 @@
 						</div>
 						
 						<div id="numReactions" style=" width:33.33%; float:left;">
-							<h3>398 reações</h3>
+							<h4>398 reações</h4>
 						</div>
 						
 						<div id="btnReact" style=" float:right; margin-right:2%; margin-top:10px;">
@@ -254,7 +276,7 @@
 			</div>
 			
 			<!--Publication panel-->
-				<div class="panel panel-default">
+				<div class="panel panel-default friendPost">
   					<div class="panel-body">
   						<div class="postBox">
 							<!--Avatar BOX -->
@@ -268,12 +290,12 @@
 									</div>
 								</div>
 								
-								<div id="title" style="width:33.33%; float:left;">
-									<h3>Da pra rodar LOL!!!</h3>
+								<div id="title" class="col-sm-10 col-md-10 col-lg-10 col-xs-9">
+									<h4>Da pra rodar LOL!!!</h4>
 								</div>
 								
-								<div id="percentReact" style="width:33.33%; float:left; margin-left:30%;">
-									<h3 style="float:right;"><span class="glyphicon glyphicon-thumbs-up"></span> 73%</h3>
+								<div id="percentReact" class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
+									<h4 style="float:right;"><span class="glyphicon glyphicon-thumbs-up"></span> 73%</h4>
 								</div>
 								
 								<div class="post-content">
@@ -283,7 +305,7 @@
 								</div>
 								
 								<div id="numReactions" style=" width:33.33%; float:left;">
-									<h3>245 reações</h3>
+									<h4>245 reações</h4>
 								</div>
 								
 								<div id="btnReact" style=" float:right; margin-right:2%; margin-top:10px;">
@@ -292,27 +314,83 @@
   						</div>
   					</div>
 				</div>
+
+				<!--Publication panel-->
+				<div class="panel panel-default myPost">
+  					<div class="panel-body">
+  						<div class="postBox">
+							<!--Avatar BOX -->
+								<div class="media avatarBox col-sm-10 col-md-10 col-lg-10 col-xs-9">
+									<div class="media-left media-middle">
+										<img class="media-object img-rounded" style="width:60px" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg">
+									</div>
+									<div class="media-body">
+										<h4 class="media-heading"><strong>Samuel Brati Favarin</strong></h4>
+										<p>7 horas atrás</p>
+									</div>
+								</div>
+
+								<div class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
+									<h4><strong><span style="float: right;" class="glyphicon glyphicon-pencil pencilEdit"></strong></span></h4>
+								</div>
+								
+								<div id="title" class="col-sm-10 col-md-10 col-lg-10 col-xs-9">
+									<h4>Minha coleção !!!</h4>
+								</div>
+								
+								<div id="percentReact" class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
+									<h4 style="float:right;"><span class="glyphicon glyphicon-thumbs-up"></span> 83%</h4>
+								</div>
+								
+								<div class="post-content">
+									<center>
+										<img src="http://adrianobertucci.com/wp-content/uploads/2016/05/livros-programacao.jpg">
+									</center>
+								</div>
+								
+								<div id="numReactions" style=" width:33.33%; float:left;">
+									<h4>756 reações</h4>
+								</div>
+								
+								<div id="btnReact" style=" float:right; margin-right:2%; margin-top:10px;">
+									<input class="btn btn-success" value="Reagir" type="button">
+								</div>
+  						</div>
+  					</div>
+				</div>
+
+
 			</div>
 			<script src="js/jquery/jquery.js" type="text/javascript"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 			<script type="text/javascript">	
-			
+				
+				//FUNÇÕES EDITAR AVATAR
 				 document.getElementById("mainAvatar").onmouseover=function(){
-				 		document.getElementById("editAvatar").style="display: inline; text-aling:center;";
+				 		document.getElementById("editAvatar").style="display: inline;";
                          
 				 }
 				 document.getElementById("mainAvatar").onmouseout=function(){
 				 		document.getElementById("editAvatar").style="display: none;";
 				 }
 
+				 //FUNÇÕES MODAL
                  document.getElementById("mainAvatar").onclick=function(){
                     $("#myModal").modal('show');
                  }
 				 
-				 document.getElementById("backToTop").onclick=function(){
-			 			
-				 }
+				 //FUNÇÕES SELECIONAR TIPO DE FEED
+				 document.getElementById("selectFeed1").onclick=function(){
+                    $("#selectFeed1").className = "active";
+                   	document.getElementById("selectFeed2").classList.remove("active");
+
+                 }
+				 document.getElementById("selectFeed2").onclick=function(){
+                    $("#selectFeed2").className = "active";
+                    document.getElementsByClassName('friendPost').style="display:none !important";
+                   	document.getElementById("selectFeed1").classList.remove("active");
+                 }
 				 
 			</script>
   </body>
