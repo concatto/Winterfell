@@ -5,7 +5,7 @@
             <h4 class="modal-title">Escolha uma reação:</h4>
         </div>
         <!-- conteudo -->
-        <div class="modal-body">
+        <div class="modal-body" id="reactionGrid">
             <div class="col-xs-4"><a class="thumbnail"><img class="img-responsive" src="./data/Confused_96px_1.png" class="img-responsive">20%</a></div>
             <div class="col-xs-4"><a class="thumbnail active"><img src="./data/Like.png" class="img-responsive">15%</a></div>
             <div class="col-xs-4"><a class="thumbnail"><img src="./data/Poo_96px_3.png" class="img-responsive">11%</a></div>
@@ -26,6 +26,11 @@
                 <button type="button" class="btn btn-success" data-dismiss="modal">Reagir</button>
             </div>
         </div>
-
     </div>
+    <script>
+        $("#reactionGrid a.thumbnail").on("click", function() {
+            $("#reactionGrid a.active").removeClass("active");
+            $(this).addClass("active");
+        });
+    </script>
 </div>
