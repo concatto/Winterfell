@@ -62,7 +62,26 @@
 }
 
 .avatarBox.below-navigation{
-        margin-bottom:20px;
+        margin-bottom:34px;
+}
+
+#change-name {
+    text-align: center;
+    padding: 0 !important;
+}
+
+#change-name:before{
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+}
+
+#change-name .modal-dialog {
+    vertical-align: middle;
+    display: inline-block;
+    text-align: left;
 }
 
 .container .profile-tabs {
@@ -81,11 +100,10 @@
         color: inherit;
 }
 .container .profile-tabs a:hover,
-.container .profile-tabs a:active,
+.container .profile-tabs li.active,
 .container .profile-tabs a:focus {
         background: none;
         background-color: #f2f2f2 !important;
-        border-bottom: lightgreen solid 3px;
         border-radius: 0;
         color: inherit;
 
@@ -172,4 +190,13 @@
 
 .below-navigation {
     margin-top:70px;
+}
+
+.pencilEdit{
+        cursor: pointer;
+        opacity: 0.8;
+}
+
+.pencilEdit:hover{
+        opacity: 1;
 }

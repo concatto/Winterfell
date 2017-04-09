@@ -62,8 +62,8 @@
                     <h3 id="editAvatar"><span style="padding-left: 100px;">EDITAR</span></h3>
                     <img id="mainAvatar" class="img-circle avatarImage" alt="avatar" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg">
                 </div>
-                <h3><strong>Samuel Brati Favarin</strong> <span  class="glyphicon glyphicon-pencil pencilEdit"></span></h3> 	
-                <input class="btn btn-success" value="Nova Publicação" type="button" data-toggle="modal" data-target="#myModal" style="margin-top: 20px;">
+                <h3><strong>Samuel Brati Favarin</strong> <span data-toggle="modal" data-target="#change-name" class="glyphicon glyphicon-pencil pencilEdit"></span></h3> 	
+                <input class="btn btn-success" value="Nova Publicação" type="button" data-toggle="modal" data-target="#new-publication" style="margin-top: 14px;">
 
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" role="dialog">
@@ -95,21 +95,23 @@
 
         <!-- following, new publication and reactions -->
         <div class="modal fade" id="following-list" role="dialog"></div>
-        <div id="new-publication" class="modal fade" role="dialog"></div>
+        <div class="modal fade" id="new-publication" role="dialog"></div>
         <div class="modal fade reactions" id="reaction-panel" role="dialog"></div>
+        <div class="modal fade" id="change-name" role="dialog"></div>
         
         <script>
             $("#following-list").load("./include/following.html");
             $("#new-publication").load("./include/newpublication.html");
             $("#reaction-panel").load("./include/reactions.html");
+            $("#change-name").load("./include/changename.html");
         </script>
         
 
         <!-- main section, containing the feed -->
 	<div class="container">
             <ul class="nav nav-pills nav-justified profile-tabs">
-                <li role="presentation" id="selectFeed1" class="active "><a href="#">Feed de Publicações</a></li>
-                <li role="presentation" id="selectFeed2" ><a href="#">Minhas publicações</a></li>
+                <li role="presentation" id="selectFeed1" class="active "><a>Feed de Publicações</a></li>
+                <li role="presentation" id="selectFeed2" ><a>Minhas publicações</a></li>
             </ul>
 
             <!--Publication panel-->
@@ -206,7 +208,7 @@
                         </div>
 
                         <div class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
-                            <h4><strong><span style="float: right;" class="glyphicon glyphicon-pencil pencilEdit"></strong></span></h4>
+                            <h4><strong><span style="float: right;" class="glyphicon glyphicon-pencil pencilEdit"></span></strong></h4>
                         </div>
 
                         <div id="title" class="col-sm-10 col-md-10 col-lg-10 col-xs-9">
@@ -236,38 +238,35 @@
         </div>
             
             
-            <script type="text/javascript">
-                //FUNÇÕES EDITAR AVATAR
-                document.getElementById("mainAvatar").onmouseover=function(){
-                    document.getElementById("editAvatar").style="display: inline;";
+        <script type="text/javascript">
+            //FUNÇÕES EDITAR AVATAR
+            document.getElementById("mainAvatar").onmouseover=function(){
+                document.getElementById("editAvatar").style="display: inline;";
 
-                }
-                document.getElementById("mainAvatar").onmouseout=function(){
-                    document.getElementById("editAvatar").style="display: none;";
-                }
+            }
+            document.getElementById("mainAvatar").onmouseout=function(){
+                document.getElementById("editAvatar").style="display: none;";
+            }
 
-                //FUNÇÕES MODAL
-                document.getElementById("mainAvatar").onclick=function(){
-                    $("#myModal").modal('show');
-                }
-				 
-                //FUNÇÕES SELECIONAR TIPO DE FEED
-                document.getElementById("selectFeed1").onclick=function(){
-                    $("#selectFeed1").className = "active";
-                    document.getElementById("selectFeed2").classList.remove("active");
-                }
-                 
-                document.getElementById("selectFeed2").onclick=function(){
-                    $("#selectFeed2").className = "active";
-                    document.getElementsByClassName('friendPost').style="display:none !important";
-                    document.getElementById("selectFeed1").classList.remove("active");
-                }
+            //FUNÇÕES MODAL
+            document.getElementById("mainAvatar").onclick=function(){
+                $("#myModal").modal('show');
+            }
+
+            //FUNÇÕES SELECIONAR TIPO DE FEED
+            $("ul.profile-tabs > li").on("click", function() {
+                var rule = $(this).is("#selectFeed1") ? "" : "none";
                 
-                $("#search-form div.input-group-addon").on("click", function() {
-                    $("#search-form").submit();
-                });
-            </script>
+                $("div.panel.friendPost").css("display", rule);
+                $("ul.profile-tabs > li.active").removeClass("active");
+                $(this).addClass("active");
+            });
+
+            $("#search-form div.input-group-addon").on("click", function() {
+                $("#search-form").submit();
+            });
+        </script>
 	
-        </div>
+        
     </body>
 </html>
