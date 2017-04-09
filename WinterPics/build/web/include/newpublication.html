@@ -17,8 +17,14 @@
                 <div class="row">
                     <div class="col-md-12 form-group">
                         <div class="text-center">
-                            <!-- imagem padrao -->
-                            <img id="defaultAvatar" class="img-square avatarImage" alt="" src="" style="width: 200px;height: 200px;">
+                            <img id="actualImage" class="img-square avatarImage hidden">
+                            
+                            <div id="placeholderBlock" class="center-block" style="height:200px;width:200px">
+                                <!-- imagem padrao -->
+                                <div class="avatarImage" id="placeholderSquare">
+                                    <span class="glyphicon glyphicon-picture" id="imagePlaceholder"></span>
+                                </div>
+                            </div>
                         </div>	
                     </div>
                 </div>
@@ -43,18 +49,25 @@
     </div>
     
     <script type="text/javascript">
+        $("#placeholderSquare").on("click", function() {
+            $("#newImage").trigger("click");
+        })
+        
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    $('#defaultAvatar')
-                            .attr('src', e.target.result)
+                    $('#actualImage')
+                            .attr("src", e.target.result)
                             .width("auto")
                             .height("auto")
                             .css("max-width", "80%")
                             .css("max-height", "80%")
+                            .removeClass("hidden")
                     ;
+                    
+                    $("#placeholderBlock").addClass("hidden");
                 };
 
                 reader.readAsDataURL(input.files[0]);
