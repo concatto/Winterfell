@@ -62,11 +62,14 @@
                     <h3 id="editAvatar"><span style="padding-left: 100px;">EDITAR</span></h3>
                     <img id="mainAvatar" class="img-circle avatarImage" alt="avatar" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg">
                 </div>
-                <h3><strong>Samuel Brati Favarin</strong> <span data-toggle="modal" data-target="#change-name" class="glyphicon glyphicon-pencil pencilEdit"></span></h3> 	
+                <h3 style="position:relative">
+                    <strong>Samuel Brati Favarin</strong>
+                    <span data-toggle="modal" data-target="#change-name" class="glyphicon glyphicon-pencil pencilEdit"></span>
+                </h3>
                 <input class="btn btn-success" value="Nova Publicação" type="button" data-toggle="modal" data-target="#new-publication" style="margin-top: 14px;">
 
                 <!-- Modal -->
-                <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal fade modal-center" id="myModal" role="dialog">
                     <div class="modal-dialog">
 
                         <!-- Modal content-->
@@ -96,8 +99,8 @@
         <!-- following, new publication and reactions -->
         <div class="modal fade" id="following-list" role="dialog"></div>
         <div class="modal fade" id="new-publication" role="dialog"></div>
-        <div class="modal fade reactions" id="reaction-panel" role="dialog"></div>
-        <div class="modal fade" id="change-name" role="dialog"></div>
+        <div class="modal modal-center fade reactions" id="reaction-panel" role="dialog"></div>
+        <div class="modal modal-center fade" id="change-name" role="dialog"></div>
         
         <script>
             $("#following-list").load("./include/following.html");
