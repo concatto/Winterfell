@@ -53,65 +53,66 @@
             </div>
         </nav>
 
-
-        <!-- Section containing the person's avatar -->
-        <div class="avatarBox below-navigation">
-            <h4 class="container" style="text-align: right;" data-toggle="modal" data-target="#following-list">Seguindo (1024)</h4>
-            <div style="text-align: center">
-                <div>
-                    <h3 id="editAvatar"><span style="padding-left: 100px;">EDITAR</span></h3>
-                    <img id="mainAvatar" class="img-circle avatarImage" alt="avatar" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg">
-                </div>
-                <h2 style="position:relative">
-                    <strong>Samuel Brati Favarin</strong>
-                    <span data-toggle="modal" data-target="#change-name" class="glyphicon glyphicon-edit pencilEdit"></span>
-                </h2>
-                <input class="btn btn-success" value="Nova Publicação" type="button" data-toggle="modal" data-target="#new-publication" style="margin-top: 14px;">
-
-                <!-- Modal -->
-                <div class="modal fade modal-center" id="myModal" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Trocar avatar</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div id="messages"></div>
-                                <input type="file" name="avatar-1" id="avatar-1">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                <button type="submit" class="btn btn-primary" >Salvar</button>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-
         <!-- following, new publication and reactions -->
         <div class="modal fade" id="following-list" role="dialog"></div>
         <div class="modal fade" id="new-publication" role="dialog"></div>
         <div class="modal modal-center fade reactions" id="reaction-panel" role="dialog"></div>
         <div class="modal modal-center fade" id="change-name" role="dialog"></div>
+        <div class="modal modal-center fade" id="confirm-deletion" role="dialog"></div>
         
         <script>
             $("#following-list").load("./include/following.html");
             $("#new-publication").load("./include/newpublication.html");
             $("#reaction-panel").load("./include/reactions.html");
             $("#change-name").load("./include/changename.html");
+            $("#confirm-deletion").load("./include/confirmdeletion.html");
         </script>
         
 
         <!-- main section, containing the feed -->
-	<div class="container">
+	<div class="container below-navigation">
+            <!-- Section containing the person's avatar -->
+            <div class="avatarBox" id="avatarSection">
+                <h4 class="pull-right" id="following" data-toggle="modal" data-target="#following-list">Seguindo (1024)</h4>
+                <div class="text-center">
+                    <div id="avatarContainer">
+                        <h3 id="editAvatar">EDITAR</h3>
+                        <img id="mainAvatar" class="img-circle avatarImage" alt="avatar" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg">
+                    </div>
+                    <h2 style="position:relative">
+                        <strong>Samuel Brati Favarin</strong>
+                        <span data-toggle="modal" data-target="#change-name" class="glyphicon glyphicon-edit pencilEdit"></span>
+                    </h2>
+                    <input class="btn btn-success" value="Nova Publicação" type="button" data-toggle="modal" data-target="#new-publication" style="margin-top: 14px;">
+
+                    <!-- Modal -->
+                    <div class="modal fade modal-center" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Trocar avatar</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="messages"></div>
+                                    <input type="file" name="avatar-1" id="avatar-1">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                                    <button type="submit" class="btn btn-primary" >Salvar</button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            
             <ul class="nav nav-pills nav-justified profile-tabs">
                 <li role="presentation" id="selectFeed1" class="active "><a>Feed de Publicações</a></li>
                 <li role="presentation" id="selectFeed2" ><a>Minhas publicações</a></li>
@@ -210,8 +211,10 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
-                            <h4><strong><span style="float: right;" class="glyphicon glyphicon-pencil pencilEdit"></span></strong></h4>
+                        <div class="col-sm-2 col-md-2 col-lg-2 col-xs-3 pull-right">
+                            <a class="btn btn-sm btn-danger pull-right delete-button" data-toggle="modal" data-target="#confirm-deletion">
+                                <span class="glyphicon glyphicon-trash"></span>&nbsp;
+                            </a>
                         </div>
 
                         <div id="title" class="col-sm-10 col-md-10 col-lg-10 col-xs-9">
