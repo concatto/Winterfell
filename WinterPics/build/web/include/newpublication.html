@@ -5,45 +5,47 @@
             <h4 class="modal-title">Nova Publicação</h4> 
         </div>
         <div class="modal-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="usr">Título:</label>
-                        <input type="text" class="form-control" id="usr" placeholder="Digite um título para sua nova publicação" maxlength="24"><!-- @todo verificar  maxlength definitivo-->
-                    </div>
-                </div>
-            </div>
-            <div class="publicationBox">
-                <div class="row">
-                    <div class="col-md-12 form-group">
-                        <div class="text-center">
-                            <img id="actualImage" class="img-square avatarImage hidden">
-                            
-                            <div id="placeholderBlock" class="center-block" style="height:200px;width:200px">
-                                <!-- imagem padrao -->
-                                <div class="avatarImage" id="placeholderSquare">
-                                    <span class="glyphicon glyphicon-picture" id="imagePlaceholder"></span>
-                                </div>
-                            </div>
-                        </div>	
-                    </div>
-                </div>
+            <form id="new-publication-form">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="text-center">
-                            <label class="btn btn-default" for="newImage">Escolha uma imagem</label>
-                            <input type="file" name="newImage" id="newImage" accept="image/*" onchange="readURL(this);" style="display: none"/>
+                        <div class="form-group">
+                            <label for="usr">Título:</label>
+                            <input type="text" class="form-control" required id="usr" placeholder="Digite um título para sua nova publicação" maxlength="60"><!-- @todo verificar  maxlength definitivo-->
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="publicationBox">
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <div class="text-center">
+                                <img id="actualImage" class="img-square avatarImage hidden">
+
+                                <div id="placeholderBlock" class="center-block" style="height:200px;width:200px">
+                                    <!-- imagem padrao -->
+                                    <div class="avatarImage" id="placeholderSquare">
+                                        <span class="glyphicon glyphicon-picture" id="imagePlaceholder"></span>
+                                    </div>
+                                </div>
+                            </div>	
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <label class="btn btn-default" for="newImage">Escolha uma imagem</label>
+                                <input type="file" name="newImage" id="newImage" accept="image/*" onchange="readURL(this);" style="display: none"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="modal-footer">
             <div class="pull-left">
                 <input class="btn btn-default" value="Cancelar" type="submit" id="cancelBtn" data-dismiss="modal">
             </div>
             <div class="pull-right">
-                <input class="btn btn-success" value="Publicar" type="submit" id="publicBtn" data-dismiss="modal">
+                <input class="btn btn-success" form="new-publication-form" value="Publicar" type="submit" id="publicBtn">
             </div>
         </div>
     </div>

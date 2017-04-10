@@ -45,9 +45,26 @@
 
 #avatarContainer {
     width: 200px;
-    height: 200px;
     margin: auto;
     position: relative;
+}
+
+.postHeader {
+    position: relative;
+}
+
+.numReactions h4 {
+    margin: 6px 0px;
+}
+
+.postHeader h4 {
+    margin-bottom: 0px;
+}
+
+.postHeader > h4 {
+    position: absolute;
+    bottom: -2px;
+    right: 0;
 }
 
 .avatarBox .avatarImage{
@@ -68,24 +85,12 @@
     opacity: 0.5;
 }
 
-.modal.modal-center {
-    text-align: center;
-    padding: 0 !important;
-    margin-top: -20px;
-}
-
-.modal.modal-center:before{
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-    margin-right: -4px;
-}
-
 .modal.modal-center .modal-dialog {
-    vertical-align: middle;
-    display: inline-block;
-    text-align: left;
+/*    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-61%);*/
 }
 
 .container .profile-tabs {
@@ -127,8 +132,22 @@
         height:100px;
 }
 
+#inner-name {
+    position: relative;
+}
+
+#name-text {
+    padding: 0px 8px;
+}
+
+#profile-name {
+    position: relative;
+    max-width: 500px;
+    display: inline-block;
+}
+
 .avatarBox .media-body h4 {
-    margin-top: 2px;
+    margin-top: 0px;
     margin-bottom: 2px;
 }
 
@@ -141,6 +160,14 @@
     margin-bottom: 34px;
 }
 
+.post-content {
+    margin: 20px 0px;
+}
+
+.post-title {
+    margin-top: 10px;
+}
+
 .post-content img {
         width: 100%;
 }
@@ -148,6 +175,8 @@
 #following {
     cursor: pointer;
     margin-right: 15px;
+    margin-top: 0px;
+    margin-bottom: 20px;
 }
 
 #following:hover {
@@ -168,7 +197,12 @@
     font-size: 20px;
 }
 
-.seguidores small {
+.modal ul.seguidores {
+    margin-bottom: 0px;
+}
+
+.seguidores .card-column-name p {
+    margin-top: 8px;
     color: #888888;
 }
 
@@ -240,7 +274,7 @@
 }
 
 .below-navigation {
-    margin-top:70px;
+    margin-top:80px;
 }
 
 .pencilEdit{
@@ -254,8 +288,8 @@
 
 #avatarSection .pencilEdit {
     font-size: 18px;
-    margin-left: 10px;
-    margin-top: 2px;
+    right: 0px;
+    top: 2px;
     position: absolute;
 }
 
@@ -280,8 +314,12 @@
     font-size: 100px;
 }
 
+div.panel.post div.panel-body {
+    padding: 22px;
+}
+
 .delete-button {
-    padding: 4px 6px;
+    padding: 2px 4px;
 }
 
 .delete-button span {
@@ -291,11 +329,11 @@
 }
 
 #search-results .page-header {
-    margin-top: 15px;
+    margin-top: 0px;
 }
 
 #search-results div.row {
-    margin-bottom: 0px;
+    margin-bottom: 5px;
 }
 
 .seguidores .media p {
@@ -311,5 +349,9 @@
     
     .nav-justified > li > a  {
         margin-bottom: 0 !important;
+    }
+    
+    .seguidores .card-column-name .media-heading {
+        font-size: 20px;
     }
 }
