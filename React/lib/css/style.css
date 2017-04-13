@@ -1,0 +1,361 @@
+.navbar .navbar-header img {
+        height: 50px;
+        width: auto;
+        padding: 5px;
+}
+
+.navbar .navbar-header img {
+        float: left;
+        margin-right: 10px;
+}
+.nav.navbar-brand.centered-navbar-logo-container {
+        text-align: center;
+        display: block;
+        margin: 0 auto;
+}
+.navbar .centered-navbar-logo {
+        width: 200px;
+        height: 200px;
+}
+.navbar .navbar-collapse div.search-friends button {
+        background: none;
+        border: none;
+        margin: 0;
+        padding: 6.5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-right: -38px;
+        height: 100%;
+        outline: none;
+}
+/*.navbar .navbar-collapse div.search-friends input[type="text"] {
+        padding-left: 30px;
+}*/
+.navbar .navbar-collapse .logout-container {
+        padding-left: 0;
+}
+
+#menu div.input-group-addon {
+    cursor: pointer;
+}
+
+#currentUserName{
+    margin-left: -15px;
+}
+
+#avatarContainer {
+    width: 200px;
+    margin: auto;
+    position: relative;
+}
+
+.postHeader {
+    position: relative;
+}
+
+.numReactions h4 {
+    margin: 6px 0px;
+}
+
+.postHeader h4 {
+    margin-bottom: 0px;
+}
+
+.postHeader > h4 {
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+}
+
+.avatarBox .avatarImage{
+    cursor:pointer;
+    max-width:200px;
+    max-height:200px;
+    width: auto;
+    height: auto;
+    position: relative !important; 
+}
+
+.caption {
+    margin: auto;
+    text-align: center;
+}
+
+#mainAvatar:hover{
+    opacity: 0.5;
+}
+
+.modal.modal-center .modal-dialog {
+/*    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-61%);*/
+}
+
+.container .profile-tabs {
+        padding-bottom: 10px;
+        color: inherit;
+}
+.container .profile-tabs li a {
+        cursor: pointer;
+        color: inherit;
+        border-radius: 0;
+}
+
+.container .profile-tabs .active a,
+.container .profile-tabs .active a:hover{
+        border-bottom: lightgreen solid 3px;
+        background: none;
+        background-color: transparent !important;
+}
+
+.container .profile-tabs a:hover {
+        border-bottom: #caf9ca solid 3px;
+        background-color: #fcfcfc;
+}
+
+.container .profile-tabs li.active,
+.container .profile-tabs a:focus {
+        background: none;
+        background-color: #f5f5f5 !important;
+
+}
+.container .profile-tabs .active a:hover,
+.container .profile-tabs .active a:active,
+.container .profile-tabs .active a:focus{
+        color: inherit;
+}
+
+.postBox{
+        width:auto;
+        height:100px;
+}
+
+#inner-name {
+    position: relative;
+}
+
+#name-text {
+    padding: 0px 8px;
+}
+
+#profile-name {
+    position: relative;
+    max-width: 500px;
+    display: inline-block;
+}
+
+.avatarBox .media-body h4 {
+    margin-top: 0px;
+    margin-bottom: 2px;
+}
+
+.avatarBox .media-body p {
+    margin: 4px 0px 0px;
+    font-size: 12px;
+}
+
+#avatarSection {
+    margin-bottom: 34px;
+}
+
+.post-content {
+    margin: 20px 0px;
+}
+
+.post-title {
+    margin-top: 10px;
+}
+
+.post-content img {
+    max-width: 100%;
+}
+
+#following {
+    cursor: pointer;
+    margin-right: 15px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+#following:hover {
+    text-decoration: underline;
+}
+
+.following-indicator > * {
+    margin-top: 2px;
+}
+
+.card-column-name {
+    padding-left: 0px;
+}
+
+.card-column-name h3 {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.modal ul.seguidores {
+    margin-bottom: 0px;
+}
+
+.seguidores .card-column-name p {
+    margin-top: 8px;
+    color: #888888;
+}
+
+.following-indicator {
+    
+}
+
+#editAvatar{
+        left: 0;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: auto;
+        display:none;
+        position: absolute;
+}
+
+#backToTop{
+        cursor:pointer;
+        height: 50px;
+        width: 50px;
+        bottom:5px;
+        right:10px;
+        display:scroll;
+        position:fixed;
+        opacity:0.3;
+}
+
+.seguidores .img-rounded{
+    width: 100%;
+}
+
+#backToTop:hover{
+        opacity:1;
+}
+#mainAvatar{
+    margin-bottom: 10px;
+}
+
+.reactions .modal-body {
+    text-align: center;
+
+}
+
+.reactions .thumbnail:active, .reactions .thumbnail:focus {
+    text-decoration: none;
+/*    border-color: #ddd !important;*/
+} 
+
+.reactions .thumbnail {
+    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+/*    border-color: #dceedd;  escolher a cor da borda */
+    cursor: pointer;
+    color: #173958
+}
+
+.reactions .thumbnail:hover {
+    background-color: #f9fff9;
+    box-shadow: 0px 0px 5px rgba(52, 158, 26, 0.2);
+    border-color: #a8e8b1 !important;
+    text-decoration: none;
+}
+
+.reactions .thumbnail.active {
+    background-color: #e6ffe6;
+    box-shadow: 0px 0px 7px rgba(52, 158, 26, 0.6);
+    border-color: #50dc64 !important;
+    font-weight: bold;
+}
+
+.below-navigation {
+    margin-top:80px;
+}
+
+.pencilEdit{
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.pencilEdit:hover{
+    opacity: 1;
+}
+
+#avatarSection .pencilEdit {
+    font-size: 18px;
+    right: 0px;
+    top: 2px;
+    position: absolute;
+}
+
+#placeholderSquare {
+    width:200px;
+    height:200px;
+    display:table-cell;
+    vertical-align:middle;
+    margin: auto;
+    border: #dfdfdf 1px solid;
+    background-color: #fbfbfb;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#placeholderSquare:hover {
+    opacity: 0.8;
+}
+
+#imagePlaceholder {
+    color: #dddddd;
+    font-size: 100px;
+}
+
+div.panel.post div.panel-body {
+    padding: 22px;
+}
+
+.delete-button {
+    padding: 2px 4px;
+}
+
+.delete-button span {
+    width: 100%;
+    font-size: 16px;
+    margin-top: 4px;
+}
+
+#search-results .page-header {
+    margin-top: 0px;
+}
+
+#search-results div.row {
+    margin-bottom: 5px;
+}
+
+.seguidores .media p {
+    font-size: 12px;
+    margin: 0px;
+}
+
+.postHeader .avatarBox .img-rounded {
+	width: 60px;
+}
+
+@media (max-width: 768px) {
+    .nav-justified > li {
+        display: table-cell;
+        width: 1%;
+    }
+    
+    .nav-justified > li > a  {
+        margin-bottom: 0 !important;
+    }
+    
+    .seguidores .card-column-name .media-heading {
+        font-size: 20px;
+    }
+}
