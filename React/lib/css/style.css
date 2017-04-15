@@ -1,7 +1,13 @@
+.navbar-fixed-top .navbar-collapse {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 .navbar .navbar-header img {
         height: 50px;
-        width: auto;
+        width: 50px;
         padding: 5px;
+        object-fit: cover;
 }
 
 .navbar .navbar-header img {
@@ -35,7 +41,7 @@
         padding-left: 0;
 }
 
-#menu div.input-group-addon {
+.search-friends div.input-group-addon {
     cursor: pointer;
 }
 
@@ -69,11 +75,15 @@
 
 .avatarBox .avatarImage{
     cursor:pointer;
-    max-width:200px;
-    max-height:200px;
-    width: auto;
-    height: auto;
-    position: relative !important; 
+    width:200px;
+    height:200px;
+    object-fit: cover;
+    position: relative !important;
+}
+
+.avatarBox .btn {
+  display: block;
+  margin: 14px auto 0px;
 }
 
 .caption {
@@ -142,7 +152,6 @@
 
 #profile-name {
     position: relative;
-    max-width: 500px;
     display: inline-block;
 }
 
@@ -207,7 +216,7 @@
 }
 
 .following-indicator {
-    
+
 }
 
 #editAvatar{
@@ -218,6 +227,10 @@
         margin: auto;
         display:none;
         position: absolute;
+}
+
+#avatarContainer:hover #editAvatar {
+        display: inline;
 }
 
 #backToTop{
@@ -250,7 +263,7 @@
 .reactions .thumbnail:active, .reactions .thumbnail:focus {
     text-decoration: none;
 /*    border-color: #ddd !important;*/
-} 
+}
 
 .reactions .thumbnail {
     transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
@@ -343,6 +356,8 @@ div.panel.post div.panel-body {
 
 .postHeader .avatarBox .img-rounded {
 	width: 60px;
+  height: 60px;
+  object-fit: cover;
 }
 
 @media (max-width: 768px) {
@@ -350,11 +365,11 @@ div.panel.post div.panel-body {
         display: table-cell;
         width: 1%;
     }
-    
+
     .nav-justified > li > a  {
         margin-bottom: 0 !important;
     }
-    
+
     .seguidores .card-column-name .media-heading {
         font-size: 20px;
     }

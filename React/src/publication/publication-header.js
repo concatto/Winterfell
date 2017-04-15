@@ -9,11 +9,13 @@ export default class PublicationHeader extends React.Component {
 			<div className="postHeader">
 				<div className="row">
 					<div className="media avatarBox col-sm-10 col-xs-9">
-						<div className="media-left">
+						<a href={"/profile/" + author.id} className="media-left">
 							<img className="media-object img-rounded" src={author.avatar}/>
-						</div>
+						</a>
 						<div className="media-body">
-							<h4 className="media-heading"><strong>{author.name}</strong></h4>
+							<h4 className="media-heading">
+								<a href={"/profile/" + author.id}><strong>{author.name}</strong></a>
+							</h4>
 							<p>{moment.unix(timestamp).fromNow()}</p>
 						</div>
 					</div>
