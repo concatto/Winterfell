@@ -1,0 +1,65 @@
+<div id="enterlogin" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xs">	<!-- Coisa que vai dentro do modal-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Bem vindo ao WinterPics!</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <!-- CONTEUDO QUE VAI DENTRO DO MODAL-->
+                <form role="form" id="login-form" method="post" action="profile.html">
+                    <div class="form-group">
+                        <label for="email">Nome de usuário</label>
+                        <input type="text" name="user" class="form-control" id="loginuser">
+                    </div>
+                    <div class="form-group">
+                        <label for="senha">Senha </label>
+                        <input type="password" name="pass" class="form-control" id="senha">
+                    </div>
+                    <div class="checkbox"> 
+                        <label><input type="checkbox"> Lembre-se de mim</label>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <div class="modaldeloginEsquecerSenha pull-left" style="margin-top: 4px">
+                    <button type="button" class="btn btn-link btn-xs" data-toggle="modal" data-target="#modalEsquecerSenha"> Esqueceu sua senha?</button>
+                </div>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <input type="submit" form="login-form" class="btn btn-primary" value="Enviar"/>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var validator = $('#login-form').validate({
+  rules: {
+    user: {
+        required: true,
+        minlength: 6,
+        maxlength: 20
+    },
+    pass: { 
+        required: true
+    }
+  },
+  messages: {
+      user: {
+          required: "Preencha este campo",
+          minlength: "Mínimo de 6 caracteres",
+          maxlength: "Máximo de 20 caracteres"
+      },
+      pass: {
+          required: "Preencha este campo"
+      }
+  }
+});
+
+$(function(){
+    $("#login-form").validate();
+});
+</script>
