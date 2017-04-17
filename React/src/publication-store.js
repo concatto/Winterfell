@@ -1,5 +1,11 @@
-class PublicationStore {
+import {EventEmitter} from 'events';
+import UserStore from './user-store.js';
+
+class PublicationStore extends EventEmitter {
 	constructor() {
+		super();
+
+		this.filter = false;
 		this.data = [
 			{
 				author: {
@@ -41,8 +47,21 @@ class PublicationStore {
 		];
 	}
 
+	setFilter(filter) {
+		if (this.filter !== filter) {
+			this.filter = filter;
+			this.emit("change");
+		}
+	}
+
 	getData() {
-		return this.data;
+		if (this.filter === true) {
+			return this.data.filter((pub) => {
+				return UserStore.getInformation().id == pub.author.id;
+			});
+		} else {
+			return this.data;
+		}
 	}
 }
 

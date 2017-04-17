@@ -86,6 +86,10 @@
   margin: 14px auto 0px;
 }
 
+.publications .post {
+  margin-bottom: 30px;
+}
+
 .caption {
     margin: auto;
     text-align: center;
@@ -103,37 +107,37 @@
     transform: translateY(-61%);*/
 }
 
-.container .profile-tabs {
+.container-fluid .profile-tabs {
         padding-bottom: 10px;
         color: inherit;
 }
-.container .profile-tabs li a {
+.container-fluid .profile-tabs li a {
         cursor: pointer;
-        color: inherit;
+        color: #000;
         border-radius: 0;
 }
 
-.container .profile-tabs .active a,
-.container .profile-tabs .active a:hover{
+.container-fluid .profile-tabs .active a,
+.container-fluid .profile-tabs .active a:hover{
         border-bottom: lightgreen solid 3px;
         background: none;
         background-color: transparent !important;
 }
 
-.container .profile-tabs a:hover {
+.container-fluid .profile-tabs a:hover {
         border-bottom: #caf9ca solid 3px;
         background-color: #fcfcfc;
 }
 
-.container .profile-tabs li.active,
-.container .profile-tabs a:focus {
+.container-fluid .profile-tabs li.active,
+.container-fluid .profile-tabs a:focus {
         background: none;
         background-color: #f5f5f5 !important;
 
 }
-.container .profile-tabs .active a:hover,
-.container .profile-tabs .active a:active,
-.container .profile-tabs .active a:focus{
+.container-fluid .profile-tabs .active a:hover,
+.container-fluid .profile-tabs .active a:active,
+.container-fluid .profile-tabs .active a:focus{
         color: inherit;
 }
 
@@ -333,6 +337,7 @@ div.panel.post div.panel-body {
 
 .delete-button {
     padding: 2px 4px;
+    float: right;
 }
 
 .delete-button span {
