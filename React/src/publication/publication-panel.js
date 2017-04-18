@@ -17,7 +17,7 @@ export default class PublicationPanel extends React.Component {
 
 	getPublications() {
 		return PublicationStore.getData().map((pub) =>
-			<Publication data={pub} key={pub.timestamp}/>
+			<Publication data={pub} key={pub.pubId}/>
 		);
 	}
 

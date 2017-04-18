@@ -1,5 +1,6 @@
 import React from 'react';
 import UserStore from './user-store.js';
+import Modals from './modals.js';
 
 export default class ProfileHeader extends React.Component {
   render() {
@@ -8,7 +9,7 @@ export default class ProfileHeader extends React.Component {
     return (
       <div>
         <div className="avatarBox" id="avatarSection">
-          <h4 className="pull-right" id="following">
+          <h4 className="pull-right" id="following" onClick={(e) => Modals.open("see-following")}>
             {`Seguindo (${info.following})`}
           </h4>
           <div className="text-center">

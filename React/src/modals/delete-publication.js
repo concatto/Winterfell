@@ -1,7 +1,8 @@
 import React from 'react';
 import Modal from './modal.js';
+import ModalBase from './modal-base.js';
 
-export default class DeletePublication extends React.Component {
+class DeleteModal extends React.Component {
   render() {
     return (
       <Modal title="Confirmação" id={this.props.id}>
@@ -11,9 +12,27 @@ export default class DeletePublication extends React.Component {
 
         <div className="modal-footer">
           <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancelar"/>
-          <input type="button" className="btn btn-danger" data-dismiss="modal" value="Excluir"/>
+          <input type="button" className="btn btn-danger" data-dismiss="modal" value="Excluir"
+            onClick={(e) => this.props.callback()}/>
         </div>
       </Modal>
     );
+  }
+}
+
+export default class DeletePublication extends ModalBase {
+  constructor() {
+    super("delete-publication");
+
+    this.callback = this.callback.bind(this);
+    this.modal = <DeleteModal id={this.id} key={this.id} callback={this.callback}/>;
+  }
+
+  callback() {
+    console.log("I am removing " + this.targetId);
+  }
+
+  willOpen(args) {
+    this.targetId = args.targetId;
   }
 }

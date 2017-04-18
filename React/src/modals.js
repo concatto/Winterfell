@@ -1,22 +1,19 @@
 import React from 'react';
 import DeletePublication from './modals/delete-publication.js';
+import FollowingList from './modals/following-list.js';
 
 class Modals {
   constructor() {
     this.modals = {
-      "delete-pub": this.create(DeletePublication, "delete-publication")
+      "delete-pub": new DeletePublication,
+      "see-following": new FollowingList
     }
   }
 
-  create(ModalType, id) {
-    return {
-      modal: <ModalType id={id} key={id}/>,
-      id: id
-    };
-  }
-
   open(command, args) {
-    $(`#${this.modals[command].id}`).modal();
+    const modal = this.modals[command];
+    modal.willOpen(args);
+    $("#" + modal.id).modal();
   }
 
   getAll() {

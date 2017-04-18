@@ -18,7 +18,8 @@ class PublicationStore extends EventEmitter {
 					title: "Prova de que o React funciona",
 					image: "assets/react.png"
 				},
-				reactions: 10
+				reactions: 10,
+				pubId: 99
 			}, {
 				author: {
 					id: 50,
@@ -30,7 +31,8 @@ class PublicationStore extends EventEmitter {
 					title: "Prova de que o React funciona",
 					image: "assets/react.png"
 				},
-				reactions: 30
+				reactions: 30,
+				pubId: 233
 			}, {
 				author: {
 					id: 99,
@@ -42,7 +44,21 @@ class PublicationStore extends EventEmitter {
 					title: "Prova de que o React funciona",
 					image: "assets/react.png"
 				},
-				reactions: 40
+				reactions: 40,
+				pubId: 177
+			}, {
+				author: {
+					id: 30,
+					avatar: "assets/avatar.jpg",
+					name: "Samuel Brati Favarin"
+				},
+				timestamp: 1492061254,
+				content: {
+					title: "Prova de que o React funciona e deleta direito",
+					image: "assets/react.png"
+				},
+				reactions: 10,
+				pubId: 123
 			}
 		];
 	}

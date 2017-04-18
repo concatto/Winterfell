@@ -5,11 +5,11 @@ import Modals from '../modals.js';
 
 class DeleteButton extends React.Component {
 	render() {
-		const {target} = this.props;
+		const {targetId} = this.props;
 
 		return (
 			<div className="col-sm-2 col-xs-3 pull-right">
-				<a className="btn btn-sm btn-danger delete-button" onClick={(e) => Modals.open("delete-pub", {target})}>
+				<a className="btn btn-sm btn-danger delete-button" onClick={(e) => Modals.open("delete-pub", {targetId})}>
 					<span className="glyphicon glyphicon-trash"></span>&nbsp;
 				</a>
 			</div>
@@ -19,7 +19,7 @@ class DeleteButton extends React.Component {
 
 export default class PublicationHeader extends React.Component {
 	render() {
-		const {author, timestamp} = this.props;
+		const {author, timestamp, pubId} = this.props;
 		const own = author.id == UserStore.getInformation().id;
 
 		return (
@@ -39,7 +39,7 @@ export default class PublicationHeader extends React.Component {
 						</div>
 					</div>
 					{own &&
-						<DeleteButton target={author.id}/>
+						<DeleteButton targetId={pubId}/>
 					}
 				</div>
 			</div>
