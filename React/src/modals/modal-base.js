@@ -3,7 +3,17 @@ export default class ModalBase {
     this.id = id;
   }
 
+  open(args) {
+    this.willOpen(args);
+    this.element = $("#" + this.id);
+    this.element.modal();
+  }
+
   willOpen(args) {
     //do nothing
+  }
+
+  close() {
+    this.element.modal("toggle");
   }
 }

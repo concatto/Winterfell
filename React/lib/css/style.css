@@ -1,3 +1,7 @@
+.modal form {
+  margin-bottom: 0px;
+}
+
 .navbar-fixed-top .navbar-collapse {
   padding-left: 15px;
   padding-right: 15px;
@@ -312,9 +316,18 @@
     position: absolute;
 }
 
+.publicationBox label.btn {
+  margin-top: 15px;
+}
+
+#placeholderBlock {
+  width:200px;
+  height:200px;
+}
+
 #placeholderSquare {
-    width:200px;
-    height:200px;
+    width: inherit;
+    height: inherit;
     display:table-cell;
     vertical-align:middle;
     margin: auto;
@@ -331,6 +344,15 @@
 #imagePlaceholder {
     color: #dddddd;
     font-size: 100px;
+}
+
+#actualImage {
+  display: block;
+  margin: auto;
+  width: auto;
+  height: auto;
+  max-width: 80%;
+  max-height: 80%;
 }
 
 div.panel.post div.panel-body {

@@ -15,7 +15,7 @@ export default class PersonCard extends React.Component {
               <h4 className="media-heading"><strong>{name}</strong></h4>
             </a>
             <small>
-              {`${publications} publicações - seguindo ${following}`}
+              {publications + " publicações - seguindo " + following}
             </small>
           </div>
         </div>

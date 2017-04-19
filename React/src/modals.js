@@ -1,19 +1,21 @@
 import React from 'react';
 import DeletePublication from './modals/delete-publication.js';
 import FollowingList from './modals/following-list.js';
+import ChangeName from './modals/change-name.js';
+import NewPublication from './modals/new-publication.js';
 
 class Modals {
   constructor() {
     this.modals = {
       "delete-pub": new DeletePublication,
-      "see-following": new FollowingList
+      "see-following": new FollowingList,
+      "change-name": new ChangeName,
+      "new-publication": new NewPublication
     }
   }
 
   open(command, args) {
-    const modal = this.modals[command];
-    modal.willOpen(args);
-    $("#" + modal.id).modal();
+    this.modals[command].open(args);
   }
 
   getAll() {

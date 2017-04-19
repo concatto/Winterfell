@@ -12,7 +12,7 @@ class DeleteModal extends React.Component {
 
         <div className="modal-footer">
           <input type="button" className="btn btn-default" data-dismiss="modal" value="Cancelar"/>
-          <input type="button" className="btn btn-danger" data-dismiss="modal" value="Excluir"
+          <input type="button" className="btn btn-danger" value="Excluir"
             onClick={(e) => this.props.callback()}/>
         </div>
       </Modal>
@@ -30,6 +30,7 @@ export default class DeletePublication extends ModalBase {
 
   callback() {
     console.log("I am removing " + this.targetId);
+    this.close();
   }
 
   willOpen(args) {

@@ -21,9 +21,11 @@ export default class ProfileHeader extends React.Component {
               <div className="col-xs-8 col-xs-offset-2">
                 <div id="profile-name">
                   <h2 id="name-text"><strong>{info.name}</strong></h2>
-                  <span className="glyphicon glyphicon-edit pencilEdit"></span>
+                  <span className="glyphicon glyphicon-edit pencilEdit"
+                    onClick={(e) => Modals.open("change-name")}></span>
                 </div>
-                <input className="btn btn-success" value="Nova Publicação" type="button"/>
+                <input className="btn btn-success" value="Nova Publicação" type="button"
+                  onClick={(e) => Modals.open("new-publication")}/>
               </div>
             </div>
           </div>
