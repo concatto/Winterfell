@@ -11,7 +11,8 @@ export default class Publication extends React.Component {
 				<div className="panel-body">
 					<div className="postBox">
 						<PublicationHeader author={author} timestamp={timestamp} pubId={pubId}/>
-						<PublicationContent title={content.title} image={content.image} reactions={reactions}/>
+						<PublicationContent title={content.title} image={content.image} reactions={reactions}
+							pubId={pubId}/>
 					</div>
 				</div>
 			</div>

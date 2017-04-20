@@ -3,6 +3,7 @@ import DeletePublication from './modals/delete-publication.js';
 import FollowingList from './modals/following-list.js';
 import ChangeName from './modals/change-name.js';
 import NewPublication from './modals/new-publication.js';
+import ReactionPanel from './modals/reaction-panel.js';
 
 class Modals {
   constructor() {
@@ -10,7 +11,8 @@ class Modals {
       "delete-pub": new DeletePublication,
       "see-following": new FollowingList,
       "change-name": new ChangeName,
-      "new-publication": new NewPublication
+      "new-publication": new NewPublication,
+      "reaction-panel": new ReactionPanel
     }
   }
 

@@ -6,8 +6,8 @@ class PublicationStore extends EventEmitter {
 		super();
 
 		this.filter = false;
-		this.data = [
-			{
+		this.data = {
+			99: {
 				author: {
 					id: 30,
 					avatar: "assets/avatar.jpg",
@@ -18,9 +18,11 @@ class PublicationStore extends EventEmitter {
 					title: "Prova de que o React funciona",
 					image: "assets/react.png"
 				},
-				reactions: 10,
+				reactions: [100, 184, 28, 81, 72, 116, 131, 177, 47],
+				ownReaction: 8,
 				pubId: 99
-			}, {
+			},
+			233: {
 				author: {
 					id: 50,
 					avatar: "assets/avatar.jpg",
@@ -31,9 +33,11 @@ class PublicationStore extends EventEmitter {
 					title: "Prova de que o React funciona",
 					image: "assets/react.png"
 				},
-				reactions: 30,
+				reactions: [119, 52, 185, 67, 112, 189, 36, 166, 32],
+				ownReaction: 3,
 				pubId: 233
-			}, {
+			},
+			177: {
 				author: {
 					id: 99,
 					avatar: "assets/avatar.jpg",
@@ -44,9 +48,11 @@ class PublicationStore extends EventEmitter {
 					title: "Prova de que o React funciona",
 					image: "assets/react.png"
 				},
-				reactions: 40,
+				reactions: [38, 81, 96, 177, 81, 196, 63, 116, 166],
+				ownReaction: null,
 				pubId: 177
-			}, {
+			},
+			123: {
 				author: {
 					id: 30,
 					avatar: "assets/avatar.jpg",
@@ -57,10 +63,15 @@ class PublicationStore extends EventEmitter {
 					title: "Prova de que o React funciona e deleta direito",
 					image: "assets/react.png"
 				},
-				reactions: 10,
+				reactions: [188, 24, 111, 20, 29, 143, 92, 56, 154],
+				ownReaction: 1,
 				pubId: 123
 			}
-		];
+		};
+	}
+
+	getPublication(pubId) {
+		return this.data[pubId];
 	}
 
 	setFilter(filter) {
@@ -70,13 +81,19 @@ class PublicationStore extends EventEmitter {
 		}
 	}
 
+	setActivePublication(pubId) {
+		this.activePublication = pubId;
+		this.emit("active-change", {pubId});
+	}
+
 	getData() {
+		const publications = Object.keys(this.data).map((k) => this.data[k]);
 		if (this.filter === true) {
-			return this.data.filter((pub) => {
+			return publications.filter((pub) => {
 				return UserStore.getInformation().id == pub.author.id;
 			});
 		} else {
-			return this.data;
+			return publications;
 		}
 	}
 }
