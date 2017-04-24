@@ -1,0 +1,47 @@
+<!-- Modal Cadastrar -->
+<div id="myModaldd" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-ms">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Criar Conta</h4>
+            </div>
+            <div class="modal-body">
+
+                <!-- CONTEUDO QUE VAI DENTRO DO MODAL-->
+                <form role="form" id="create-form">
+                    <div class="form-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" name="name" class="form-control" id="nome" required="" pattern="[a-zA-Z][a-zA-Z ]{4,}" placeholder="Fulano de Tal" title="Letras sem acentos e nome completo" >
+                    </div>
+                    <div class="form-group">
+                        <label for="user">Usuário </label>
+                        <input type="text" name="user" class="form-control" id="user" required="" pattern="[a-zA-Z][a-zA-Z0-9-_\.]{1,20}" placeholder="fulanodetal" title="Utilize apenas caracteres(sem acento), números, underscores e hífens">
+                    </div>
+                    <div class="form-group">
+                        <label for="senhacriar"> Senha </label>
+                        <input type="password" placeholder="6 a 20 caracteres" name="pass" class="form-control" id="senhacriar" maxlength="20" pattern=".{6,20}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="senhacriar"> Confirmar senha </label>
+                        <input type="password" placeholder="6 a 20 caracteres" name="pass" class="form-control" id="senhacriar" maxlength="20" pattern=".{6,20}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"> Email </label>
+                        <input type="Email" name="email" class="form-control" id="emailcriar" placeholder="exemplo@email.com" required="" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" >
+                    </div>
+                    <div class="form-group">
+                        <label for="email"> Confirmar Email </label>
+                        <input type="Email" name="email2" class="form-control" id="email2criar"  placeholder="exemplo@email.com" required="" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <input type="submit" form="create-form" class="btn btn-primary" value="Criar conta"/>
+            </div>
+        </div>
+    </div>
+</div>
