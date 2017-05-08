@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<title>GridSocket</title>
+		<script>		
+			/*
+			  111 001 100 010 111 010 100 110 |	001 101 101 001 010 101 011 111
+			*/
+		
+			colors = ['red', 'green', 'blue', 'yellow', 'black', 'white', 'gray', 'violet'];
+		
+			width = 10;
+			height = 10;
+			blockSize = 800 / width;
+			bits = 3;
+			mask = Math.pow(2, bits) - 1;
+			stride = bits * width;
+		  data = 9876543210;
+		
+			window.getColorAt = function(x, y) {
+			  var yBits = (height - 1 - y) * stride;
+				var xBits = (width - 1 - x) * bits;
+				
+				console.log((data >> (yBits + xBits)).toString(2));
+				return (data >> (yBits + xBits)) & mask;
+			}
+		
+			window.paint = function() {
+				var cv = document.getElementById("grid");
+				var ctx = cv.getContext("2d");
+				
+				for (var x = 0; x < width; x++) {
+					for (var y = 0; y < height; y++) {
+						var color = getColorAt(x, y);
+						ctx.fillStyle = colors[color];
+						ctx.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+						console.log("At " + x + ", " + y + " -> " + colors[color] + " (" + color + ")");
+					}
+				}
+			}
+			
+		</script>
+	</head>
+	<body>
+		<canvas id="grid" width=800 height=800 style="border: 1px solid black"></canvas>
+		<button id="refresh">Refresh</button>
+		<script>
+			document.getElementById("refresh").addEventListener("click", function() {
+				paint();
+			});
+		</script>
+	</body>
+</html>
