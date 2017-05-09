@@ -1,52 +1,138 @@
 <html>
 	<head>
 		<title>GridSocket</title>
-		<script>		
-			/*
-			  111 001 100 010 111 010 100 110 |	001 101 101 001 010 101 011 111
-			*/
-		
-			colors = ['red', 'green', 'blue', 'yellow', 'black', 'white', 'gray', 'violet'];
-		
-			width = 10;
-			height = 10;
-			blockSize = 800 / width;
-			bits = 3;
-			mask = Math.pow(2, bits) - 1;
-			stride = bits * width;
-		  data = 9876543210;
-		
-			window.getColorAt = function(x, y) {
-			  var yBits = (height - 1 - y) * stride;
-				var xBits = (width - 1 - x) * bits;
-				
-				console.log((data >> (yBits + xBits)).toString(2));
-				return (data >> (yBits + xBits)) & mask;
-			}
-		
-			window.paint = function() {
-				var cv = document.getElementById("grid");
-				var ctx = cv.getContext("2d");
-				
-				for (var x = 0; x < width; x++) {
-					for (var y = 0; y < height; y++) {
-						var color = getColorAt(x, y);
-						ctx.fillStyle = colors[color];
-						ctx.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
-						console.log("At " + x + ", " + y + " -> " + colors[color] + " (" + color + ")");
-					}
-				}
+		<style>
+			.container {
+				display: inline-block;
+				margin: auto;
 			}
 			
-		</script>
+			.colors, .colors .column, .grid-container {
+				display: inline-block;
+			}
+			
+			.colors {
+				vertical-align: top;
+				margin: -6px 10px 0px;
+			}
+			
+			.grid-container #grid, .grid-container #refresh {
+				display: block;
+			}
+			
+			.color {
+				display: block;
+				width: 40px;
+				height: 40px;
+				margin: 24px 8px;
+				border: 1px solid black;
+			}
+			
+			.color:hover {
+				box-shadow: 0px 0px 4px #3b8cc5;
+				transition: box-shadow 0.1s linear;
+			}
+			
+			.color.active {
+				box-shadow: 0px 0px 9px #196092;
+			}
+		</style>
 	</head>
 	<body>
-		<canvas id="grid" width=800 height=800 style="border: 1px solid black"></canvas>
-		<button id="refresh">Refresh</button>
+		<div class="container">
+			<div class="colors">
+				<div class="column">
+					<div data-index="0" class="color active" style="background-color: red"></div>
+					<div data-index="1" class="color" style="background-color: green"></div>
+					<div data-index="2" class="color" style="background-color: blue"></div>
+					<div data-index="3" class="color" style="background-color: yellow"></div>
+				</div>
+				<div class="column">
+					<div data-index="4" class="color" style="background-color: brown"></div>
+					<div data-index="5" class="color" style="background-color: black"></div>
+					<div data-index="6" class="color" style="background-color: white"></div>
+					<div data-index="7" class="color" style="background-color: gray"></div>
+				</div>
+			</div>
+					
+			<div class="grid-container">
+				<canvas id="grid" width=400 height=400></canvas>
+				<button id="refresh">Refresh</button>
+			</div>
+		</div>
+		
 		<script>
+			var cv = document.getElementById("grid");
+			var ctx = cv.getContext("2d");
+			
+			var currentColor = 0;
+			var colors = {};
+			
 			document.getElementById("refresh").addEventListener("click", function() {
 				paint();
 			});
+			
+			for (color of document.querySelectorAll(".color")) {
+				colors[color.dataset.index] = color.style["background-color"];
+				
+				color.addEventListener("click", function(event) {
+					document.querySelector(".color.active").classList.remove("active");
+					event.target.classList.add("active");
+					currentColor = parseInt(event.target.dataset.index);
+				});
+			}
+		
+			var width = 10;
+			var height = 10;
+			var blockSize = cv.width / width;
+			var bits = 4;
+			var mask = Math.pow(2, bits) - 1;
+		  var data = new Uint8Array(width * height * (8 / bits));
+			
+			cv.addEventListener("click", function(event) {
+				var x = parseInt(event.offsetX / blockSize);
+				var y = parseInt(event.offsetY / blockSize);
+				
+				setColorAt(x, y, currentColor);
+			});
+		
+			function toIndex(x, y) {
+				return y * (width / 2) + Math.floor(x / 2);
+			}
+		
+			function getColorAt(x, y) {
+				var value = data[toIndex(x, y)];
+				
+				if (x % 2 == 0) {
+					value = value >> bits; //Upper half
+				}
+				
+				return value & mask;
+			}
+			
+			function setColorAt(x, y, color) {
+				var index = toIndex(x, y);
+				
+				if (x % 2 == 0) {
+					data[index] = (data[index] & mask) | ((color & mask) << bits); //Set upper half
+				} else {
+					data[index] = (data[index] & ~mask) | (color & mask); //Set lower half
+				}
+				
+				paint();
+			}
+		
+			function paint() {
+				for (var x = 0; x < width; x++) {
+					for (var y = 0; y < height; y++) {
+						var color = getColorAt(x, y);
+						
+						ctx.fillStyle = colors[color];
+						ctx.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+						//console.log("At " + x + ", " + y + " -> " + colors[color] + " (" + color + ")");
+					}
+				}
+			}
 		</script>
 	</body>
 </html>
