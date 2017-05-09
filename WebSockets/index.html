@@ -61,7 +61,7 @@
 			</div>
 		</div>
 		
-		<script>
+		<script>			
 			var cv = document.getElementById("grid");
 			var ctx = cv.getContext("2d");
 			
@@ -95,6 +95,17 @@
 				
 				setColorAt(x, y, currentColor);
 			});
+			
+			var ws = new WebSocket("ws://localhost:8080/GridSocket/grid");
+			ws.binaryType = "arraybuffer";
+			ws.onmessage = function(event) {
+				data = new Uint8Array(event.data);
+				paint();
+			}
+			
+			ws.onerror = function(event) {
+				console.log(event);
+			}
 		
 			function toIndex(x, y) {
 				return y * (width / 2) + Math.floor(x / 2);
@@ -111,7 +122,7 @@
 			}
 			
 			function setColorAt(x, y, color) {
-				var index = toIndex(x, y);
+				/*var index = toIndex(x, y);
 				
 				if (x % 2 == 0) {
 					data[index] = (data[index] & mask) | ((color & mask) << bits); //Set upper half
@@ -119,7 +130,15 @@
 					data[index] = (data[index] & ~mask) | (color & mask); //Set lower half
 				}
 				
-				paint();
+				paint();*/
+				
+				var message = new Uint8Array(3);
+				message[0] = x & 0xFF;
+				message[1] = y & 0xFF;
+				message[2] = color & 0xF;
+				
+				console.log(message);
+				ws.send(message);
 			}
 		
 			function paint() {
