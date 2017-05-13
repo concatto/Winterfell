@@ -1,16 +1,157 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+	<head>
+		<title>GridSocket</title>
+		<style>
+			.container {
+				display: inline-block;
+				margin: auto;
+			}
+			
+			.colors, .colors .column, .grid-container {
+				display: inline-block;
+			}
+			
+			.colors {
+				vertical-align: top;
+				margin: -6px 10px 0px;
+			}
+			
+			.grid-container #grid, .grid-container #refresh {
+				display: block;
+			}
+			
+			.color {
+				display: block;
+				width: 40px;
+				height: 40px;
+				margin: 24px 8px;
+				border: 1px solid black;
+			}
+			
+			.color:hover {
+				box-shadow: 0px 0px 4px #3b8cc5;
+				transition: box-shadow 0.1s linear;
+			}
+			
+			.color.active {
+				box-shadow: 0px 0px 9px #196092;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="colors">
+				<div class="column">
+					<div data-index="0" class="color active" style="background-color: red"></div>
+					<div data-index="1" class="color" style="background-color: green"></div>
+					<div data-index="2" class="color" style="background-color: blue"></div>
+					<div data-index="3" class="color" style="background-color: yellow"></div>
+				</div>
+				<div class="column">
+					<div data-index="4" class="color" style="background-color: brown"></div>
+					<div data-index="5" class="color" style="background-color: black"></div>
+					<div data-index="6" class="color" style="background-color: white"></div>
+					<div data-index="7" class="color" style="background-color: gray"></div>
+				</div>
+			</div>
+					
+			<div class="grid-container">
+				<canvas id="grid" width=400 height=400></canvas>
+				<button id="refresh">Refresh</button>
+			</div>
+		</div>
+		
+		<script>			
+			var cv = document.getElementById("grid");
+			var ctx = cv.getContext("2d");
+			
+			var currentColor = 0;
+			var colors = {};
+			
+			document.getElementById("refresh").addEventListener("click", function() {
+				paint();
+			});
+			
+			for (color of document.querySelectorAll(".color")) {
+				colors[color.dataset.index] = color.style["background-color"];
+				
+				color.addEventListener("click", function(event) {
+					document.querySelector(".color.active").classList.remove("active");
+					event.target.classList.add("active");
+					currentColor = parseInt(event.target.dataset.index);
+				});
+			}
+		
+			var width = 10;
+			var height = 10;
+			var blockSize = cv.width / width;
+			var bits = 4;
+			var mask = Math.pow(2, bits) - 1;
+		  var data = new Uint8Array(width * height * (8 / bits));
+			
+			cv.addEventListener("click", function(event) {
+				var x = parseInt(event.offsetX / blockSize);
+				var y = parseInt(event.offsetY / blockSize);
+				
+				setColorAt(x, y, currentColor);
+			});
+			
+			var ws = new WebSocket("ws://localhost:8080/GridSocket/grid");
+			ws.binaryType = "arraybuffer";
+			ws.onmessage = function(event) {
+				data = new Uint8Array(event.data);
+				paint();
+			}
+			
+			ws.onerror = function(event) {
+				console.log(event);
+			}
+		
+			function toIndex(x, y) {
+				return y * (width / 2) + Math.floor(x / 2);
+			}
+		
+			function getColorAt(x, y) {
+				var value = data[toIndex(x, y)];
+				
+				if (x % 2 == 0) {
+					value = value >> bits; //Upper half
+				}
+				
+				return value & mask;
+			}
+			
+			function setColorAt(x, y, color) {
+				/*var index = toIndex(x, y);
+				
+				if (x % 2 == 0) {
+					data[index] = (data[index] & mask) | ((color & mask) << bits); //Set upper half
+				} else {
+					data[index] = (data[index] & ~mask) | (color & mask); //Set lower half
+				}
+				
+				paint();*/
+				
+				var message = new Uint8Array(3);
+				message[0] = x & 0xFF;
+				message[1] = y & 0xFF;
+				message[2] = color & 0xF;
+				
+				console.log(message);
+				ws.send(message);
+			}
+		
+			function paint() {
+				for (var x = 0; x < width; x++) {
+					for (var y = 0; y < height; y++) {
+						var color = getColorAt(x, y);
+						
+						ctx.fillStyle = colors[color];
+						ctx.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+						//console.log("At " + x + ", " + y + " -> " + colors[color] + " (" + color + ")");
+					}
+				}
+			}
+		</script>
+	</body>
 </html>
