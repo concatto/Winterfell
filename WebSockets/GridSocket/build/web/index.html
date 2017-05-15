@@ -1,16 +1,184 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GridSocket</title>
+        <style>
+            body {
+                text-align: center;
+            }
+            
+            .container {
+                display: inline-block;
+                margin: auto;
+            }
+
+            .colors, .colors .column, .grid-container {
+                display: inline-block;
+            }
+
+            .colors {
+                vertical-align: top;
+                margin: -6px 30px 0px 0px;
+            }
+
+            .grid-container #grid {
+                display: block;
+            }
+            
+            #grid {
+                border: 1px solid black;
+                cursor: pointer;
+            }
+
+            .color {
+                display: block;
+                width: 40px;
+                height: 40px;
+                margin: 24px 8px;
+                border: 1px solid black;
+            }
+
+            .color:hover {
+                box-shadow: 0px 0px 4px #3b8cc5;
+                transition: box-shadow 0.1s linear;
+            }
+
+            .color.active {
+                box-shadow: 0px 0px 9px #196092;
+            }
+        </style>
     </head>
     <body>
-        <div>TODO write content</div>
+        <div class="container">
+            <div class="colors">
+                <div class="column">
+                    <div data-index="0" style="background-color: #FFFFFF" class="color active"></div>
+                    <div data-index="1" style="background-color: #FF0000" class="color"></div>
+                    <div data-index="2" style="background-color: #00FF00" class="color"></div>
+                    <div data-index="3" style="background-color: #0000FF" class="color"></div>
+                    <div data-index="4" style="background-color: #FFFF00" class="color"></div>
+                    <div data-index="5" style="background-color: #00FFFF" class="color"></div>
+                    <div data-index="6" style="background-color: #FF00FF" class="color"></div>
+                    <div data-index="7" style="background-color: #C0C0C0" class="color"></div>
+                </div>
+                <div class="column">
+                    <div data-index="8" style="background-color: #808080" class="color"></div>
+                    <div data-index="9" style="background-color: #800000" class="color"></div>
+                    <div data-index="10" style="background-color: #008000" class="color"></div>
+                    <div data-index="11" style="background-color: #000080" class="color"></div>
+                    <div data-index="12" style="background-color: #808000" class="color"></div>
+                    <div data-index="13" style="background-color: #008080" class="color"></div>
+                    <div data-index="14" style="background-color: #800080" class="color"></div>
+                    <div data-index="15" style="background-color: #000000" class="color"></div>
+                </div>
+            </div>
+
+            <div class="grid-container">
+                <canvas id="grid" width=400 height=400></canvas>
+            </div>
+        </div>
+
+        <script>
+            var cv = document.getElementById("grid");
+            var ctx = cv.getContext("2d");
+
+            var currentColor = 0;
+            var colors = {};
+
+            for (color of document.querySelectorAll(".color")) {
+                colors[color.dataset.index] = color.style["background-color"];
+                
+                color.addEventListener("click", function (event) {
+                    document.querySelector(".color.active").classList.remove("active");
+                    event.target.classList.add("active");
+                    currentColor = parseInt(event.target.dataset.index);
+                });
+            }
+
+            var width = 0;
+            var height = 0;
+            var blockSize = 30;
+            var data;
+
+            cv.addEventListener("click", function (event) {
+                var x = parseInt(event.offsetX / blockSize);
+                var y = parseInt(event.offsetY / blockSize);
+
+                setColorAt(x, y, currentColor);
+            });
+
+            var ws = new WebSocket("ws://localhost:8080/GridSocket/grid");
+            ws.binaryType = "arraybuffer";
+            
+            ws.onmessage = function (event) {
+                if (event.data instanceof ArrayBuffer) {
+                    data = new Uint8Array(event.data);
+                    paint();
+                } else if (event.data.startsWith("create")) {
+                    var arr = event.data.split(" ");
+                    
+                    width = parseInt(arr[1]);
+                    height = parseInt(arr[2]);
+                    
+                    cv.width = width * blockSize;
+                    cv.height = height * blockSize;
+                    
+                    ctx.translate(0.5, 0.5); //Fixes line width
+                }
+            };
+
+            ws.onerror = function (event) {
+                console.log(event);
+            };
+
+            function toIndex(x, y) {
+                return y * (width / 2) + Math.floor(x / 2);
+            }
+
+            function getColorAt(x, y) {
+                var value = data[toIndex(x, y)];
+
+                if (x % 2 === 0) {
+                    value = value >> 4; //Upper half
+                }
+
+                return value & 0xF;
+            }
+
+            function setColorAt(x, y, color) {
+                var message = new Uint8Array(3);
+                message[0] = x & 0xFF;
+                message[1] = y & 0xFF;
+                message[2] = color & 0xF;
+
+                ws.send(message);
+            }
+
+            function paint() {               
+                for (var x = 0; x < width; x++) {
+                    for (var y = 0; y < height; y++) {
+                        var color = getColorAt(x, y);
+
+                        ctx.fillStyle = colors[color];
+                        ctx.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+                    }
+                }
+                
+                ctx.fillStyle = 'black';
+                ctx.lineWidth = 1;
+                for (var i = 1; i < width; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(i * blockSize, 0);
+                    ctx.lineTo(i * blockSize, cv.height);
+                    ctx.stroke();
+                }
+                
+                for (var i = 1; i < height; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, i * blockSize);
+                    ctx.lineTo(cv.width, i * blockSize);
+                    ctx.stroke();
+                }
+            }
+        </script>
     </body>
 </html>

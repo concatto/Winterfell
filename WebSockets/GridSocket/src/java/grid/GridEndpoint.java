@@ -24,13 +24,16 @@ import javax.websocket.server.ServerEndpoint;
         encoders = {GridEncoder.class},
         decoders = {GridDecoder.class})
 public class GridEndpoint {
-    private static final Grid grid = new Grid(10, 10);
+    private static final Grid grid = new Grid(20, 20);
     private static final Set<Session> clients = new HashSet<>();
 
     @OnOpen
     public void onOpen(Session session) throws IOException, EncodeException {
         System.out.println(session.getId());
         clients.add(session);
+        
+        String message = String.format("create %d %d", grid.getWidth(), grid.getHeight());
+        session.getBasicRemote().sendText(message);
         sendGrid(session);
     }
     
