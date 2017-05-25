@@ -1,17 +1,30 @@
 import React from 'react';
-import NavbarContainer from '../containers/NavbarContainer';
+import NavigationBarContainer from '../containers/NavigationBarContainer';
 import ProfileHeaderContainer from '../containers/ProfileHeaderContainer';
+import PublicationSelectorContainer from '../containers/PublicationSelectorContainer';
+import { Grid, Row, Col, Nav } from 'react-bootstrap';
 
 const Profile = () => (
   <div>
-    <NavbarContainer/>
-    <div className="container-fluid below-navigation">
-      <div className="row">
-        <div className="col-xs-12 col-md-8 col-md-offset-2">
+    <NavigationBarContainer/>
+    <Grid fluid>
+      <Row>
+        <Col xs={12} md={8} mdOffset={2}>
+          {/* Profile header */}
           <ProfileHeaderContainer/>
-        </div>
-      </div>
-    </div>
+
+          {/* Publication selector (all/own only) */}
+          <Nav bsStyle="pills" justified>
+            <PublicationSelectorContainer type="ALL_PUBLICATIONS">
+              Feed de Publicações
+            </PublicationSelectorContainer>
+            <PublicationSelectorContainer type="OWN_PUBLICATIONS">
+              Minhas publicações
+            </PublicationSelectorContainer>
+          </Nav>
+        </Col>
+      </Row>
+    </Grid>
   </div>
 );
 

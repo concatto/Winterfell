@@ -32,6 +32,10 @@ const users = {
   }
 };
 
+const initialUiState = {
+  publicationFilterType: "ALL_PUBLICATIONS"
+};
+
 const currentUserReducer = (state=users[currentUser], action) => {
   return state;
 };
@@ -40,9 +44,19 @@ const usersReducer = (state=users, action) => {
   return state;
 };
 
+const uiReducer = (state=initialUiState, action) => {
+  switch (action.type) {
+    case "CHANGE_PUBLICATION_FILTER":
+      return {...state, publicationFilterType: action.filterType};
+  }
+
+  return state;
+}
+
 const reducer = combineReducers({
   currentUser: currentUserReducer,
-  users: usersReducer
+  users: usersReducer,
+  ui: uiReducer
 });
 
 export default reducer;
