@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import ProfileHeader from '../components/ProfileHeader';
 
 const stateMapper = (state) => {
-  return state.currentUser;
+  return state.users[state.currentUser];
 }
 
 const dispatchMapper = (dispatch) => {

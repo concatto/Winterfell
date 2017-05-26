@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import NavigationBar from '../components/NavigationBar';
 
 const stateMapper = (state) => {
-  return state.currentUser;
+  return state.users[state.currentUser];
 }
 
 const dispatchMapper = (dispatch) => {

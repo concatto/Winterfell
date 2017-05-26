@@ -2,6 +2,7 @@ import React from 'react';
 import NavigationBarContainer from '../containers/NavigationBarContainer';
 import ProfileHeaderContainer from '../containers/ProfileHeaderContainer';
 import PublicationSelectorContainer from '../containers/PublicationSelectorContainer';
+import PublicationListContainer from '../containers/PublicationListContainer';
 import { Grid, Row, Col, Nav } from 'react-bootstrap';
 
 const Profile = () => (
@@ -22,6 +23,8 @@ const Profile = () => (
               Minhas publicações
             </PublicationSelectorContainer>
           </Nav>
+
+          <PublicationListContainer/>
         </Col>
       </Row>
     </Grid>
