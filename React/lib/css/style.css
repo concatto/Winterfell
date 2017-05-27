@@ -167,26 +167,42 @@ body {
     display: inline-block;
 }
 
-.avatarBox .media-body h4 {
+.post .media-body h4 {
     margin-top: 0px;
     margin-bottom: 2px;
 }
 
-.avatarBox .media-body p {
+.post .media-body p {
     margin: 4px 0px 0px;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 #avatarSection {
     margin-bottom: 34px;
 }
 
+.post {
+  margin-bottom: 32px;
+}
+
 .post-content {
-    margin: 20px 0px;
+    text-align: center;
+    margin-top: 26px;
+    margin-bottom: 26px;
+}
+
+.post-footer {
+    display: flex;
+    align-items: center;
+}
+
+.post-footer h4 {
+    margin: 0px 0px 0px 10px;
 }
 
 .post-title {
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .post-content img {
@@ -387,7 +403,7 @@ div.panel.post div.panel-body {
     margin: 0px;
 }
 
-.postHeader .avatarBox .img-rounded {
+.panel .row .media-left img {
 	width: 60px;
   height: 60px;
   object-fit: cover;

@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Panel, Grid, Row, Col, Media, Image, Glyphicon, Button } from 'react-bootstrap';
 
 const Publication = ({author, timestamp, title, image, reactions, isOwn}) => (
-  <Panel>
+  <Panel className="post">
     <Row>
       <Col sm={10} xs={9}>
         <Media>
@@ -30,19 +30,19 @@ const Publication = ({author, timestamp, title, image, reactions, isOwn}) => (
       }
     </Row>
 
-    <Row>
+    <Row className="post-title">
       <Col sm={10} xs={9}>
         <h4>{title}</h4>
       </Col>
     </Row>
 
-    <Row>
+    <Row className="post-content">
       <Col xs={12}>
         <Image src={image}/>
       </Col>
     </Row>
 
-    <Row>
+    <Row className="post-footer">
       <Col xs={6}>
         <h4>{reactions.sum} reações</h4>
       </Col>
