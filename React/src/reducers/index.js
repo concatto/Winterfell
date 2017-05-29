@@ -87,6 +87,23 @@ const publicationsReducer = (state=publications, action) => {
   return state;
 }
 
+const modalReducer = (state={}, action) => {
+  const regex = /(.*)_(.*)_MODAL/g;
+  const result = regex.exec(action.type);
+
+  if (result != null) {
+    switch (result[1]) {
+      case "OPEN":
+        return {...state, type: result[2], payload: action.payload};
+      case "HIDE":
+        return {};
+    }
+
+  }
+
+  return state;
+}
+
 const uiReducer = (state=initialUiState, action) => {
   switch (action.type) {
     case "CHANGE_PUBLICATION_FILTER":
@@ -99,8 +116,9 @@ const uiReducer = (state=initialUiState, action) => {
 const reducer = combineReducers({
   publications: publicationsReducer,
   currentUser: currentUserReducer,
+  modal: modalReducer,
   users: usersReducer,
-  ui: uiReducer
+  ui: uiReducer,
 });
 
 export default reducer;

@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Panel, Grid, Row, Col, Media, Image, Glyphicon, Button } from 'react-bootstrap';
 
-const Publication = ({author, timestamp, title, image, reactions, isOwn}) => (
+const Publication = ({author, timestamp, title, image, reactions, isOwn, onDelete}) => (
   <Panel className="post">
     <Row>
       <Col sm={10} xs={9}>
@@ -25,7 +25,9 @@ const Publication = ({author, timestamp, title, image, reactions, isOwn}) => (
 
       {isOwn && /* If the current user is the owner of this publication */
         <Col sm={2} xs={3} className="text-right">
-          <Button bsStyle="danger"><Glyphicon glyph="trash"/></Button>
+          <Button bsStyle="danger" onClick={() => onDelete()}>
+            <Glyphicon glyph="trash"/>
+          </Button>
         </Col>
       }
     </Row>

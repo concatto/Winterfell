@@ -23,9 +23,11 @@
   },
   "dependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "prop-types": "^15.5.10",
     "react-bootstrap": "^0.31.0",
     "react-redux": "^5.0.5",
     "redux": "^3.6.0",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
   }
 }

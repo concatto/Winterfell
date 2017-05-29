@@ -3,6 +3,7 @@ import NavigationBarContainer from '../containers/NavigationBarContainer';
 import ProfileHeaderContainer from '../containers/ProfileHeaderContainer';
 import PublicationSelectorContainer from '../containers/PublicationSelectorContainer';
 import PublicationListContainer from '../containers/PublicationListContainer';
+import ModalRoot from '../containers/ModalRoot';
 import { Grid, Row, Col, Nav } from 'react-bootstrap';
 
 const Profile = () => (
@@ -25,6 +26,7 @@ const Profile = () => (
           </Nav>
 
           <PublicationListContainer/>
+          <ModalRoot/>
         </Col>
       </Row>
     </Grid>

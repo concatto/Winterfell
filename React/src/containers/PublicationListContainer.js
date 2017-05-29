@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { openDeletion } from '../actions';
 import PublicationList from '../components/PublicationList';
 
 const collectPublications = (state) => {
@@ -27,7 +28,7 @@ const stateMapper = (state) => ({
 });
 
 const dispatchMapper = (dispatch) => ({
-
+  onDelete: (id) => dispatch(openDeletion(id)),
 });
 
 const PublicationListContainer = connect(stateMapper, dispatchMapper)(PublicationList);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProfileHeader = ({name, avatar, following}) => (
+const ProfileHeader = ({name, avatar, following, onRename}) => (
   <div>
     <div className="avatarBox" id="avatarSection">
       <h4 className="pull-right" id="following" onClick={(e) => alert("NYI")}>
@@ -16,7 +16,7 @@ const ProfileHeader = ({name, avatar, following}) => (
             <div id="profile-name">
               <h2 id="name-text"><strong>{name}</strong></h2>
               <span className="glyphicon glyphicon-edit pencilEdit"
-                onClick={(e) => alert("NYI")}></span>
+                onClick={(e) => onRename(name)}></span>
             </div>
             <input className="btn btn-success" value="Nova Publicação" type="button"
               onClick={(e) => alert("NYI")}/>
