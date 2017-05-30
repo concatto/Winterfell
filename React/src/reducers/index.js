@@ -7,21 +7,24 @@ const users = {
     avatar: "assets/avatar.jpg",
     name: "Vinícius Almeida dos Santos",
     publications: 50,
-    following: 90
+    following: 90,
+    isFollowing: true,
   },
   '70': {
     id: 70,
     avatar: "assets/avatar.jpg",
     name: "Vinícius Machado",
     publications: 51,
-    following: 30
+    following: 30,
+    isFollowing: false,
   },
   '99': {
     id: 99,
     avatar: "assets/avatar.jpg",
     name: "Halersson Paris",
     publications: 5,
-    following: 999
+    following: 999,
+    isFollowing: true,
   },
   '30': {
     id: 30,

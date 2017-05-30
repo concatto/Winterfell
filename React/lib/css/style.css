@@ -57,12 +57,6 @@ body {
     margin-left: -15px;
 }
 
-#avatarContainer {
-    width: 200px;
-    margin: auto;
-    position: relative;
-}
-
 .postHeader {
     position: relative;
 }
@@ -81,14 +75,6 @@ body {
     right: 0;
 }
 
-.avatarBox .avatarImage{
-    cursor:pointer;
-    width:200px;
-    height:200px;
-    object-fit: cover;
-    position: relative !important;
-}
-
 .avatarBox .btn {
   display: block;
   margin: 14px auto 0px;
@@ -103,9 +89,6 @@ body {
     text-align: center;
 }
 
-#mainAvatar:hover{
-    opacity: 0.5;
-}
 
 .modal.modal-center .modal-dialog {
 /*    position: absolute;
@@ -162,10 +145,6 @@ body {
     padding: 0px 8px;
 }
 
-#profile-name {
-    position: relative;
-    display: inline-block;
-}
 
 .post .media-body h4 {
     margin-top: 0px;
@@ -208,6 +187,8 @@ body {
 .post-content img {
     max-width: 100%;
 }
+
+
 
 #following {
     cursor: pointer;
@@ -320,20 +301,55 @@ body {
     margin-top:80px;
 }
 
-.pencilEdit{
+.profile-header {
+    margin-bottom: 38px;
+}
+
+.profile-header .profile-name {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-header div.row h2 {
+    margin: 24px 30px;
+}
+
+.profile-header div.row span.glyphicon {
+    font-size: 18px;
+    right: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
     cursor: pointer;
     opacity: 0.8;
 }
 
-.pencilEdit:hover{
+.profile-header div.row span.glyphicon:hover{
     opacity: 1;
 }
 
-#avatarSection .pencilEdit {
-    font-size: 18px;
-    right: 0px;
-    top: 2px;
-    position: absolute;
+.profile-header > div > div:first-child {
+  width: 200px;
+  margin: auto;
+  position: relative;
+}
+
+.profile-header img {
+  cursor: pointer;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  position: relative !important;
+}
+
+.profile-header img:hover {
+  opacity: 0.5;
+}
+
+.profile-header > h4 {
+  float: right;
+  cursor: pointer;
+  margin: 0px;
 }
 
 .publicationBox label.btn {

@@ -6,14 +6,14 @@ import PublicationListContainer from '../containers/PublicationListContainer';
 import ModalRoot from '../containers/ModalRoot';
 import { Grid, Row, Col, Nav } from 'react-bootstrap';
 
-const Profile = () => (
+const Profile = ({params}) => (
   <div>
     <NavigationBarContainer/>
     <Grid fluid>
       <Row>
         <Col xs={12} md={8} mdOffset={2}>
           {/* Profile header */}
-          <ProfileHeaderContainer/>
+          <ProfileHeaderContainer params={params}/>
 
           {/* Publication selector (all/own only) */}
           <Nav bsStyle="pills" justified>

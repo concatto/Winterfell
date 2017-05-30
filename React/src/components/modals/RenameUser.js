@@ -12,29 +12,33 @@ export default class RenameUser extends React.Component {
     this.setState({name: e.target.value});
   }
 
-  render() {
-    const { onConfirm, onHide } = this.props;
-    const { name } = this.state;
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.onConfirm({name: this.state.name});
+  }
 
+  render() {
     return (
-      <BaseModal title="Alterar nome" onHide={onHide}>
-        <Modal.Body>
-          <form>
+      <BaseModal.Wrapper>
+        <BaseModal.Header>Alterar nome</BaseModal.Header>
+
+        <BaseModal.Body>
+          <form onSubmit={(e) => this.handleSubmit(e)}>
             <FormGroup>
               <FormControl
                 type="text"
                 placeholder="Novo nome"
-                value={name}
+                value={this.state.name}
                 onChange={(e) => this.handleChange(e)}
               />
             </FormGroup>
           </form>
-        </Modal.Body>
+        </BaseModal.Body>
 
         <BaseModal.Footer withCancel="Cancelar">
-          <Button bsStyle="success" onClick={() => onConfirm({name})}>Confirmar</Button>
+          <Button bsStyle="success" onClick={(e) => this.handleSubmit(e)}>Confirmar</Button>
         </BaseModal.Footer>
-      </BaseModal>
+      </BaseModal.Wrapper>
     );
   }
 }

@@ -14,6 +14,7 @@ const MODALS = {
 const ModalRoot = ({modalType, modalProps, onConfirm, onHide}) => {
   const SpecializedModal = MODALS[modalType];
 
+  //If there is no modal to be shown, return an empty element
   if (SpecializedModal === undefined) {
     return <span></span>
   }

@@ -1,30 +1,50 @@
 import React from 'react';
+import { Button, Image, Row, Col, Glyphicon } from 'react-bootstrap';
 
-const ProfileHeader = ({name, avatar, following, onRename}) => (
-  <div>
-    <div className="avatarBox" id="avatarSection">
-      <h4 className="pull-right" id="following" onClick={(e) => alert("NYI")}>
+const ProfileHeader = ({isSelf, isFollowing, name, avatar, following, actions}) => {
+  const {
+    onNewPublication,
+    onToggleFollowing,
+    onRename,
+    onEditAvatar,
+    onSeeFollowing
+  } = actions;
+
+  let button = null;
+  if (isSelf) {
+    button = <Button bsStyle="success" onClick={() => onNewPublication()}>Nova Publicação</Button>;
+  } else {
+    const buttonType = isFollowing ? "danger" : "primary";
+    const buttonText = isFollowing ? "Parar de seguir" : "Seguir";
+
+    button = <Button bsStyle={buttonType} onClick={() => onToggleFollowing()}>{buttonText}</Button>;
+  }
+
+  return (
+    <div className="profile-header">
+      <h4 onClick={() => onSeeFollowing()}>
         {"Seguindo (" + following + ")"}
       </h4>
       <div className="text-center">
-        <div id="avatarContainer">
-          <h3 id="editAvatar" className="hidden-md hidden-xs">EDITAR</h3>
-          <img id="mainAvatar" className="img-circle avatarImage" alt="avatar" src={avatar}/>
+        <div>
+          <Image onClick={() => onEditAvatar()} src={avatar} circle/>
         </div>
-        <div className="row">
-          <div className="col-xs-8 col-xs-offset-2">
-            <div id="profile-name">
-              <h2 id="name-text"><strong>{name}</strong></h2>
-              <span className="glyphicon glyphicon-edit pencilEdit"
-                onClick={(e) => onRename(name)}></span>
+
+        <Row>
+          <Col xs={8} xsOffset={2}>
+            <div>
+              <div className="profile-name">
+                <h2><strong>{name}</strong></h2>
+                <Glyphicon glyph="pencil" onClick={() => onRename(name)}/>
+              </div>
             </div>
-            <input className="btn btn-success" value="Nova Publicação" type="button"
-              onClick={(e) => alert("NYI")}/>
-          </div>
-        </div>
+
+            {button}
+          </Col>
+        </Row>
       </div>
     </div>
-  </div>
-);
+  );
+}
 
 export default ProfileHeader;

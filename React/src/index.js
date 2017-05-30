@@ -14,7 +14,7 @@ const store = createStore(reducer, middleware);
 
 render(
   <Provider store={store}>
-    <Profile/>
+    <Profile params={{id: 30}}/>
   </Provider>,
 
   document.getElementById('app')
