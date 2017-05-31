@@ -1,6 +1,6 @@
 import React from 'react';
 import BaseModal from './BaseModal';
-import { Modal, Button, FormGroup, FormControl } from 'react-bootstrap';
+import { Modal, Button, FormGroup, FormControl, Form } from 'react-bootstrap';
 
 export default class RenameUser extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ export default class RenameUser extends React.Component {
         <BaseModal.Header>Alterar nome</BaseModal.Header>
 
         <BaseModal.Body>
-          <form onSubmit={(e) => this.handleSubmit(e)}>
+          <Form onSubmit={(e) => this.handleSubmit(e)}>
             <FormGroup>
               <FormControl
                 type="text"
@@ -32,7 +32,7 @@ export default class RenameUser extends React.Component {
                 onChange={(e) => this.handleChange(e)}
               />
             </FormGroup>
-          </form>
+          </Form>
         </BaseModal.Body>
 
         <BaseModal.Footer withCancel="Cancelar">

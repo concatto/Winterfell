@@ -18,6 +18,8 @@ export default class Profile extends React.Component {
   }
 
   render() {
+    const { params, isSelf } = this.props;
+
     return (
       <div>
         <NavigationBarContainer/>
@@ -25,10 +27,12 @@ export default class Profile extends React.Component {
           <Row>
             <Col xs={12} md={8} mdOffset={2}>
               {/* Profile header */}
-              <ProfileHeaderContainer params={this.props.params}/>
+              <ProfileHeaderContainer isSelf={isSelf} params={params}/>
 
               {/* Publication selector (all/own only) */}
-              <PublicationSelectorContainer/>
+              {isSelf &&
+                <PublicationSelectorContainer/>
+              }
 
               <PublicationListContainer/>
               <ModalRoot/>

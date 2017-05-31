@@ -33,3 +33,8 @@ export const handleModalConfirmation = (type, payload) => {
 export const loadMore = () => ({
   type: "LOAD_PUBLICATIONS"
 });
+
+export const search = (searchString) => ({
+  type: "DO_SEARCH",
+  searchString
+});

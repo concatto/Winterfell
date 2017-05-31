@@ -27,7 +27,9 @@ const ProfileHeader = ({isSelf, isFollowing, name, avatar, following, actions}) 
       </h4>
       <div className="text-center">
         <div>
-          <Image onClick={() => onEditAvatar()} src={avatar} circle/>
+          <Image src={avatar} circle
+            className={isSelf ? "own" : ""}
+            onClick={isSelf ? () => onEditAvatar() : null} />
         </div>
 
         <Row>
@@ -35,7 +37,9 @@ const ProfileHeader = ({isSelf, isFollowing, name, avatar, following, actions}) 
             <div>
               <div className="profile-name">
                 <h2><strong>{name}</strong></h2>
-                <Glyphicon glyph="pencil" onClick={() => onRename(name)}/>
+                {isSelf &&
+                  <Glyphicon glyph="pencil" onClick={() => onRename(name)}/>
+                }
               </div>
             </div>
 

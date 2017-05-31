@@ -4,13 +4,13 @@ import { openRename, openEditAvatar, openFollowing, openNewPublication } from '.
 
 const stateMapper = (state, ownProps) => ({
   ...state.users[ownProps.params.id],
-  isSelf: ownProps.params.id == state.currentUser,
+  ...ownProps
 });
 
 const dispatchMapper = (dispatch) => ({
   actions: {
     onRename: (name) => dispatch(openRename(name)),
-    onToggleFollowing: () => dispatch({type: "TOGGLE"}),
+    onToggleFollowing: () => dispatch({type: "TOGGLE_FOLLOWING"}),
     onEditAvatar: () => dispatch(openEditAvatar()),
     onSeeFollowing: () => dispatch(openFollowing()),
     onNewPublication: () => dispatch(openNewPublication()),
