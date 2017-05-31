@@ -28,3 +28,8 @@ export const handleModalConfirmation = (type, payload) => {
     dispatch(confirmModal(type, payload));
   }
 };
+
+//Will use thunk eventually
+export const loadMore = () => ({
+  type: "LOAD_PUBLICATIONS"
+});

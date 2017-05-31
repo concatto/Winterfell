@@ -6,31 +6,36 @@ import PublicationListContainer from '../containers/PublicationListContainer';
 import ModalRoot from '../containers/ModalRoot';
 import { Grid, Row, Col, Nav } from 'react-bootstrap';
 
-const Profile = ({params}) => (
-  <div>
-    <NavigationBarContainer/>
-    <Grid fluid>
-      <Row>
-        <Col xs={12} md={8} mdOffset={2}>
-          {/* Profile header */}
-          <ProfileHeaderContainer params={params}/>
+export default class Profile extends React.Component {
+  componentDidMount() {
+    document.addEventListener("scroll", () => {
+      const height = document.body.scrollTop + window.innerHeight;
 
-          {/* Publication selector (all/own only) */}
-          <Nav bsStyle="pills" justified>
-            <PublicationSelectorContainer type="ALL_PUBLICATIONS">
-              Feed de Publicações
-            </PublicationSelectorContainer>
-            <PublicationSelectorContainer type="OWN_PUBLICATIONS">
-              Minhas publicações
-            </PublicationSelectorContainer>
-          </Nav>
+      if (document.body.scrollHeight === height) {
+        this.props.onScrollBottom();
+      }
+    });
+  }
 
-          <PublicationListContainer/>
-          <ModalRoot/>
-        </Col>
-      </Row>
-    </Grid>
-  </div>
-);
+  render() {
+    return (
+      <div>
+        <NavigationBarContainer/>
+        <Grid fluid>
+          <Row>
+            <Col xs={12} md={8} mdOffset={2}>
+              {/* Profile header */}
+              <ProfileHeaderContainer params={this.props.params}/>
 
-export default Profile;
+              {/* Publication selector (all/own only) */}
+              <PublicationSelectorContainer/>
+
+              <PublicationListContainer/>
+              <ModalRoot/>
+            </Col>
+          </Row>
+        </Grid>
+      </div>
+    );
+  }
+}

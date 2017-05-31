@@ -2,12 +2,12 @@ import { connect } from 'react-redux';
 import { setPublicationFilter } from '../actions';
 import PublicationSelector from '../components/PublicationSelector';
 
-const stateMapper = (state, ownProps) => ({
-  active: ownProps.type === state.ui.publicationFilterType
+const stateMapper = (state) => ({
+  filter: state.ui.publicationFilterType
 });
 
-const dispatchMapper = (dispatch, ownProps) => ({
-  onClick: () => dispatch(setPublicationFilter(ownProps.type))
+const dispatchMapper = (dispatch) => ({
+  onSelect: (key) => dispatch(setPublicationFilter(key))
 });
 
 const PublicationSelectorContainer = connect(stateMapper, dispatchMapper)(PublicationSelector);

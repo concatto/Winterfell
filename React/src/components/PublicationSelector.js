@@ -1,10 +1,19 @@
 import React from 'react';
-import { NavItem } from 'react-bootstrap';
+import { Nav, NavItem } from 'react-bootstrap';
 
-const PublicationSelector = ({active, onClick, children}) => (
-  <NavItem active={active} onClick={active ? null : onClick}>
-    {children}
-  </NavItem>
-);
+export default class PublicationSelector extends React.Component {
+  render() {
+    const { filter, onSelect } = this.props;
 
-export default PublicationSelector;
+    return (
+      <Nav bsStyle="pills" justified activeKey={filter} onSelect={(key) => onSelect(key)}>
+        <NavItem eventKey="ALL_PUBLICATIONS">
+          Feed de publicações
+        </NavItem>
+        <NavItem eventKey="OWN_PUBLICATIONS">
+          Minhas publicações
+        </NavItem>
+      </Nav>
+    );
+  }
+};
