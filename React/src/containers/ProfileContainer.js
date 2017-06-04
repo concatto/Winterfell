@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import Profile from '../components/Profile';
+import { loadMorePublications } from '../actions';
 
 //Will be received from the router in the future
 const params = {
-  id: 30
+  id: 99
 };
 
 const stateMapper = (state) => ({
@@ -12,7 +13,7 @@ const stateMapper = (state) => ({
 });
 
 const dispatchMapper = (dispatch) => ({
-  onScrollBottom: () => store.dispatch(loadMore())
+  onScrollBottom: () => dispatch(loadMorePublications())
 });
 
 export default connect(stateMapper, dispatchMapper)(Profile);

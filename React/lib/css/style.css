@@ -2,8 +2,63 @@ body {
   padding-top: 80px;
 }
 
-.modal form {
+.circular-icon {
+  position: absolute;
+  pointer-events: none;
+  font-size: 15px;
+  color: grey;
+  right: 15px;
+  top: 15px;
+  background-color: white;
+  padding: 7px 5px 6px 8px;
+  border-radius: 50px;
+  box-shadow: 0px 0px 3px grey;
+}
+
+.following-list {
+  padding-bottom: 15px;
+}
+
+.following-list img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.change-avatar img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  margin: 0px auto 14px;
+}
+
+.publication-image img {
+  cursor: pointer;
+}
+
+.publication-image img:hover {
+  opacity: 0.8;
+}
+
+.publication-image img {
+  max-width: 100%;
+  object-fit: cover;
+  display: block;
+  margin: 30px auto;
+}
+
+.modal-body > div > * {
   margin-bottom: 0px;
+}
+
+.modal .form-group {
+  margin-bottom: 0px;
+}
+
+.modal-body {
+  padding-bottom: 15px;
+  overflow-y: auto;
 }
 
 .navbar-brand {
@@ -349,13 +404,17 @@ body {
 }
 
 .profile-header img.own:hover {
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .profile-header > h4 {
   float: right;
   cursor: pointer;
   margin: 0px;
+}
+
+.profile-header > h4:hover {
+  text-decoration: underline;
 }
 
 .publicationBox label.btn {

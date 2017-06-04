@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Image, Row, Col, Glyphicon } from 'react-bootstrap';
 
-const ProfileHeader = ({isSelf, isFollowing, name, avatar, following, actions}) => {
+const ProfileHeader = ({isSelf, isFollowing, id, name, avatar, following, actions}) => {
   const {
     onNewPublication,
     onToggleFollowing,
@@ -22,14 +22,15 @@ const ProfileHeader = ({isSelf, isFollowing, name, avatar, following, actions}) 
 
   return (
     <div className="profile-header">
-      <h4 onClick={() => onSeeFollowing()}>
-        {"Seguindo (" + following + ")"}
+      <h4 onClick={() => onSeeFollowing(id)}>
+        {"Seguindo (" + following.length + ")"}
       </h4>
       <div className="text-center">
         <div>
-          <Image src={avatar} circle
-            className={isSelf ? "own" : ""}
-            onClick={isSelf ? () => onEditAvatar() : null} />
+          <Image src={avatar} circle className={isSelf ? "own" : ""}
+            onClick={isSelf ? () => onEditAvatar(avatar) : null} />
+
+          {isSelf && <Glyphicon glyph="edit" className="circular-icon"/>}
         </div>
 
         <Row>

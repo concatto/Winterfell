@@ -11,8 +11,8 @@ const dispatchMapper = (dispatch) => ({
   actions: {
     onRename: (name) => dispatch(openRename(name)),
     onToggleFollowing: () => dispatch({type: "TOGGLE_FOLLOWING"}),
-    onEditAvatar: () => dispatch(openEditAvatar()),
-    onSeeFollowing: () => dispatch(openFollowing()),
+    onEditAvatar: (avatar) => dispatch(openEditAvatar(avatar)),
+    onSeeFollowing: (id) => dispatch(openFollowing(id)),
     onNewPublication: () => dispatch(openNewPublication()),
   }
 });

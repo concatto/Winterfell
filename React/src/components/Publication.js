@@ -13,12 +13,12 @@ const Publication = ({author, timestamp, title, image, reactions, isOwn, onDelet
             </a>
           </Media.Left>
           <Media.Body>
-            <Media.Heading>
-              <a href={"/profile/" + author.id}>
-                <h4><strong>{author.name}</strong></h4>
-              </a>
-              <p>{moment.unix(timestamp).fromNow()}</p>
-            </Media.Heading>
+            <a href={"/profile/" + author.id}>
+              <Media.Heading>
+                <strong>{author.name}</strong>
+              </Media.Heading>
+            </a>
+            <p>{moment.unix(timestamp).fromNow()}</p>
           </Media.Body>
         </Media>
       </Col>

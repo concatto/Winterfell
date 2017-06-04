@@ -25,10 +25,10 @@ export default class BaseModal extends React.Component {
   }
 
   render() {
-    const { onHide, children } = this.props;
+    const { onHide, children, modalProps } = this.props;
 
     return (
-      <Modal show={this.state.shown} onHide={() => this.hide()} onExited={() => onHide()}>
+      <Modal {...modalProps} show={this.state.shown} onHide={() => this.hide()} onExited={() => onHide()}>
         {children}
       </Modal>
     );
@@ -57,9 +57,11 @@ BaseModal.Header = ({children}) => (
   </Modal.Header>
 );
 
-BaseModal.Body = ({children}) => (
+BaseModal.Body = ({children, maximumHeight=undefined}) => (
   <Modal.Body>
-    {children}
+    <div style={{maxHeight: maximumHeight}}>
+      {children}
+    </div>
   </Modal.Body>
 );
 

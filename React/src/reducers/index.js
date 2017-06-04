@@ -1,13 +1,14 @@
 import { combineReducers } from 'redux';
+import modalReducer from './modalReducer.js'
 
-const currentUser = '30';
+const currentUser = '99';
 const users = {
   '50': {
     id: 50,
     avatar: "assets/avatar.jpg",
     name: "Vinícius Almeida dos Santos",
     publications: 50,
-    following: 90,
+    following: [30, 70],
     isFollowing: true,
   },
   '70': {
@@ -15,7 +16,7 @@ const users = {
     avatar: "assets/avatar.jpg",
     name: "Vinícius Machado",
     publications: 51,
-    following: 30,
+    following: [99, 30],
     isFollowing: false,
   },
   '99': {
@@ -23,7 +24,7 @@ const users = {
     avatar: "assets/avatar.jpg",
     name: "Halersson Paris",
     publications: 5,
-    following: 999,
+    following: [30, 70, 50],
     isFollowing: true,
   },
   '30': {
@@ -31,7 +32,7 @@ const users = {
     avatar: "assets/avatar.jpg",
     name: "Miguel Copatti",
     publications: 1,
-    following: 65535
+    following: [99]
   }
 };
 
@@ -87,23 +88,6 @@ const usersReducer = (state=users, action) => {
 };
 
 const publicationsReducer = (state=publications, action) => {
-  return state;
-}
-
-const modalReducer = (state={}, action) => {
-  const regex = /(.*)_(.*)_MODAL/g;
-  const result = regex.exec(action.type);
-
-  if (result != null) {
-    switch (result[1]) {
-      case "OPEN":
-        return {...state, type: result[2], payload: action.payload};
-      case "HIDE":
-        return {};
-    }
-
-  }
-
   return state;
 }
 

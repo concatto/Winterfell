@@ -20,19 +20,30 @@ export const confirmModal = (type, payload) => ({
 export const openDeletion = (id) => openModal("DELETION", {id});
 export const openRename = (name) => openModal("RENAME", {name});
 export const openNewPublication = () => openModal("NEW_PUBLICATION");
-export const openFollowing = () => openModal("FOLLOWING");
-export const openEditAvatar = () => openModal("EDIT_AVATAR");
+export const openEditAvatar = (avatar) => openModal("EDIT_AVATAR", {avatar});
+
+export const openFollowing = (id) => {
+  return (dispatch, getState) => {
+    const following = getState().users[id].following.map((followingId) => {
+      return getState().users[followingId];
+    });
+
+    dispatch(openModal("FOLLOWING", {following}));
+  }
+}
 
 export const handleModalConfirmation = (type, payload) => {
-  return (dispatch) => {
-    dispatch(confirmModal(type, payload));
-  }
+  return confirmModal(type, payload);
 };
 
 //Will use thunk eventually
-export const loadMore = () => ({
+export const loadMorePublications = () => ({
   type: "LOAD_PUBLICATIONS"
 });
+
+export const loadMoreFriends = () => ({
+  type: "LOAD_FRIENDS"
+})
 
 export const search = (searchString) => ({
   type: "DO_SEARCH",

@@ -1,18 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { handleModalConfirmation, hideModal } from '../actions';
-import DeletePublication from '../components/modals/DeletePublication';
-import RenameUser from '../components/modals/RenameUser';
 import BaseModal from '../components/modals/BaseModal';
 
-const MODALS = {
-  "DELETION": DeletePublication,
-  "RENAME": RenameUser
-};
-
-
-const ModalRoot = ({modalType, modalProps, onConfirm, onHide}) => {
-  const SpecializedModal = MODALS[modalType];
+const ModalRoot = ({modals, modalType, modalProps, onConfirm, onHide}) => {
+  const SpecializedModal = modals[modalType];
 
   //If there is no modal to be shown, return an empty element
   if (SpecializedModal === undefined) {
@@ -26,7 +18,7 @@ const ModalRoot = ({modalType, modalProps, onConfirm, onHide}) => {
   };
 
   return (
-    <BaseModal onHide={() => onHide(modalType)}>
+    <BaseModal modalProps={SpecializedModal.modalProps} onHide={() => onHide(modalType)}>
       <SpecializedModal {...modalProps}/>
     </BaseModal>
   );
