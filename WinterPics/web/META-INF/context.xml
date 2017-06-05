@@ -1,2 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/WinterPics"/>
+<Context antiJARLocking="true" path="/WinterPics">
+    <Resource
+            auth="Container"
+            driverClassName="org.postgresql.Driver"
+            maxActive="20"
+            maxIdle="10"
+            maxWait="-1"
+            type="javax.sql.DataSource"
+            name="LocalhostDB"
+            username="winterfell"
+            password="pics_winterfell"
+            url="jdbc:postgresql://localhost:5432/winterpics"
+        />
+
+    <Realm className="org.apache.catalina.realm.DataSourceRealm"
+            dataSourceName="LocalhostDB"
+            userTable="WinterUser" 
+            userNameCol="login" 
+            userCredCol="pass"
+            allRolesMode="authOnly"
+            localDataSource="true"
+        >        
+        <CredentialHandler
+                className="org.apache.catalina.realm.MessageDigestCredentialHandler"     
+                algorithm="sha-1"
+            />
+    </Realm>
+    <!-- allRolesMode = strict | authOnly | strictAuthOnly -->
+    <!--
+        Removed:
+        userRoleTable="user_roles" 
+        roleNameCol="role_name"
+    -->
+</Context>
