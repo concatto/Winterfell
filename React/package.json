@@ -5,7 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "test": "test",
-    "build": "webpack"
+    "build": "webpack",
+		"serve": "webpack-dev-server --content-base lib",
+		"serve-hot": "webpack-dev-server --content-base lib --hot --inline"
   },
   "author": "Winterfell",
   "license": "ISC",
