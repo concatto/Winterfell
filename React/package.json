@@ -6,8 +6,8 @@
   "scripts": {
     "test": "test",
     "build": "webpack",
-		"serve": "webpack-dev-server --content-base lib",
-		"serve-hot": "webpack-dev-server --content-base lib --hot --inline"
+    "serve": "webpack-dev-server --content-base lib",
+    "serve-hot": "webpack-dev-server --content-base lib --hot --inline"
   },
   "author": "Winterfell",
   "license": "ISC",
@@ -30,6 +30,7 @@
     "react-redux": "^5.0.5",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "webpack-dev-server": "^2.4.5"
   }
 }
