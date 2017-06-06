@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 import { Panel, Grid, Row, Col, Media, Image, Glyphicon, Button } from 'react-bootstrap';
 
 const Publication = ({author, timestamp, title, image, reactions, isOwn, onDelete}) => (
@@ -8,16 +9,16 @@ const Publication = ({author, timestamp, title, image, reactions, isOwn, onDelet
       <Col sm={10} xs={9}>
         <Media>
           <Media.Left>
-            <a href={"/profile/" + author.id}>
-            <Image src={author.avatar} rounded/>
-            </a>
+            <Link to={"/profile/" + author.id}>
+              <Image src={author.avatar} rounded/>
+            </Link>
           </Media.Left>
           <Media.Body>
-            <a href={"/profile/" + author.id}>
+            <Link to={"/profile/" + author.id}>
               <Media.Heading>
                 <strong>{author.name}</strong>
               </Media.Heading>
-            </a>
+            </Link>
             <p>{moment.unix(timestamp).fromNow()}</p>
           </Media.Body>
         </Media>

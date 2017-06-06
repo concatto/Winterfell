@@ -5,30 +5,17 @@ import { Modal, Button } from 'react-bootstrap';
 export default class BaseModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {shown: false};
-  }
-
-  hide() {
-    this.setState({shown: false});
-  }
-
-  show() {
-    this.setState({shown: true});
-  }
-
-  componentDidMount() {
-    this.show();
   }
 
   getChildContext() {
-    return {hide: () => this.hide()};
+    return {hide: () => this.props.onHide()};
   }
 
   render() {
-    const { onHide, children, modalProps } = this.props;
+    const { onHide, children, modalProps, shown } = this.props;
 
     return (
-      <Modal {...modalProps} show={this.state.shown} onHide={() => this.hide()} onExited={() => onHide()}>
+      <Modal {...modalProps} show={shown} onHide={() => onHide()}>
         {children}
       </Modal>
     );

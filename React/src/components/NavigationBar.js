@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Nav, Navbar, Form, FormGroup, InputGroup, FormControl, Button, Image, Glyphicon } from 'react-bootstrap';
 
 export default class NavigationBar extends React.Component {
@@ -22,12 +23,12 @@ export default class NavigationBar extends React.Component {
     return (
       <Navbar fixedTop fluid>
         <Navbar.Header>
-          <a href={"/profile/" + id}>
+          <Link to={"/profile/" + id}>
             <Image src={avatar} circle/>
             <Navbar.Brand>
               <span>{name}</span>
               </Navbar.Brand>
-          </a>
+          </Link>
           <Navbar.Toggle/>
         </Navbar.Header>
 

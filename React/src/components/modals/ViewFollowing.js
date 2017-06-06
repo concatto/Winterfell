@@ -1,9 +1,10 @@
 import React from 'react';
 import BaseModal from './BaseModal';
+import { Redirect } from 'react-router-dom';
 import { ListGroup, ListGroupItem, Media, Image } from 'react-bootstrap';
 
-const FollowingCard = ({avatar, id, name, publications, following}) => (
-  <ListGroupItem href={"/profile/" + id}>
+const FollowingCard = ({avatar, id, name, publications, following, onClick}) => (
+  <ListGroupItem onClick={() => onClick()}>
     <Media>
       <Media.Left>
         <Image src={avatar} rounded/>
@@ -19,13 +20,32 @@ const FollowingCard = ({avatar, id, name, publications, following}) => (
 );
 
 export default class ViewFollowing extends React.Component {
+  constructor(props) {
+    super(props);
+      
+    this.state = {targetId: undefined};
+  }
+    
   mapUsersToComponents() {
+    if (!this.props.following) {
+      return null;
+    }
+      
+    const redirect = (id) => {
+      this.setState({targetId: id});
+      this.props.onHide();
+    };
+      
     return this.props.following.map((user) => (
-      <FollowingCard {...user} key={user.id}/>
+      <FollowingCard {...user} key={user.id} onClick={() => redirect(user.id)}/>
     ));
   }
 
   render() {
+    if (this.state.targetId) {
+      return <Redirect push to={"/profile/" + this.state.targetId}/>
+    }
+    
     return (
       <BaseModal.Wrapper>
         <BaseModal.Header>Pessoas que você segue</BaseModal.Header>

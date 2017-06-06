@@ -12,6 +12,10 @@ export const hideModal = (type) => ({
   type: `HIDE_${type}_MODAL`
 });
 
+export const closeModal = (type) => ({
+  type: `CLOSE_${type}_MODAL`
+});
+
 export const confirmModal = (type, payload) => ({
   type: `CONFIRM_${type}_MODAL`,
   payload

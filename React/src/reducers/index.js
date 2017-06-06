@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import modalReducer from './modalReducer.js'
 
-const currentUser = '99';
+const currentUser = '30';
 const users = {
   '50': {
     id: 50,
@@ -32,7 +32,8 @@ const users = {
     avatar: "assets/avatar.jpg",
     name: "Miguel Copatti",
     publications: 1,
-    following: [99]
+    following: [99, 50],
+    isFollowing: true,
   }
 };
 

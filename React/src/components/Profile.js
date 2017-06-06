@@ -1,7 +1,6 @@
 import React from 'react';
 import PublicationSelectorContainer from '../containers/PublicationSelectorContainer';
 import PublicationListContainer from '../containers/PublicationListContainer';
-import NavigationBarContainer from '../containers/NavigationBarContainer';
 import ProfileHeaderContainer from '../containers/ProfileHeaderContainer';
 import ModalRoot from '../containers/ModalRoot';
 import DeletePublication from '../components/modals/DeletePublication';
@@ -25,7 +24,7 @@ export default class Profile extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount() {      
     document.addEventListener("scroll", () => {
       const height = document.body.scrollTop + window.innerHeight;
 
@@ -34,30 +33,33 @@ export default class Profile extends React.Component {
       }
     });
   }
+    
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      window.scrollTo(0, 0)
+    }
+  }
 
   render() {
-    const { params, isSelf } = this.props;
+    const { id, isSelf } = this.props;
 
     return (
-      <div>
-        <NavigationBarContainer/>
-        <Grid fluid>
-          <Row>
-            <Col xs={12} md={8} mdOffset={2}>
-              {/* Profile header */}
-              <ProfileHeaderContainer isSelf={isSelf} params={params}/>
+      <Grid fluid>
+        <Row>
+          <Col xs={12} md={8} mdOffset={2}>
+            {/* Profile header */}
+            <ProfileHeaderContainer isSelf={isSelf} id={id}/>
 
-              {/* Publication selector (all/own only) */}
-              {isSelf &&
-                <PublicationSelectorContainer/>
-              }
+            {/* Publication selector (all/own only) */}
+            {isSelf &&
+              <PublicationSelectorContainer/>
+            }
 
-              <PublicationListContainer/>
-              <ModalRoot modals={this.modals}/>
-            </Col>
-          </Row>
-        </Grid>
-      </div>
+            <PublicationListContainer/>
+            <ModalRoot modals={this.modals}/>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }

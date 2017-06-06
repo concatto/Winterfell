@@ -1,13 +1,15 @@
-const modalReducer = (state={}, action) => {
+const modalReducer = (state={shown: false}, action) => {
   const regex = /([a-zA-Z]*)_(.*)_MODAL/g;
   const result = regex.exec(action.type);
 
   if (result != null) {
     switch (result[1]) {
       case "OPEN":
-        return {...state, type: result[2], payload: action.payload};
+        return {...state, type: result[2], payload: action.payload, shown: true};
       case "HIDE":
-        return {};
+        return {...state, payload: undefined, shown: false};
+      case "CLOSE":
+        return {shown: false};
     }
 
   }
