@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Nav, Navbar, Form, FormGroup, InputGroup, FormControl, Button, Image, Glyphicon } from 'react-bootstrap';
+import { createProfileHref } from '../utils';
 
 export default class NavigationBar extends React.Component {
   constructor(props) {
@@ -18,12 +19,12 @@ export default class NavigationBar extends React.Component {
   }
 
   render() {
-    const { id, avatar, name } = this.props;
+    const { id, avatar, name, withSearch } = this.props;
 
     return (
       <Navbar fixedTop fluid>
         <Navbar.Header>
-          <Link to={"/profile/" + id}>
+          <Link to={createProfileHref(id)}>
             <Image src={avatar} circle/>
             <Navbar.Brand>
               <span>{name}</span>
@@ -35,12 +36,14 @@ export default class NavigationBar extends React.Component {
         <Navbar.Collapse>
           <Form onSubmit={(e) => this.handleSubmit(e)}>
             <Navbar.Form pullRight>
-              <FormGroup>
-                <InputGroup>
-                  <InputGroup.Addon><Glyphicon glyph="search"/></InputGroup.Addon>
-                  <FormControl onChange={(e) => this.handleChange(e)} type="text" placeholder="Pesquisar amigos"/>
-                </InputGroup>
-              </FormGroup>
+              {withSearch &&
+                <FormGroup>
+                  <InputGroup>
+                    <InputGroup.Addon><Glyphicon glyph="search"/></InputGroup.Addon>
+                    <FormControl onChange={(e) => this.handleChange(e)} type="text" placeholder="Pesquisar amigos"/>
+                  </InputGroup>
+                </FormGroup>
+              }
 
               <Button>Sair</Button>
             </Navbar.Form>

@@ -19,7 +19,7 @@ const ModalRoot = ({modals, modalType, modalProps, onConfirm, onHide, onClose, s
   };
 
   return (
-    <BaseModal modalProps={SpecializedModal.modalProps} onHide={() => onHide(modalType)} shown={shown}>
+    <BaseModal baseProps={SpecializedModal.baseProps} onHide={() => onHide(modalType)} shown={shown}>
       <SpecializedModal {...modalProps}/>
     </BaseModal>
   );

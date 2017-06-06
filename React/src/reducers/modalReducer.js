@@ -1,3 +1,5 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
+
 const modalReducer = (state={shown: false}, action) => {
   const regex = /([a-zA-Z]*)_(.*)_MODAL/g;
   const result = regex.exec(action.type);
@@ -11,7 +13,10 @@ const modalReducer = (state={shown: false}, action) => {
       case "CLOSE":
         return {shown: false};
     }
+  }
 
+  if (action.type === LOCATION_CHANGE) {
+    return {shown: false};
   }
 
   return state;

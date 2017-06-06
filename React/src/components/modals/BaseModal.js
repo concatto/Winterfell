@@ -12,10 +12,10 @@ export default class BaseModal extends React.Component {
   }
 
   render() {
-    const { onHide, children, modalProps, shown } = this.props;
+    const { onHide, children, baseProps, shown } = this.props;
 
     return (
-      <Modal {...modalProps} show={shown} onHide={() => onHide()}>
+      <Modal {...baseProps} show={shown} onHide={() => onHide()}>
         {children}
       </Modal>
     );
