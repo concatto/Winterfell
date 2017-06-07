@@ -35,17 +35,23 @@ export default class Profile extends React.Component {
     });
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      window.scrollTo(0, 0);
+    }
+  }
+
   render() {
-    const { params, isSelf } = this.props;
+    const { id, isSelf } = this.props;
 
     return (
       <div>
-        <NavigationBarContainer/>
+        <NavigationBarContainer withSearch/>
         <Grid fluid>
           <Row>
             <Col xs={12} md={8} mdOffset={2}>
               {/* Profile header */}
-              <ProfileHeaderContainer isSelf={isSelf} params={params}/>
+              <ProfileHeaderContainer isSelf={isSelf} id={id}/>
 
               {/* Publication selector (all/own only) */}
               {isSelf &&

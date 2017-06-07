@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 import modalReducer from './modalReducer.js'
 
-const currentUser = '99';
+const currentUser = '30';
 const users = {
   '50': {
     id: 50,
-    avatar: "assets/avatar.jpg",
+    avatar: "/assets/avatar.jpg",
     name: "Vinícius Almeida dos Santos",
     publications: 50,
     following: [30, 70],
@@ -13,7 +14,7 @@ const users = {
   },
   '70': {
     id: 70,
-    avatar: "assets/avatar.jpg",
+    avatar: "/assets/avatar.jpg",
     name: "Vinícius Machado",
     publications: 51,
     following: [99, 30],
@@ -21,7 +22,7 @@ const users = {
   },
   '99': {
     id: 99,
-    avatar: "assets/avatar.jpg",
+    avatar: "/assets/avatar.jpg",
     name: "Halersson Paris",
     publications: 5,
     following: [30, 70, 50],
@@ -29,10 +30,11 @@ const users = {
   },
   '30': {
     id: 30,
-    avatar: "assets/avatar.jpg",
+    avatar: "/assets/avatar.jpg",
     name: "Miguel Copatti",
     publications: 1,
-    following: [99]
+    following: [99, 50],
+    isFollowing: true,
   }
 };
 
@@ -41,7 +43,7 @@ const publications = {
     author: 30,
     timestamp: 1492061255,
     title: "Prova de que o React funciona",
-    image: "assets/react.png",
+    image: "/assets/react.png",
     reactions: [100, 184, 28, 81, 72, 116, 131, 177, 47],
     ownReaction: 8,
     id: 99
@@ -50,7 +52,7 @@ const publications = {
     author: 50,
     timestamp: 1492060255,
     title: "Prova de que o React funciona",
-    image: "assets/react.png",
+    image: "/assets/react.png",
     reactions: [119, 52, 185, 67, 112, 189, 36, 166, 32],
     ownReaction: 3,
     id: 233
@@ -59,7 +61,7 @@ const publications = {
     author: 99,
     timestamp: 1492058255,
     title: "Prova de que o React funciona",
-    image: "assets/react.png",
+    image: "/assets/react.png",
     reactions: [38, 81, 96, 177, 81, 196, 63, 116, 166],
     ownReaction: null,
     id: 177
@@ -68,7 +70,7 @@ const publications = {
     author: 30,
     timestamp: 1492061254,
     title: "Prova de que o React funciona e deleta direito",
-    image: "assets/react.png",
+    image: "/assets/react.png",
     reactions: [188, 24, 111, 20, 29, 143, 92, 56, 154],
     ownReaction: 1,
     id: 123
@@ -106,6 +108,7 @@ const reducer = combineReducers({
   modal: modalReducer,
   users: usersReducer,
   ui: uiReducer,
+  router: routerReducer,
 });
 
 export default reducer;

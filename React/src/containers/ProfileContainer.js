@@ -1,19 +1,19 @@
 import { connect } from 'react-redux';
 import Profile from '../components/Profile';
 import { loadMorePublications } from '../actions';
+import { withRouter } from 'react-router-dom';
 
-//Will be received from the router in the future
-const params = {
-  id: 99
+const stateMapper = (state, ownParams) => {
+  const { id = state.currentUser } = ownParams.match.params;
+
+  return {
+    id,
+    isSelf: state.currentUser == id
+  }
 };
-
-const stateMapper = (state) => ({
-  params,
-  isSelf: state.currentUser == params.id
-});
 
 const dispatchMapper = (dispatch) => ({
   onScrollBottom: () => dispatch(loadMorePublications())
 });
 
-export default connect(stateMapper, dispatchMapper)(Profile);
+export default withRouter(connect(stateMapper, dispatchMapper)(Profile));

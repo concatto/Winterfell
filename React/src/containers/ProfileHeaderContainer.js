@@ -3,7 +3,7 @@ import ProfileHeader from '../components/ProfileHeader';
 import { openRename, openEditAvatar, openFollowing, openNewPublication } from '../actions';
 
 const stateMapper = (state, ownProps) => ({
-  ...state.users[ownProps.params.id],
+  ...state.users[ownProps.id],
   ...ownProps
 });
 

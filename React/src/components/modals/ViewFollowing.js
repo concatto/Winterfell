@@ -1,9 +1,11 @@
 import React from 'react';
 import BaseModal from './BaseModal';
+import { Redirect } from 'react-router-dom';
 import { ListGroup, ListGroupItem, Media, Image } from 'react-bootstrap';
+import { createProfileHref } from '../../utils'
 
-const FollowingCard = ({avatar, id, name, publications, following}) => (
-  <ListGroupItem href={"/profile/" + id}>
+const FollowingCard = ({avatar, id, name, publications, following, onClick}) => (
+  <ListGroupItem onClick={onClick} href={createProfileHref(id)}>
     <Media>
       <Media.Left>
         <Image src={avatar} rounded/>
@@ -20,8 +22,17 @@ const FollowingCard = ({avatar, id, name, publications, following}) => (
 
 export default class ViewFollowing extends React.Component {
   mapUsersToComponents() {
+    if (!this.props.following) {
+      return null;
+    }
+
+    const handleClick = (e, id) => {
+      e.preventDefault();
+      this.props.navigateTo(id);
+    }
+
     return this.props.following.map((user) => (
-      <FollowingCard {...user} key={user.id}/>
+      <FollowingCard {...user} key={user.id} onClick={(e) => handleClick(e, user.id)}/>
     ));
   }
 

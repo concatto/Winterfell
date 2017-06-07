@@ -71,4 +71,4 @@ export default class NewPublication extends React.Component {
   }
 }
 
-NewPublication.modalProps = {bsSize: "large"};
+NewPublication.baseProps = {bsSize: "large"};
