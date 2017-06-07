@@ -1,12 +1,6 @@
 package com.winterpics.auth;
 
-import com.winterpics.entities.WinterUser;
-import com.winterpics.entities.DefaultEntityManagerFactory;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import javax.persistence.EntityManager;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

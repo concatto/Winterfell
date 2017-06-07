@@ -20,6 +20,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(com.winterpics.auth.AuthenticationREST.class);
         resources.add(com.winterpics.entities.service.PublicationFacadeREST.class);
         resources.add(com.winterpics.entities.service.ReactionFacadeREST.class);
         resources.add(com.winterpics.entities.service.WinterUserFacadeREST.class);
