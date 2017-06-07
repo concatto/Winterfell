@@ -7,9 +7,9 @@
         maxIdle="10"
         maxWait="-1"
         name="VPS postgres"
-        password="pics_winterfell"
-        type="javax.sql.DataSource"
-        url="jdbc:postgresql://31.220.22.185:5432/winterpics"
         username="winterfell"
+        password="pics_winterfell"
+        url="jdbc:postgresql://31.220.22.185:5432/winterpics"
+        type="javax.sql.DataSource"
   />
 </Context>
