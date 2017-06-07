@@ -1,3 +1,5 @@
 node_modules/
 WinterPics/nbproject/private/
 WinterPics/dist/
+WinterPics/build/
+WinterPics/test/
