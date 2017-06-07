@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>WinterPics</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+
+
+        <style type="text/css">
+            .botoes-top{
+                padding: 0px;
+                float: right;	
+            }
+
+            .imagensCarrosel{
+                width: 100%;
+                height: 3px;
+            }
+
+            .icone-winterpics{
+                padding: 0px;
+                float: left;
+            }
+
+            .mid{
+                padding: 40px 0px 0px 0px;
+            }
+
+            .corBranca{
+                color: #FFF;
+            }
+
+            .thumbnail{
+                padding: 10%;
+            }
+
+            #modalEsquecerSenha{
+                padding-right: 17px; /*Bootstrap louco*/
+            }
+
+            @media only screen and (min-width: 768px) and (max-width: 959px) {
+                p{
+                    font-size: 40px;
+                }
+            }
+
+            @media only screen and (min-width: 650px) {
+                p{
+                    font-size: 30px;
+                }
+            }
+
+            @media only screen and (max-width: 649px) {
+                p{
+                    font-size: 20px;
+                }
+            }
+
+            @media only screen and (min-width: 960px) {
+                p{
+                    font-size: 50px;
+                }
+            }
+
+        </style>
+
+    </head>
+    <body >
+
+        <!-- MODAL LOGIN -->
+        <div id="enterlogin" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-xs">								    <!-- Coisa que vai dentro do modal-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Bem vindo ao WinterPics!</h4>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <!-- CONTEUDO QUE VAI DENTRO DO MODAL-->
+                        <form role="form" id="login-form" method="post" action="profile.html">
+                            <div class="form-group">
+                                <label for="email">Nome de usuário</label>
+                                <input type="text" name="user" class="form-control" id="loginuser" required="" pattern="[a-zA-Z][a-zA-Z0-9-_\.]{1,20}">
+                            </div>
+                            <div class="form-group">
+                                <label for="senha">Senha </label>
+                                <input type="password" name="pass" class="form-control" id="senha" pattern=".{6.20}">
+                            </div>
+                            <div class="checkbox"> 
+                                <label><input type="checkbox"> Lembre-me</label>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <div class="modaldeloginEsquecerSenha pull-left" style="margin-top: 4px">
+                            <button type="button" class="btn btn-link btn-xs" data-toggle="modal" data-target="#modalEsquecerSenha"> Esqueceu sua senha?</button>
+                        </div>
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        <input type="submit" form="login-form" class="btn btn-primary" value="Enviar"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL ESQUECER SENHA -->
+
+        <div id="modalEsquecerSenha" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Coisas que vão dentro do modal-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Recuperação de Senha</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- CONTEUDO QUE VAI DENTRO DO MODAL-->
+                        <form role="form" id="forgot-form">
+                            <div class="form-group">
+                                <label for="senha"> E-mail </label>
+                                <input type="Email" name="email" class="form-control" id="email" placeholder="exemplo@email.com" required="" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        <input type="submit" form="forgot-form" class="btn btn-primary" value="Enviar"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal Cadastrar -->
+        <div id="myModaldd" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-ms">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Criar Conta</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <!-- CONTEUDO QUE VAI DENTRO DO MODAL-->
+                        <form role="form" id="create-form">
+                            <div class="form-group">
+                                <label for="nome">Nome</label>
+                                <input type="text" name="name" class="form-control" id="nome" required="" pattern="[a-zA-Z][a-zA-Z ]{4,}" placeholder="Ex: Fulano de Tal" title="Letras sem acentos e nome completo" >
+                            </div>
+                            <div class="form-group">
+                                <label for="email"> E-mail </label>
+                                <input type="Email" name="email" class="form-control" id="emailcriar" placeholder="exemplo@email.com" required="" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" >
+                            </div>
+                            <div class="form-group">
+                                <label for="email"> Confirmação de E-mail </label>
+                                <input type="Email" name="email2" class="form-control" id="email2criar"  placeholder="exemplo@email.com" required="" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                            </div>
+                            <div class="form-group">
+                                <label for="user">Usuário </label>
+                                <input type="text" name="user" class="form-control" id="user" required="" pattern="[a-zA-Z][a-zA-Z0-9-_\.]{1,20}" placeholder="Ex: fulanodetal" title="Utilize apenas caracteres(sem acento), números, underscores e hífens">
+                            </div>
+                            <div class="form-group">
+                                <label for="senhacriar"> Senha </label>
+                                <input type="password" placeholder="6 a 20 caracteres" name="pass" class="form-control" id="senhacriar" maxlength="20" pattern=".{6,20}" required>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        <input type="submit" form="create-form" class="btn btn-primary" value="Criar conta"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="col-md-12">
+                <nav class="nav navbar-fixed-top navbar-default" style="box-shadow: 0 2px 20px #888">
+                    <div class="container-fluid">
+                        <div class="navbar-header navbar-brand">                            
+                            <a class="icone-winterpics">
+                                <img class="img img-rounded" src="./data/winterpicslogo.png" style="height:20px;width:40px;"> 
+                                <small style="color: #555"> <strong> WinterPics </strong></small>
+                            </a>
+                        </div>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-primary btn-md navbar-btn" data-toggle="modal" data-target="#enterlogin"> Login</button>
+                            <button type="button" class="btn btn-warning btn-md navbar-btn" data-toggle="modal" data-target="#myModaldd">Criar uma conta</button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+
+
+            <!-- CONTEUDO DA PAGINA CARROSEL -->
+            <div class="hidden-xs" style="height: 25px"></div>
+            <div class="col-md-12" style="margin-top: 80px;">
+
+                <div id="myCarousel" class="carousel slide" data-ride="carousel" >
+
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                    </ol>
+
+                    <div class="carousel-inner" role="listbox">
+
+                        <div class="item active">
+                            <img class="imagensCarrosel" src="./data/fundocinza.jpg" alt="Grupo">
+                            <div class="carousel-caption">
+                                <div class="col-md-12">
+                                    <p>WinterPics</p>
+                                    <p>Uma rede social para compartilhar suas aventuras!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <img class="imagensCarrosel" src="./data/fundocinza.jpg" alt="Reações">
+                            <div class="carousel-caption">
+                                <div class="col-md-12">
+                                    <p>Reações</p>
+                                    <p>Reaja a fotos de seus amigos anonimamente!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <img class="imagensCarrosel" src="./data/fundocinza.jpg" alt="Postagem">
+                            <div class="carousel-caption">
+                                <div class="col-md-12">
+                                    <p>Poste suas Fotos!</p>
+                                    <p>Mostre como você é popular!</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Anterior</span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Proximo</span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- CONTEUDO DA PAGINA 3 QUADRADOS -->
+                <div>
+                    <div class="mid row">
+                        <div class="col-md-4">
+                            <div class="thumbnail"  style="height: 470px;">
+                                <img src="./data/anonimo.png" style="padding-top: 50px; height: 200px; width: 230px;">
+                                <h1 class="corBranca text-center" style="font-size: 30px; color: #000;" >Reações anônimas</h1>
+                                <h2 class="corBranca text text-center" style="color: #000; font-size: 20px;"> Reaja as fotos de forma completamente anônima, sem que outras pessoas saibam quem está reagindo. </h2>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="thumbnail"  style=" height: 470px;" >
+                                <img src="./data/certo.png" style="padding-top: 50px; height: 200px; width: 200px;">
+                                <h1 class="corBranca text-center" style="font-size: 30px; color: #000;">Simples e fácil</h1>
+                                <h2 class="corBranca text text-center" style="color: #000; font-size: 20px;"> Faça tudo de forma muito simples e fácil, desde publicar uma foto até ver as fotos de outras pessoas!</h2>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="thumbnail"  style=" height: 470px;">
+                                <img src="./data/legal.png" style="padding-top: 50px; height: 200px; width: 150px;">
+                                <h1 class="corBranca text-center" style="font-size: 30px; color: #000;">Reações variadas</h1>
+                                <h2 class="corBranca text text-center" style="color: #000; font-size: 20px;"> Reaja de varias formas diferentes a foto de seus amigos! Amou de uma foto? Ajude a fazer com que o coração seja a reação mais popular! </h2>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <nav class="navbar navbar-fixedbottom">
+                    </nav>
+                    <p class="text text-center" style="padding: 5px; font-size: 12px;">© WinterPics Corporation LTDA</p>
+                </div>
+
+            </div>
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    </body>
+</html>
