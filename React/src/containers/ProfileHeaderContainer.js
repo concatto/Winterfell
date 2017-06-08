@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import ProfileHeader from '../components/ProfileHeader';
-import { openRename, openEditAvatar, openFollowing, openNewPublication } from '../actions';
+import { openRename, openEditAvatar, openFollowing, openNewPublication } from '../actions/modalActions';
 
 const stateMapper = (state, ownProps) => ({
   ...state.users[ownProps.id],

@@ -1,7 +1,7 @@
 import React from 'react';
 import BaseModal from './BaseModal';
 import FileChooser from '../FileChooser';
-import { Button, Form, FormGroup, FormControl, Image } from 'react-bootstrap';
+import { Form, FormGroup, FormControl, Image } from 'react-bootstrap';
 
 export default class NewPublication extends React.Component {
   constructor(props) {
@@ -28,19 +28,19 @@ export default class NewPublication extends React.Component {
     this.setState({title: e.target.value});
   }
 
-  render() {
-    const handleConfirm = () => {
-      //If an image was chosen
-      if (this.state.hasImage) {
-        const { title, image } = this.state;
+  handleConfirm() {
+    //If an image was chosen
+    if (this.state.hasImage) {
+      const { title, image } = this.state;
 
-        this.props.onConfirm({title, image});
-      } else {
-        //Maybe use a proper dialog
-        alert("Selecione uma imagem!");
-      }
+      this.props.onConfirm({title, image});
+    } else {
+      //Maybe use a proper dialog
+      alert("Selecione uma imagem!");
     }
+  }
 
+  render() {
     return (
       <BaseModal.Wrapper>
         <BaseModal.Header>Nova publicação</BaseModal.Header>
@@ -64,7 +64,9 @@ export default class NewPublication extends React.Component {
         </BaseModal.Body>
 
         <BaseModal.Footer withCancel="Cancelar">
-          <Button bsStyle="success" onClick={handleConfirm}>Publicar</Button>
+          <BaseModal.ConfirmButton bsStyle="success" onClick={() => this.handleConfirm()}>
+            Publicar
+          </BaseModal.ConfirmButton>
         </BaseModal.Footer>
       </BaseModal.Wrapper>
     );

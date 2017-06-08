@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { handleModalConfirmation, hideModal } from '../actions';
+import { handleModalConfirmation, hideModal } from '../actions/modalActions';
 import BaseModal from '../components/modals/BaseModal';
 
 const ModalRoot = ({modals, modalType, modalProps, onConfirm, onHide, onClose, shown, busy}) => {
@@ -14,13 +14,12 @@ const ModalRoot = ({modals, modalType, modalProps, onConfirm, onHide, onClose, s
   //Replace the dispatch functions, specifying the modal type
   modalProps = {
     ...modalProps,
-    busy,
     onConfirm: (payload) => onConfirm(modalType, payload),
     onHide: () => onHide(modalType),
   };
 
   return (
-    <BaseModal baseProps={SpecializedModal.baseProps} onHide={() => onHide(modalType)} shown={shown}>
+    <BaseModal baseProps={SpecializedModal.baseProps} onHide={() => onHide(modalType)} shown={shown} busy={busy}>
       <SpecializedModal {...modalProps}/>
     </BaseModal>
   );

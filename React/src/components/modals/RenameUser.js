@@ -18,8 +18,6 @@ export default class RenameUser extends React.Component {
   }
 
   render() {
-    const { busy } = this.props;
-
     return (
       <BaseModal.Wrapper>
         <BaseModal.Header>Alterar nome</BaseModal.Header>
@@ -38,7 +36,9 @@ export default class RenameUser extends React.Component {
         </BaseModal.Body>
 
         <BaseModal.Footer withCancel="Cancelar">
-          <Button disabled={busy} bsStyle="success" onClick={(e) => this.handleSubmit(e)}>Confirmar</Button>
+          <BaseModal.ConfirmButton bsStyle="success" onClick={(e) => this.handleSubmit(e)}>
+            Confirmar
+          </BaseModal.ConfirmButton>
         </BaseModal.Footer>
       </BaseModal.Wrapper>
     );

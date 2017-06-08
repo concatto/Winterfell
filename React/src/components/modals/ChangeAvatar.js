@@ -1,7 +1,7 @@
 import React from 'react';
 import BaseModal from './BaseModal';
 import FileChooser from '../FileChooser';
-import { Button, Image } from 'react-bootstrap';
+import { Image } from 'react-bootstrap';
 
 export default class ChangeAvatar extends React.Component {
   constructor(props) {
@@ -37,7 +37,9 @@ export default class ChangeAvatar extends React.Component {
         </BaseModal.Body>
 
         <BaseModal.Footer withCancel="Cancelar">
-          <Button onClick={confirmHandler} bsStyle="success">Confirmar</Button>
+          <BaseModal.ConfirmButton onClick={confirmHandler} bsStyle="success">
+            Confirmar
+          </BaseModal.ConfirmButton>
         </BaseModal.Footer>
       </BaseModal.Wrapper>
     )

@@ -1,6 +1,5 @@
 import React from 'react';
 import BaseModal from './BaseModal';
-import { Button } from 'react-bootstrap';
 
 const DeletePublication = ({id, onConfirm}) => (
   <BaseModal.Wrapper>
@@ -11,7 +10,9 @@ const DeletePublication = ({id, onConfirm}) => (
     </BaseModal.Body>
 
     <BaseModal.Footer withCancel="Cancelar">
-      <Button bsStyle="danger" onClick={() => onConfirm({id})}>Excluir</Button>
+      <BaseModal.ConfirmButton bsStyle="danger" onClick={() => onConfirm({id})}>
+        Excluir
+      </BaseModal.ConfirmButton>
     </BaseModal.Footer>
   </BaseModal.Wrapper>
 );

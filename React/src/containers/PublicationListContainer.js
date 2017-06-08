@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { openDeletion } from '../actions';
+import { openDeletion } from '../actions/modalActions';
 import PublicationList from '../components/PublicationList';
 
 const collectPublications = (state) => {

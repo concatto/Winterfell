@@ -8,7 +8,10 @@ export default class BaseModal extends React.Component {
   }
 
   getChildContext() {
-    return {hide: () => this.props.onHide()};
+    return {
+      hide: () => this.props.onHide(),
+      busy: this.props.busy,
+    };
   }
 
   render() {
@@ -22,21 +25,23 @@ export default class BaseModal extends React.Component {
   }
 }
 
-BaseModal.Footer = class Footer extends React.Component {
-  render() {
-    return (
-      <Modal.Footer>
-        {this.props.withCancel &&
-          <Button onClick={() => this.context.hide()}>
-            {this.props.withCancel}
-          </Button>
-        }
+BaseModal.Footer = (props, context) => (
+  <Modal.Footer>
+    {props.withCancel &&
+      <Button onClick={() => context.hide()}>
+        {props.withCancel}
+      </Button>
+    }
 
-        {this.props.children}
-      </Modal.Footer>
-    );
-  }
-}
+    {props.children}
+  </Modal.Footer>
+);
+
+BaseModal.ConfirmButton = (props, context) => (
+  <Button {...props} disabled={context.busy}>
+    {props.children}
+  </Button>
+)
 
 BaseModal.Header = ({children}) => (
   <Modal.Header closeButton>
@@ -59,4 +64,5 @@ BaseModal.Wrapper = ({children}) => (
 );
 
 BaseModal.Footer.contextTypes = {hide: PropTypes.func};
-BaseModal.childContextTypes = {hide: PropTypes.func};
+BaseModal.ConfirmButton.contextTypes = {busy: PropTypes.bool};
+BaseModal.childContextTypes = {hide: PropTypes.func, busy: PropTypes.bool};
