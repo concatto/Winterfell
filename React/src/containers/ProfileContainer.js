@@ -8,7 +8,8 @@ const stateMapper = (state, ownParams) => {
 
   return {
     id,
-    isSelf: state.currentUser == id
+    isSelf: state.currentUser == id,
+    notifications: state.notifications,
   }
 };
 

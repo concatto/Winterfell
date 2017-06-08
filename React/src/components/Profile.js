@@ -11,6 +11,7 @@ import ChangeAvatar from '../components/modals/ChangeAvatar';
 import RenameUser from '../components/modals/RenameUser';
 import BaseModal from '../components/modals/BaseModal';
 import { Grid, Row, Col, Nav } from 'react-bootstrap';
+import Notifications from 'react-notification-system-redux';
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -42,7 +43,7 @@ export default class Profile extends React.Component {
   }
 
   render() {
-    const { id, isSelf } = this.props;
+    const { id, isSelf, notifications } = this.props;
 
     return (
       <div>
@@ -63,6 +64,8 @@ export default class Profile extends React.Component {
             </Col>
           </Row>
         </Grid>
+
+        <Notifications notifications={notifications}/>
       </div>
     );
   }

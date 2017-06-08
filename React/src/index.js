@@ -13,6 +13,7 @@ import { loadMore } from './actions';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
+import Notifications from 'react-notification-system-redux';
 
 moment.locale('pt-br');
 const history = createHistory({basename: "/"});

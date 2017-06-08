@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
+import { reducer as notifications } from 'react-notification-system-redux';
 import modalReducer from './modalReducer.js'
 
 const currentUser = '30';
@@ -109,6 +110,7 @@ const reducer = combineReducers({
   users: usersReducer,
   ui: uiReducer,
   router: routerReducer,
+  notifications,
 });
 
 export default reducer;

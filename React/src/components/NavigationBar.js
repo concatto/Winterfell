@@ -34,20 +34,22 @@ export default class NavigationBar extends React.Component {
         </Navbar.Header>
 
         <Navbar.Collapse>
-          <Form onSubmit={(e) => this.handleSubmit(e)}>
-            <Navbar.Form pullRight>
-              {withSearch &&
-                <FormGroup>
-                  <InputGroup>
-                    <InputGroup.Addon><Glyphicon glyph="search"/></InputGroup.Addon>
-                    <FormControl onChange={(e) => this.handleChange(e)} type="text" placeholder="Pesquisar amigos"/>
-                  </InputGroup>
-                </FormGroup>
-              }
-
-              <Button>Sair</Button>
+          <div className="pull-right">
+            <Navbar.Form>
+              <Form onSubmit={(e) => this.handleSubmit(e)}>
+                {withSearch &&
+                  <FormGroup>
+                    <InputGroup>
+                      <InputGroup.Addon><Glyphicon glyph="search"/></InputGroup.Addon>
+                      <FormControl onChange={(e) => this.handleChange(e)} type="text" placeholder="Pesquisar amigos"/>
+                    </InputGroup>
+                  </FormGroup>
+                }
+              </Form>
             </Navbar.Form>
-          </Form>
+
+            <Button className="navbar-btn">Sair</Button>
+          </div>
         </Navbar.Collapse>
       </Navbar>
     );

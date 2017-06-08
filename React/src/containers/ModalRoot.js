@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { handleModalConfirmation, hideModal } from '../actions';
 import BaseModal from '../components/modals/BaseModal';
 
-const ModalRoot = ({modals, modalType, modalProps, onConfirm, onHide, onClose, shown}) => {
+const ModalRoot = ({modals, modalType, modalProps, onConfirm, onHide, onClose, shown, busy}) => {
   const SpecializedModal = modals[modalType];
 
   //If there is no modal to be shown, return an empty element
@@ -14,6 +14,7 @@ const ModalRoot = ({modals, modalType, modalProps, onConfirm, onHide, onClose, s
   //Replace the dispatch functions, specifying the modal type
   modalProps = {
     ...modalProps,
+    busy,
     onConfirm: (payload) => onConfirm(modalType, payload),
     onHide: () => onHide(modalType),
   };
@@ -30,6 +31,7 @@ const stateMapper = (state) => ({
   modalProps: state.modal.payload,
   modalType: state.modal.type,
   shown: state.modal.shown,
+  busy: state.modal.busy,
 });
 
 const dispatchMapper = (dispatch) => ({

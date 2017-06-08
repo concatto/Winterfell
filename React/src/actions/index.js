@@ -1,5 +1,28 @@
 import { push } from 'react-router-redux';
 import { createProfileHref } from '../utils';
+import Notifications from 'react-notification-system-redux';
+
+const startAsync = () => ({
+  type: "ASYNC_START"
+});
+
+const finishAsync = () => ({
+  type: "ASYNC_FINISH"
+});
+
+const handleRename = (payload) => {
+  return (dispatch) => {
+    dispatch(startAsync());
+    setTimeout(() => {
+      dispatch(finishAsync());
+      dispatch(Notifications.success({title: "Ok", message: "Renomeado com sucesso"}));
+    }, 1000);
+  };
+};
+
+const confirmHandlers = {
+  "RENAME": handleRename,
+};
 
 export const setPublicationFilter = (filterType) => ({
   type: "CHANGE_PUBLICATION_FILTER",
@@ -19,10 +42,16 @@ export const closeModal = (type) => ({
   type: `CLOSE_${type}_MODAL`
 });
 
-export const confirmModal = (type, payload) => ({
-  type: `CONFIRM_${type}_MODAL`,
-  payload
-});
+export const confirmModal = (type, payload) => {
+  return (dispatch) => {
+    dispatch({type: `CONFIRM_${type}_MODAL`, payload});
+
+    const handler = confirmHandlers[type];
+    if (handler) {
+      dispatch(handler(payload));
+    }
+  };
+};
 
 export const openDeletion = (id) => openModal("DELETION", {id});
 export const openRename = (name) => openModal("RENAME", {name});
