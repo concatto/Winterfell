@@ -6,7 +6,9 @@ export default class PublicationSelector extends React.Component {
     const { filter, onSelect } = this.props;
 
     return (
-      <Nav bsStyle="pills" justified activeKey={filter} onSelect={(key) => onSelect(key)}>
+      <Nav className="publication-selector" bsStyle="tabs" justified
+        activeKey={filter} onSelect={(key) => onSelect(key)}
+      >
         <NavItem eventKey="ALL_PUBLICATIONS">
           Feed de publicações
         </NavItem>

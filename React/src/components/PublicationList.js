@@ -1,7 +1,7 @@
 import Publication from './Publication';
 import React from 'react';
 
-const PublicationList = ({publications, onDelete, onReact}) => {
+const PublicationList = ({className, publications, onDelete, onReact}) => {
   const components = publications.map((data) => {
     data = {
       ...data,
@@ -14,7 +14,7 @@ const PublicationList = ({publications, onDelete, onReact}) => {
   });
 
   return (
-    <div>
+    <div className={className}>
       {components}
     </div>
   );

@@ -4,7 +4,7 @@ body {
 
 .circular-icon {
   position: absolute;
-  pointer-events: none;
+  cursor: pointer;
   font-size: 15px;
   color: grey;
   right: 15px;
@@ -22,6 +22,12 @@ body {
 .following-list img {
   width: 50px;
   height: 50px;
+  object-fit: cover;
+}
+
+.search-results img {
+  width: 80px;
+  height: 80px;
   object-fit: cover;
 }
 
@@ -62,11 +68,17 @@ body {
 }
 
 .navbar-brand {
-  margin-left: -15px;
+  display: flex;
+  align-items: center;
+  padding: 0px 15px;
 }
 
 .navbar-form .btn {
   margin-left: 10px;
+}
+
+.navbar-form .form-control:focus {
+  border-color: #dce4ec;
 }
 
 .navbar-form, .navbar-form form {
@@ -74,16 +86,12 @@ body {
 }
 
 .navbar .navbar-header img {
-        height: 50px;
-        width: 50px;
-        padding: 5px;
-        object-fit: cover;
+  height: 44px;
+  width: 44px;
+  object-fit: cover;
+  margin-right: 10px;
 }
 
-.navbar .navbar-header img {
-        float: left;
-        margin-right: 10px;
-}
 .nav.navbar-brand.centered-navbar-logo-container {
         text-align: center;
         display: block;
@@ -160,10 +168,20 @@ body {
     transform: translateY(-61%);*/
 }
 
-.container-fluid ul.nav.nav-pills.nav-justified {
-        padding-bottom: 10px;
-        color: inherit;
+.publication-selector  {
+  margin-bottom: -1px;
 }
+
+.publication-selector.nav-tabs > li > a,
+.publication-selector.nav-tabs > li.active > a {
+  border-bottom: none !important;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  padding-bottom: 13px;
+  padding-top: 12px;
+}
+
+/*
 .container-fluid ul.nav.nav-pills.nav-justified li a {
         cursor: pointer;
         color: #000;
@@ -193,7 +211,7 @@ body {
 .container-fluid ul.nav.nav-pills.nav-justified .active a:focus{
         color: inherit;
 }
-
+*/
 .postBox{
         width:auto;
         height:100px;
@@ -223,7 +241,12 @@ body {
 }
 
 .post {
-  margin-bottom: 32px;
+  margin-bottom: 15px;
+}
+
+.in-self .post:first-child {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 }
 
 .post-content {
@@ -393,7 +416,11 @@ body {
 .profile-header > div > div:first-child {
   width: 200px;
   margin: auto;
+}
+
+.profile-header > div > div > div {
   position: relative;
+  display: inline-block;
 }
 
 .profile-header img {

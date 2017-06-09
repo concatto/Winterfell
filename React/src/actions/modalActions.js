@@ -40,8 +40,7 @@ export const openFollowing = (id) => {
       return getState().users[followingId];
     });
 
-    const navigateTo = (id) => dispatch(visitProfile(id));
-    dispatch(openModal("FOLLOWING", {following, navigateTo}));
+    dispatch(openModal("FOLLOWING", {following}));
   }
 }
 

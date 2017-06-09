@@ -20,6 +20,8 @@ const ProfileHeader = ({isSelf, isFollowing, id, name, avatar, following, action
     button = <Button bsStyle={buttonType} onClick={() => onToggleFollowing()}>{buttonText}</Button>;
   }
 
+  const avatarHandler = isSelf ? () => onEditAvatar(avatar) : null;
+
   return (
     <div className="profile-header">
       <h4 onClick={() => onSeeFollowing(id)}>
@@ -27,10 +29,11 @@ const ProfileHeader = ({isSelf, isFollowing, id, name, avatar, following, action
       </h4>
       <div className="text-center">
         <div>
-          <Image src={avatar} circle className={isSelf ? "own" : ""}
-            onClick={isSelf ? () => onEditAvatar(avatar) : null} />
+          <div>
+            <Image src={avatar} circle className={isSelf ? "own" : ""} onClick={avatarHandler}/>
 
-          {isSelf && <Glyphicon glyph="edit" className="circular-icon"/>}
+            {isSelf && <Glyphicon glyph="edit" onClick={avatarHandler} className="circular-icon"/>}
+          </div>
         </div>
 
         <Row>

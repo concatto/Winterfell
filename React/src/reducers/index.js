@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { reducer as notifications } from 'react-notification-system-redux';
 import modalReducer from './modalReducer.js'
+import { LOCATION_CHANGE } from 'react-router-redux';
 
 const currentUser = '30';
 const users = {
@@ -103,6 +104,17 @@ const uiReducer = (state=initialUiState, action) => {
   return state;
 }
 
+const searchReducer = (state={}, action) => {
+  switch (action.type) {
+    case LOCATION_CHANGE:
+      return {};
+    case "SEARCH_SUCCESS":
+      return {results: action.payload};
+  }
+
+  return state;
+}
+
 const reducer = combineReducers({
   publications: publicationsReducer,
   currentUser: currentUserReducer,
@@ -110,6 +122,7 @@ const reducer = combineReducers({
   users: usersReducer,
   ui: uiReducer,
   router: routerReducer,
+  search: searchReducer,
   notifications,
 });
 

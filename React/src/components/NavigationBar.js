@@ -25,11 +25,12 @@ export default class NavigationBar extends React.Component {
       <Navbar fixedTop fluid>
         <Navbar.Header>
           <Link to={createProfileHref(id)}>
-            <Image src={avatar} circle/>
             <Navbar.Brand>
+              <Image src={avatar} circle/>
               <span>{name}</span>
-              </Navbar.Brand>
+            </Navbar.Brand>
           </Link>
+
           <Navbar.Toggle/>
         </Navbar.Header>
 

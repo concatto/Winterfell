@@ -13,13 +13,7 @@ export const loadMorePublications = () => ({
 
 export const loadMoreFriends = () => ({
   type: "LOAD_FRIENDS"
-})
+});
 
 export const search = (searchString) => push("/search?q=" + searchString);
 export const visitProfile = (id) => push(createProfileHref(id));
-
-//Dispatch a request to the API eventually
-export const executeSearch = (searchString) => ({
-  type: "DO_SEARCH",
-  searchString
-});

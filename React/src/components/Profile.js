@@ -24,16 +24,24 @@ export default class Profile extends React.Component {
       "EDIT_AVATAR": ChangeAvatar,
       "NEW_PUBLICATION": NewPublication,
     };
+
+    this.scrollHandler = this.handleScroll.bind(this);
+  }
+
+  handleScroll(e) {
+    const height = document.body.scrollTop + window.innerHeight;
+
+    if (document.body.scrollHeight === height) {
+      this.props.onScrollBottom();
+    }
   }
 
   componentDidMount() {
-    document.addEventListener("scroll", () => {
-      const height = document.body.scrollTop + window.innerHeight;
+    document.addEventListener("scroll", this.scrollHandler);
+  }
 
-      if (document.body.scrollHeight === height) {
-        this.props.onScrollBottom();
-      }
-    });
+  componentWillUnmount() {
+    document.removeEventListener("scroll", this.scrollHandler);
   }
 
   componentDidUpdate(prevProps) {
@@ -59,7 +67,7 @@ export default class Profile extends React.Component {
                 <PublicationSelectorContainer/>
               }
 
-              <PublicationListContainer/>
+              <PublicationListContainer className={isSelf ? "in-self" : ""}/>
               <ModalRoot modals={this.modals}/>
             </Col>
           </Row>

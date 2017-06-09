@@ -24,6 +24,18 @@ export const handleDeletion = (payload) => (dispatch) => {
   }, 1000);
 }
 
+export const handleSearch = (searchString) => (dispatch, getState) => {
+  dispatch(startAsync());
+  setTimeout(() => {
+    dispatch(finishAsync("SUCCESS"));
+
+    dispatch({
+      type: "SEARCH_SUCCESS",
+      payload: Object.values(getState().users)
+    });
+  }, 1000);
+}
+
 const notificationOptions = {
   position: "bc",
   autoDismiss: 2,
