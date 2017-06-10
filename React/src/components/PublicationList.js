@@ -1,5 +1,6 @@
 import Publication from './Publication';
 import React from 'react';
+import { Panel } from 'react-bootstrap';
 
 const PublicationList = ({className, publications, onDelete, onReact}) => {
   const components = publications.map((data) => {
@@ -15,7 +16,11 @@ const PublicationList = ({className, publications, onDelete, onReact}) => {
 
   return (
     <div className={className}>
-      {components}
+      {components.length > 0 ? components : (
+        <Panel className="post">
+          <h4>Nenhuma publicação a ser exibida. :(</h4>
+        </Panel>
+      )}
     </div>
   );
 };

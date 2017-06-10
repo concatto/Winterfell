@@ -39,7 +39,7 @@ BaseModal.Footer = (props, context) => (
 
 BaseModal.ConfirmButton = (props, context) => (
   <Button {...props} disabled={context.busy}>
-    {props.children}
+    {context.busy ? "Processando..." : props.children}
   </Button>
 )
 

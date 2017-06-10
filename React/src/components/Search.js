@@ -9,6 +9,15 @@ export default class Search extends React.Component {
   }
 
   render() {
+    let content = null;
+    if (this.props.working) {
+      content = <div className="center-block"><div className="loader"></div></div>
+    } else if (this.props.results && this.props.results.length > 0) {
+      content = <PersonListContainer displayFollowing className="search-results" data={this.props.results}/>
+    } else {
+      content = <h4>Nenhuma pessoa encontrada.</h4>
+    }
+
     return (
       <div>
         <NavigationBarContainer/>
@@ -17,7 +26,7 @@ export default class Search extends React.Component {
           <Row>
             <Col xs={12} md={10} mdOffset={1}>
               <h3>Resultados da pesquisa por "{this.props.searchString}":</h3>
-              <PersonListContainer displayFollowing className="search-results" data={this.props.results}/>
+              {content}
             </Col>
           </Row>
         </Grid>

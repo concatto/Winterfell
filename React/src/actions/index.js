@@ -15,5 +15,17 @@ export const loadMoreFriends = () => ({
   type: "LOAD_FRIENDS"
 });
 
+export const modifyName = (name, id) => ({
+  type: "MODIFY_NAME", name, id
+});
+
+export const modifyAvatar = (image, id) => ({
+  type: "MODIFY_AVATAR", image, id
+});
+
+export const removePublication = (id) => ({
+  type: "REMOVE_PUBLICATION", id
+});
+
 export const search = (searchString) => push("/search?q=" + searchString);
 export const visitProfile = (id) => push(createProfileHref(id));

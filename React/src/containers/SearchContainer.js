@@ -9,7 +9,8 @@ const stateMapper = (state, ownParams) => {
 
   return {
     searchString: query.q,
-    results: state.search.results
+    results: state.search.results,
+    working: state.search.working,
   };
 };
 
