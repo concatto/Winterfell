@@ -1,9 +1,10 @@
 import { visitProfile } from './index';
-import { handleRename, handleDeletion } from './asyncActions';
+import { handleRename, handleDeletion, handleEditAvatar } from './asyncActions';
 
 const confirmHandlers = {
   "RENAME": handleRename,
   "DELETION": handleDeletion,
+  "EDIT_AVATAR": handleEditAvatar,
 };
 
 export const confirmModal = (type, payload) => {

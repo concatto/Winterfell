@@ -87,11 +87,29 @@ const currentUserReducer = (state=currentUser, action) => {
   return state;
 };
 
+const modifyUser = (state, id, properties) => {
+  const modifiedUser = {...state[id], ...properties};
+
+  return {...state, [id]: modifiedUser};
+};
+
 const usersReducer = (state=users, action) => {
+  switch (action.type) {
+    case "MODIFY_NAME":
+      return modifyUser(state, action.id, {name: action.name});
+    case "MODIFY_AVATAR":
+      return modifyUser(state, action.id, {avatar: action.image});
+  }
   return state;
 };
 
 const publicationsReducer = (state=publications, action) => {
+  switch (action.type) {
+    case "REMOVE_PUBLICATION":
+      state = {...state};
+      delete state[action.id];
+      return state;
+  }
   return state;
 }
 
@@ -108,8 +126,10 @@ const searchReducer = (state={}, action) => {
   switch (action.type) {
     case LOCATION_CHANGE:
       return {};
+    case "ASYNC_START":
+      return {working: true};
     case "SEARCH_SUCCESS":
-      return {results: action.payload};
+      return {results: action.payload, working: false};
   }
 
   return state;
