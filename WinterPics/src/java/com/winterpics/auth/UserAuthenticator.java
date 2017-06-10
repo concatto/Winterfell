@@ -6,13 +6,8 @@ import com.winterpics.entities.WinterUser;
 import java.io.IOException;
 import java.util.Base64;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
 
 public class UserAuthenticator {
 
@@ -22,36 +17,50 @@ public class UserAuthenticator {
         passwordConverter = new PasswordConverter();
     }
 
-    public boolean userAuthenticated(String authString) throws IOException {
+    public WinterUser userAuthenticated(String authString) throws IOException, UserNotFoundException {
         if (authString == null){
-            return false;
+            throw new UserNotFoundException();
         }
         String auth[];
         auth = authString.split("\\s+");
         if (auth.length != 2){
-            return false;
+            throw new UserNotFoundException();
         }
         authString = fromBase64(auth[1]);
         auth = authString.split(":");
         if (auth.length != 2){
-            return false;
+            throw new UserNotFoundException();
         }
-        return userAuthenticated( auth[0], auth[1] );
+        WinterUser userAuthenticated = userAuthenticated( auth[0], auth[1] );
+        if (userAuthenticated == null){
+            throw new UserNotFoundException();
+        }
+        return userAuthenticated;
     }
     
-    public boolean userAuthenticated(String login, String password){
+    public WinterUser userAuthenticated(String login, String password) throws UserNotFoundException {
         EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
         Query query = em.createQuery(
-            "SELECT COUNT(u.id) FROM WinterUser u WHERE u.login=:login AND u.pass=:password"
+            "SELECT u FROM WinterUser u WHERE u.login=:login AND u.pass=:password"
         );
         query.setParameter("login", login);
         query.setParameter("password", password);
-        return ((Long) query.getSingleResult()) > 0;
+        try {
+            return (WinterUser) query.getSingleResult();
+        } catch (NoResultException e) {
+            throw new UserNotFoundException();
+        }
     }
     
     public String fromBase64(String str) throws IOException
     {
         return new String( Base64.getDecoder().decode(str) );
+    }
+    
+    public static class UserNotFoundException extends Exception {
+        public UserNotFoundException() {
+            super("User not found");
+        }
     }
     
 }

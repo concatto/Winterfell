@@ -26,4 +26,10 @@ public class AuthenticationREST {
         em.close();
     }
     
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void login(){
+        
+    }
 }
