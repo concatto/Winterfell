@@ -1,5 +1,5 @@
 import Notifications from 'react-notification-system-redux';
-import { modifyName, modifyAvatar, removePublication } from './index';
+import { modifyName, modifyAvatar, removePublication, insertPublication } from './index';
 
 export const startAsync = () => ({
   type: "ASYNC_START"
@@ -41,10 +41,33 @@ export const handleSearch = (searchString) => (dispatch, getState) => {
   setTimeout(() => {
     dispatch(finishAsync("SUCCESS"));
 
+    const users = Object.values(getState().users);
+
     dispatch({
       type: "SEARCH_SUCCESS",
-      payload: Object.values(getState().users)
+      results: users,
+      total: Math.ceil(users.length / 10),
     });
+  }, 1000);
+}
+
+export const handleNewPublication = ({title, image}) => (dispatch, getState) => {
+  dispatch(startAsync());
+  setTimeout(() => {
+    dispatch(finishAsync("SUCCESS"));
+    dispatch(notifySuccess("Publicação realizada com sucesso."));
+
+    const data = {
+      author: getState().currentUser,
+      timestamp: Math.floor(Date.now() / 1000),
+      title,
+      image,
+      reactions: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ownReaction: undefined,
+      id: Date.now() % 9999
+    };
+
+    dispatch(insertPublication(data));
   }, 1000);
 }
 

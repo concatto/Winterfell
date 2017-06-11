@@ -74,7 +74,7 @@ export default class NavigationBar extends React.Component {
               {withSearch &&
                 <FormGroup>
                   <InputGroup>
-                    <FormControl type="text" placeholder="Pesquisar amigos"
+                    <FormControl type="text" placeholder="Pesquisar pessoas"
                       onBlur={() => this.setState({expanded: false})}
                       inputRef={(r) => this.input = r}
                     />

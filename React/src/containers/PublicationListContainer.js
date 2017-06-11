@@ -3,7 +3,9 @@ import { openDeletion } from '../actions/modalActions';
 import PublicationList from '../components/PublicationList';
 
 const collectPublications = (state) => {
-  const pubs = Object.keys(state.publications).map((key) => {
+  const sorter = (a, b) => state.publications[a].timestamp < state.publications[b].timestamp;
+
+  const pubs = Object.keys(state.publications).sort(sorter).map((key) => {
     var pub = state.publications[key];
 
     return {

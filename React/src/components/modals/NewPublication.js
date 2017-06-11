@@ -28,6 +28,11 @@ export default class NewPublication extends React.Component {
     this.setState({title: e.target.value});
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    this.handleConfirm();
+  }
+
   handleConfirm() {
     //If an image was chosen
     if (this.state.hasImage) {

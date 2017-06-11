@@ -2,6 +2,10 @@ import React from 'react';
 import { ListGroup, ListGroupItem, Media, Image, Glyphicon } from 'react-bootstrap';
 import { createProfileHref } from '../utils'
 
+const makeDescription = (publications, following) => (
+  publications + (publications == 1 ? " publicação" : " publicações") + " - seguindo " + following
+);
+
 const PersonCard = ({avatar, id, name, publications, following, isFollowing, onClick, displayFollowing}) => (
   <ListGroupItem onClick={onClick} href={createProfileHref(id)}>
     <Media>
@@ -12,7 +16,7 @@ const PersonCard = ({avatar, id, name, publications, following, isFollowing, onC
         <Media.Heading>
           <strong>{name}</strong>
         </Media.Heading>
-        <small>{publications + " publicações - seguindo " + following.length}</small>
+        <small>{makeDescription(publications, following.length)}</small>
 
         {isFollowing && displayFollowing &&
           <p className="text-success">

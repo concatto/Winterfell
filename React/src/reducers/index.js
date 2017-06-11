@@ -107,6 +107,8 @@ const usersReducer = (state=users, action) => {
 
 const publicationsReducer = (state=publications, action) => {
   switch (action.type) {
+    case "INSERT_PUBLICATION":
+      return {...state, [action.data.id]: action.data};
     case "REMOVE_PUBLICATION":
       state = {...state};
       delete state[action.id];
@@ -131,7 +133,7 @@ const searchReducer = (state={}, action) => {
     case "ASYNC_START":
       return {working: true};
     case "SEARCH_SUCCESS":
-      return {results: action.payload, working: false};
+      return {results: action.results, working: false, totalResults: action.total};
   }
 
   return state;

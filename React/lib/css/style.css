@@ -91,6 +91,12 @@ body {
   color: #ccc;
 }
 
+.pagination-sm > li > a {
+  width: 48px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 .modal-body > div > * {
   margin-bottom: 0px;
 }

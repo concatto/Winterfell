@@ -3,6 +3,11 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Panel, Grid, Row, Col, Media, Image, Glyphicon, Button } from 'react-bootstrap';
 import { createProfileHref } from '../utils';
+import TimeAgo from 'react-timeago';
+import brStrings from 'react-timeago/lib/language-strings/pt-br';
+import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
+
+const formatter = buildFormatter(brStrings);
 
 const Publication = ({author, timestamp, title, image, reactions, isOwn, onDelete}) => (
   <Panel className="post">
@@ -20,7 +25,7 @@ const Publication = ({author, timestamp, title, image, reactions, isOwn, onDelet
                 <strong>{author.name}</strong>
               </Media.Heading>
             </Link>
-            <p>{moment.unix(timestamp).fromNow()}</p>
+            <p><TimeAgo date={timestamp * 1000} formatter={formatter}/></p>
           </Media.Body>
         </Media>
       </Col>

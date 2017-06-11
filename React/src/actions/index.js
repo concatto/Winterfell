@@ -31,5 +31,9 @@ export const toggleFollowing = (id) => ({
   type: "TOGGLE_FOLLOWING", id
 });
 
+export const insertPublication = (data) => ({
+  type: "INSERT_PUBLICATION", data
+});
+
 export const search = (searchString) => push("/search?q=" + searchString);
 export const visitProfile = (id) => push(createProfileHref(id));

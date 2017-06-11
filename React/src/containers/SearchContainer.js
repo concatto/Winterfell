@@ -11,6 +11,7 @@ const stateMapper = (state, ownParams) => {
     searchString: query.q,
     results: state.search.results,
     working: state.search.working,
+    totalResults: state.search.totalResults || 0,
   };
 };
 
