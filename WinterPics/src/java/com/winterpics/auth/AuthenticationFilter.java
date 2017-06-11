@@ -1,5 +1,6 @@
 package com.winterpics.auth;
 
+import com.winterpics.entities.WinterUser;
 import java.io.IOException;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -48,9 +49,12 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         
-        if (userAuthenticator.userAuthenticated(httpRequest.getHeader("authorization"))){
+        try {
+            WinterUser winterUser = userAuthenticator.userAuthenticated(httpRequest.getHeader("authorization"));
+            httpRequest.getSession().setAttribute("winteruser", winterUser);
             chain.doFilter(request, response);
-        } else {
+            
+        } catch (UserAuthenticator.UserNotFoundException e) {
             httpResponse.setHeader("WWW-Authenticate", "Basic realm=\"Autenticação\"");
             httpResponse.sendError(401);
         }

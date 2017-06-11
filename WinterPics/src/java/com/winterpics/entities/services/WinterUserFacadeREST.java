@@ -1,10 +1,11 @@
-package com.winterpics.entities.service;
+package com.winterpics.entities.services;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
-import com.winterpics.entities.Reaction;
+import com.winterpics.entities.WinterUser;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,30 +14,31 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 @Stateless
-@Path("reaction")
-public class ReactionFacadeREST extends AbstractFacade<Reaction> {
+@Path("winteruser")
+public class WinterUserFacadeREST extends AbstractFacade<WinterUser> {
 
     private final EntityManager em;
 
-    public ReactionFacadeREST() {
-        super(Reaction.class);
+    public WinterUserFacadeREST() {
+        super(WinterUser.class);
         em = DefaultEntityManagerFactory.newDefaultEntityManager();
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Reaction entity) {
+    public void create(WinterUser entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, Reaction entity) {
+    public void edit(@PathParam("id") Long id, WinterUser entity) {
         super.edit(entity);
     }
 
@@ -49,21 +51,22 @@ public class ReactionFacadeREST extends AbstractFacade<Reaction> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Reaction find(@PathParam("id") Long id) {
+    public WinterUser find(@PathParam("id") Long id, @Context HttpServletRequest request) {
+        WinterUser currentUser = (WinterUser) request.getSession().getAttribute("winteruser");
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Reaction> findAll() {
+    public List<WinterUser> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Reaction> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<WinterUser> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 

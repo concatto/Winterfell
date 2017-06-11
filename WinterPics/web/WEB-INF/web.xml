@@ -2,7 +2,11 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <listener>
         <description>ServletContextListener</description>
-        <listener-class>org.netbeans.rest.application.config.ApplicationConfig</listener-class>
+        <listener-class>com.winterpics.rest.config.ServicesConfig</listener-class>
+    </listener>
+    <listener>
+        <description>ServletContextListener</description>
+        <listener-class>com.winterpics.rest.config.AuthenticationConfig</listener-class>
     </listener>
     <session-config>
         <session-timeout>

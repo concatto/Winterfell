@@ -1,4 +1,4 @@
-package com.winterpics.entities.service;
+package com.winterpics.entities.services;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.Publication;
