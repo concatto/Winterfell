@@ -17,7 +17,7 @@ const ProfileHeader = ({isSelf, isFollowing, id, name, avatar, following, action
     const buttonType = isFollowing ? "danger" : "primary";
     const buttonText = isFollowing ? "Parar de seguir" : "Seguir";
 
-    button = <Button bsStyle={buttonType} onClick={() => onToggleFollowing()}>{buttonText}</Button>;
+    button = <Button bsStyle={buttonType} onClick={() => onToggleFollowing(id)}>{buttonText}</Button>;
   }
 
   const avatarHandler = isSelf ? () => onEditAvatar(avatar) : null;

@@ -27,5 +27,9 @@ export const removePublication = (id) => ({
   type: "REMOVE_PUBLICATION", id
 });
 
+export const toggleFollowing = (id) => ({
+  type: "TOGGLE_FOLLOWING", id
+});
+
 export const search = (searchString) => push("/search?q=" + searchString);
 export const visitProfile = (id) => push(createProfileHref(id));

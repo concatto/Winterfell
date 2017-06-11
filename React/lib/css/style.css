@@ -59,11 +59,11 @@ body {
   margin: 0px auto 14px;
 }
 
-.publication-image img {
+.publication-image > * {
   cursor: pointer;
 }
 
-.publication-image img:hover {
+.publication-image > div:hover, .publication-image img:hover {
   opacity: 0.8;
 }
 
@@ -71,7 +71,24 @@ body {
   max-width: 100%;
   object-fit: cover;
   display: block;
+}
+
+.publication-image > * {
   margin: 30px auto;
+}
+
+.publication-image > div {
+  width: 208px;
+  height: 200px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.publication-image .glyphicon {
+  line-height: 188px;
+  font-size: 150px;
+  color: #ccc;
 }
 
 .modal-body > div > * {
@@ -87,14 +104,61 @@ body {
   overflow-y: auto;
 }
 
+.navbar-header {
+  float: left;
+}
+
+.navbar .input-group-addon {
+  width: auto;
+}
+
 .navbar-brand {
   display: flex;
   align-items: center;
   padding: 0px 15px;
 }
 
-.navbar-form .btn {
+.navbar > div .btn {
   margin-left: 10px;
+  float: right;
+}
+
+.phone-navbar.expanded.pull-right {
+  width: 100%;
+}
+
+.phone-navbar.expanded .input-group .input-group-addon {
+  width: 1%;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.phone-navbar div.navbar-form .input-group-addon {
+  width: auto;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.phone-navbar:not(.expanded) div.navbar-form input.form-control {
+  display: none;
+}
+
+.pull-right .navbar-form {
+  padding: 0px;
+  box-shadow: none;
+  margin-left: 0;
+  margin-right: 0;
+  height: 100%;
+  overflow: hidden;
+  display: block;
+  border: 0;
+}
+
+.navbar-form .form-group {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .navbar-form .form-control:focus {

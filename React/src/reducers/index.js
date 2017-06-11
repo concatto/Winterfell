@@ -99,6 +99,8 @@ const usersReducer = (state=users, action) => {
       return modifyUser(state, action.id, {name: action.name});
     case "MODIFY_AVATAR":
       return modifyUser(state, action.id, {avatar: action.image});
+    case "TOGGLE_FOLLOWING":
+      return modifyUser(state, action.id, {isFollowing: !state[action.id].isFollowing})
   }
   return state;
 };

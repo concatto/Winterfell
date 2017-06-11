@@ -6,16 +6,51 @@ import { createProfileHref } from '../utils';
 export default class NavigationBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {searchString: ""};
+    this.state = {
+      small: (window.innerWidth < 768),
+      expanded: false
+    };
+
+    this.handleResize = () => {
+      //Bootstrap xs
+      this.setState({small: (window.innerWidth < 768)});
+    };
   }
 
-  handleChange(e) {
-    this.setState({searchString: e.target.value});
+  componentDidMount() {
+    window.addEventListener("resize", this.handleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.handleResize);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.onSearch(this.state.searchString);
+    this.props.onSearch(this.input.value);
+  }
+
+  computeClassname() {
+    let name = "pull-right";
+    if (this.state.small) {
+      name += " phone-navbar";
+    }
+    if (this.state.expanded) {
+      name += " expanded";
+    }
+    return name;
+  }
+
+  handleSearchClick() {
+    if (this.state.small && !this.state.expanded) {
+      this.setState({expanded: true});
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.state.expanded) {
+      this.input.focus();
+    }
   }
 
   render() {
@@ -23,35 +58,35 @@ export default class NavigationBar extends React.Component {
 
     return (
       <Navbar fixedTop fluid>
-        <Navbar.Header>
+        <Navbar.Header className={this.state.expanded ? "hidden" : ""}>
           <Link to={createProfileHref(id)}>
             <Navbar.Brand>
               <Image src={avatar} circle/>
               <span>{name}</span>
             </Navbar.Brand>
           </Link>
-
-          <Navbar.Toggle/>
         </Navbar.Header>
 
-        <Navbar.Collapse>
-          <div className="pull-right">
-            <Navbar.Form>
-              <Form onSubmit={(e) => this.handleSubmit(e)}>
-                {withSearch &&
-                  <FormGroup>
-                    <InputGroup>
-                      <InputGroup.Addon><Glyphicon glyph="search"/></InputGroup.Addon>
-                      <FormControl onChange={(e) => this.handleChange(e)} type="text" placeholder="Pesquisar amigos"/>
-                    </InputGroup>
-                  </FormGroup>
-                }
-              </Form>
-            </Navbar.Form>
-
-            <Button className="navbar-btn">Sair</Button>
-          </div>
-        </Navbar.Collapse>
+        <div className={this.computeClassname()}>
+          <Button className="navbar-btn">Sair</Button>
+          <Navbar.Form>
+            <Form onSubmit={(e) => this.handleSubmit(e)}>
+              {withSearch &&
+                <FormGroup>
+                  <InputGroup>
+                    <FormControl type="text" placeholder="Pesquisar amigos"
+                      onBlur={() => this.setState({expanded: false})}
+                      inputRef={(r) => this.input = r}
+                    />
+                    <InputGroup.Addon onClick={(e) => this.handleSearchClick()}>
+                      <Glyphicon glyph="search"/>
+                    </InputGroup.Addon>
+                  </InputGroup>
+                </FormGroup>
+              }
+            </Form>
+          </Navbar.Form>
+        </div>
       </Navbar>
     );
   }

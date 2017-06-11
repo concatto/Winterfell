@@ -1,7 +1,7 @@
 import React from 'react';
 import BaseModal from './BaseModal';
 import FileChooser from '../FileChooser';
-import { Form, FormGroup, FormControl, Image } from 'react-bootstrap';
+import { Form, FormGroup, FormControl, Image, Glyphicon } from 'react-bootstrap';
 
 export default class NewPublication extends React.Component {
   constructor(props) {
@@ -40,6 +40,14 @@ export default class NewPublication extends React.Component {
     }
   }
 
+  computeContent() {
+    if (this.state.hasImage) {
+      return <Image src={this.state.image}/>;
+    } else {
+      return <div><Glyphicon glyph="picture"/></div>;
+    }
+  }
+
   render() {
     return (
       <BaseModal.Wrapper>
@@ -56,7 +64,7 @@ export default class NewPublication extends React.Component {
           </Form>
 
           <div className="publication-image" onClick={() => this.chooser.click()}>
-            <Image src={this.state.image} thumbnail={!this.state.hasImage}/>
+            {this.computeContent()}
           </div>
 
           <FileChooser refCallback={(c) => this.chooser = c}
