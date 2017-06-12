@@ -10,9 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("newuser")
-public class AuthenticationREST {
-
-//    private final UserAuthenticator userAuthenticator = new UserAuthenticator();
+public class NewUserREST {
     
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
@@ -27,12 +25,5 @@ public class AuthenticationREST {
         em.getTransaction().commit();
         em.close();
         return true;
-    }
-    
-    
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void login(){
-        
     }
 }
