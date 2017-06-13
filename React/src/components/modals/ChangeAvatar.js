@@ -19,14 +19,12 @@ export default class ChangeAvatar extends React.Component {
 
     reader.readAsDataURL(file);
   }
-    
-  confirmHandler() {
-      //this.props.onConfirm(this.state.changed ? {image: this.state.image} : undefined);
-      this.props.onError("Deu erro porque eu quis");
+
+  handleConfirm() {
+    this.props.onConfirm(this.state.changed ? {image: this.state.image} : undefined);
   }
 
   render() {
-
     return (
       <BaseModal.Wrapper>
         <BaseModal.Header>Alterar imagem</BaseModal.Header>
@@ -39,11 +37,11 @@ export default class ChangeAvatar extends React.Component {
         </BaseModal.Body>
 
         <BaseModal.Footer withCancel="Cancelar">
-          <BaseModal.ConfirmButton onClick={() => this.confirmHandler()} bsStyle="success">
+          <BaseModal.ConfirmButton onClick={() => this.handleConfirm()} bsStyle="success">
             Confirmar
           </BaseModal.ConfirmButton>
         </BaseModal.Footer>
       </BaseModal.Wrapper>
-    )
+    );
   }
 }
