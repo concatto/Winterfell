@@ -9,15 +9,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 @Stateless
 @Path("winteruser")
 public class WinterUserREST {
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public WinterUser getUser(@Context HttpServletRequest request){
+        return (WinterUser) request.getSession().getAttribute("winteruser");
+    }
     
     @PUT
     @Path("{action}")
