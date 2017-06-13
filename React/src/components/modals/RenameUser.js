@@ -5,16 +5,37 @@ import { Modal, Button, FormGroup, FormControl, Form } from 'react-bootstrap';
 export default class RenameUser extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {name: props.name};
+    this.state = {
+        name: props.name,
+        validation: this.testValidation(props.name),
+    };
   }
 
+  testValidation(value) {
+    if (value.length == 0) {
+        return null;
+    } else if (value.length > 20) {
+        return "error";
+    } else {
+        return "success";
+    }
+  }
+    
   handleChange(e) {
-    this.setState({name: e.target.value});
+    this.setState({
+        name: e.target.value,
+        validation: this.testValidation(e.target.value)
+    });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.onConfirm({name: this.state.name});
+    if (this.state.validation == "success") {
+        this.props.onConfirm({name: this.state.name});
+    } else {
+        console.log(this.props);
+        this.props.onError("Nome muito comprido.");
+    }
   }
 
   render() {
@@ -24,7 +45,7 @@ export default class RenameUser extends React.Component {
 
         <BaseModal.Body>
           <Form onSubmit={(e) => this.handleSubmit(e)}>
-            <FormGroup>
+            <FormGroup validationState={this.state.validation}>
               <FormControl
                 type="text"
                 placeholder="Novo nome"

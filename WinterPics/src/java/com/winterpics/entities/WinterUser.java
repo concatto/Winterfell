@@ -73,6 +73,7 @@ public class WinterUser implements Serializable {
         this.login = login;
     }
 
+    @XmlTransient
     public String getPass() {
         return pass;
     }

@@ -1,5 +1,6 @@
 import { push } from 'react-router-redux';
 import { createProfileHref } from '../utils';
+import Notifications from 'react-notification-system-redux';
 
 export const setPublicationFilter = (filterType) => ({
   type: "CHANGE_PUBLICATION_FILTER",
@@ -37,3 +38,16 @@ export const insertPublication = (data) => ({
 
 export const search = (searchString) => push("/search?q=" + searchString);
 export const visitProfile = (id) => push(createProfileHref(id));
+
+const notificationOptions = {
+  position: "bc",
+  autoDismiss: 2,
+};
+
+export const notifySuccess = (message) => (
+  Notifications.success({...notificationOptions, message})
+);
+
+export const notifyError = (message) => (
+  Notifications.error({...notificationOptions, message})
+);

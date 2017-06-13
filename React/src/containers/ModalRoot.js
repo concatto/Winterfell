@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { handleModalConfirmation, hideModal } from '../actions/modalActions';
+import { notifyError } from '../actions';
 import BaseModal from '../components/modals/BaseModal';
 
-const ModalRoot = ({modals, modalType, modalProps, onConfirm, onHide, onClose, shown, busy}) => {
+const ModalRoot = ({modals, modalType, modalProps, onConfirm, onHide, onError, shown, busy}) => {
   const SpecializedModal = modals[modalType];
 
   //If there is no modal to be shown, return an empty element
@@ -16,6 +17,7 @@ const ModalRoot = ({modals, modalType, modalProps, onConfirm, onHide, onClose, s
     ...modalProps,
     onConfirm: (payload) => onConfirm(modalType, payload),
     onHide: () => onHide(modalType),
+    onError
   };
 
   return (
@@ -36,6 +38,7 @@ const stateMapper = (state) => ({
 const dispatchMapper = (dispatch) => ({
   onConfirm: (type, payload) => dispatch(handleModalConfirmation(type, payload)),
   onHide: (type) => dispatch(hideModal(type)),
+  onError: (message) => dispatch(notifyError(message)),
 });
 
 export default connect(stateMapper, dispatchMapper)(ModalRoot);
