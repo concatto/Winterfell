@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 @Stateless
 @Path("login")
-public class LoginRest {
+public class LoginREST {
 
     private final UserAuthenticator userAuthenticator = new UserAuthenticator();
     

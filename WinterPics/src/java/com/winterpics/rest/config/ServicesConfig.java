@@ -13,7 +13,7 @@ public class ServicesConfig extends Application {
         resources.add(com.winterpics.entities.services.ReactionFacadeREST.class);
         resources.add(com.winterpics.entities.services.WinterUserFacadeREST.class);
         
-        resources.add(com.winterpics.entities.services.WinterUserREST.class);
+        resources.add(com.winterpics.services.WinterUserREST.class);
         return resources;
     }
 }

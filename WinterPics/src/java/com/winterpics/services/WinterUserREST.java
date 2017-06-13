@@ -1,9 +1,7 @@
-package com.winterpics.entities.services;
+package com.winterpics.services;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.WinterUser;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
