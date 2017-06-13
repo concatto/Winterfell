@@ -32,7 +32,7 @@ Rede Social para Compartilhamento de Imagens
              "pass": "666666",
            }
    ```
- * /services/winteruser/<action>
+ * /services/winteruser/\<action\>
    * action: changename|changephoto|changelogin|changepass|changeemail
    * Alteração de dados do Usuário;
    * PUT com Text/plain:
