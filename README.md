@@ -8,6 +8,7 @@ Rede Social para Compartilhamento de Imagens
     * Cadastro de novo usuário;
     * Post com Json;
     * Retorna true ou false;
+    * Content-Type: application/json 
     * Body: 
    ```json
         {
@@ -23,16 +24,25 @@ Rede Social para Compartilhamento de Imagens
    * Login de usuário;
    * Post com Json;
    * Retorna Id;
+   * Content-Type: application/json 
    * Body: 
    ```json
            {
-             "name": "Samuel Brati Favarin",
              "login": "samuelbfav",
              "pass": "666666",
-             "email": "a@b.com.br",
-             "photoPath": "./avatar.jpg"
            }
    ```
+ * /services/winteruser/<action>
+   * action: changename|changephoto|changelogin|changepass|changeemail
+   * Alteração de dados do Usuário;
+   * PUT com Text/plain:
+      * Obs.: No java recebe com "application/json", porém não há conversão para objeto, utilizando somente texto.
+   * Return true ou false;
+   * Content-Type: text/plain 
+      * application/json se não funcionar
+      
+ 
+   
 
 
 
