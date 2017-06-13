@@ -2,6 +2,7 @@ package com.winterpics.auth;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.WinterUser;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -9,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+@Stateless
 @Path("newuser")
 public class NewUserREST {
     

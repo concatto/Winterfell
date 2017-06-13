@@ -18,7 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 @Stateless
-@Path("winteruser")
+@Path("winterusers")
 public class WinterUserFacadeREST extends AbstractFacade<WinterUser> {
 
     private final EntityManager em;
