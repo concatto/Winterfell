@@ -37,11 +37,9 @@ Rede Social para Compartilhamento de Imagens
    * Header necessário `Authorization: Basic btoa(login:pass)`
       * btoa: Conversão para base64 no JavaScript
    * Alteração de dados do Usuário;
-   * PUT com Text/plain:
-      * Obs.: No java recebe com "application/json", porém não há conversão para objeto, utilizando somente texto.
+   * PUT com text/plain:
    * Return true ou false;
    * Content-Type: text/plain 
-      * application/json se não funcionar
 
 * /services/winteruser
    * GET 

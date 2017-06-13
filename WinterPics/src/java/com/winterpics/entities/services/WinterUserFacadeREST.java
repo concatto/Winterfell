@@ -51,8 +51,7 @@ public class WinterUserFacadeREST extends AbstractFacade<WinterUser> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public WinterUser find(@PathParam("id") Long id, @Context HttpServletRequest request) {
-        WinterUser currentUser = (WinterUser) request.getSession().getAttribute("winteruser");
+    public WinterUser find(@PathParam("id") Long id) {
         return super.find(id);
     }
 

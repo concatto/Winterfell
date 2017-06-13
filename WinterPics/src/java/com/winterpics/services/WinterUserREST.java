@@ -24,10 +24,10 @@ public class WinterUserREST {
     private static final Map<String,String> avaiableColumns = new HashMap<>();
     
     static {
-        avaiableColumns.put("changename", "name");
+        avaiableColumns.put("changename" , "name");
         avaiableColumns.put("changephoto", "photoPath");
         avaiableColumns.put("changelogin", "login");
-        avaiableColumns.put("changepass", "pass");
+        avaiableColumns.put("changepass" , "pass");
         avaiableColumns.put("changeemail", "email");
     }
     
@@ -39,7 +39,7 @@ public class WinterUserREST {
     
     @PUT
     @Path("{action}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
     public boolean edit(
             @PathParam("action") String action,
             String data,
