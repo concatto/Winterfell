@@ -51,7 +51,7 @@ public class AuthenticationFilter implements Filter {
         
         try {
             WinterUser winterUser = userAuthenticator.userAuthenticated(httpRequest.getHeader("authorization"));
-            httpRequest.getSession().setAttribute("winteruser", winterUser);
+            httpRequest.setAttribute("winteruser", winterUser);
             chain.doFilter(request, response);
             
         } catch (UserAuthenticator.UserNotFoundException e) {

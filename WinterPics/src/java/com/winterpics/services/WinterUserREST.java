@@ -2,6 +2,8 @@ package com.winterpics.services;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.WinterUser;
+import java.util.HashMap;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -19,10 +21,20 @@ import javax.ws.rs.core.MediaType;
 @Path("winteruser")
 public class WinterUserREST {
     
+    private static final Map<String,String> avaiableColumns = new HashMap<>();
+    
+    static {
+        avaiableColumns.put("changename", "name");
+        avaiableColumns.put("changephoto", "photoPath");
+        avaiableColumns.put("changelogin", "login");
+        avaiableColumns.put("changepass", "pass");
+        avaiableColumns.put("changeemail", "email");
+    }
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public WinterUser getUser(@Context HttpServletRequest request){
-        return (WinterUser) request.getSession().getAttribute("winteruser");
+        return (WinterUser) request.getAttribute("winteruser");
     }
     
     @PUT
@@ -33,7 +45,7 @@ public class WinterUserREST {
             String data,
             @Context HttpServletRequest request
     ){
-        WinterUser user = (WinterUser) request.getSession().getAttribute("winteruser");
+        WinterUser user = (WinterUser) request.getAttribute("winteruser");
         try {
             EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
             Query query = em.createQuery(
@@ -51,13 +63,9 @@ public class WinterUserREST {
     }
     
     
-    private String getColumn(String action) throws InvalidActionException {
-        switch (action){
-            case "changename"  : return "name";
-            case "changephoto" : return "photoPath";
-            case "changelogin" : return "login";
-            case "changepass"  : return "pass";
-            case "changeemail" : return "email";
+    private String getColumn(String action) throws InvalidActionException {        
+        if (avaiableColumns.containsKey(action)){
+            return avaiableColumns.get(action);
         }
         throw new InvalidActionException();
     }

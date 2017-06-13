@@ -1,5 +1,4 @@
-import Notifications from 'react-notification-system-redux';
-import { modifyName, modifyAvatar, removePublication, insertPublication } from './index';
+import { modifyName, modifyAvatar, removePublication, insertPublication, notifySuccess } from './index';
 
 export const startAsync = () => ({
   type: "ASYNC_START"
@@ -70,12 +69,3 @@ export const handleNewPublication = ({title, image}) => (dispatch, getState) => 
     dispatch(insertPublication(data));
   }, 1000);
 }
-
-const notificationOptions = {
-  position: "bc",
-  autoDismiss: 2,
-};
-
-const notifySuccess = (message) => (
-  Notifications.success({...notificationOptions, message})
-);
