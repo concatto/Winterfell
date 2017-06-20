@@ -4,7 +4,7 @@ import { openRename, openEditAvatar, openFollowing, openNewPublication } from '.
 import { toggleFollowing } from '../actions';
 
 const stateMapper = (state, ownProps) => ({
-  ...state.users[ownProps.id],
+  ...state.users.data[ownProps.id],
   ...ownProps
 });
 

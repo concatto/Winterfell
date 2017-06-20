@@ -3,6 +3,11 @@ import BaseModal from './BaseModal';
 import { Modal, Button, FormGroup, FormControl, Form } from 'react-bootstrap';
 
 export default class RenameUser extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {name: props.name};
+  }
+    
   handleChange(e) {
     this.setState({name: e.target.value});
   }

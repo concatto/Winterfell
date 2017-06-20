@@ -39,6 +39,13 @@ export const insertPublication = (data) => ({
 export const search = (searchString) => push("/search?q=" + searchString);
 export const visitProfile = (id) => push(createProfileHref(id));
 
+export const logOut = () => (dispatch) => {
+    dispatch({type: "LOG_OUT"});
+    dispatch(push("/home"));
+};
+
+export const displayAuthError = () => push("/unauthorized");
+
 const notificationOptions = {
   position: "bc",
   autoDismiss: 2,

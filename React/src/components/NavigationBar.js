@@ -18,6 +18,7 @@ export default class NavigationBar extends React.Component {
   }
 
   componentDidMount() {
+    this.props.fetchUser(this.props.id);
     window.addEventListener("resize", this.handleResize);
   }
 
@@ -54,7 +55,7 @@ export default class NavigationBar extends React.Component {
   }
 
   render() {
-    const { id, avatar, name, withSearch } = this.props;
+    const { id, avatar, name, withSearch, onLogout } = this.props;
 
     return (
       <Navbar fixedTop fluid>
@@ -68,7 +69,7 @@ export default class NavigationBar extends React.Component {
         </Navbar.Header>
 
         <div className={this.computeClassname()}>
-          <Button className="navbar-btn">Sair</Button>
+          <Button onClick={() => onLogout()} className="navbar-btn">Sair</Button>
           <Navbar.Form>
             <Form onSubmit={(e) => this.handleSubmit(e)}>
               {withSearch &&

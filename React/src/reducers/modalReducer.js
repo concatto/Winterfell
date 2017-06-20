@@ -21,17 +21,20 @@ const modalReducer = (state={shown: false}, action) => {
     }
   }
 
-  switch (action.type) {
-    case LOCATION_CHANGE:
-      return {shown: false};
-    case "ASYNC_START":
+  if (action.type == LOCATION_CHANGE) {
+    return {shown: false};
+  }
+  
+  if (action.type.startsWith("M_")) {
+    if (action.type.endsWith("_START")) {
       return {...state, busy: true};
-    case "ASYNC_FINISH":
+    } else if (action.type.endsWith("_FINISH")) {
       if (action.outcome == "SUCCESS") {
         state = hide(state);
       }
 
       return {...state, busy: false};
+    }
   }
 
   return state;

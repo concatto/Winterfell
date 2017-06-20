@@ -10,8 +10,8 @@ const collectPublications = (state) => {
 
     return {
       ...pub,
-      author: state.users[pub.author],
-      isOwn: state.currentUser == pub.author,
+      author: state.users.data[pub.author],
+      isOwn: state.currentUser.id == pub.author,
       reactions: {
         sum: pub.reactions.reduce((a, b) => (a + b), 0)
       }

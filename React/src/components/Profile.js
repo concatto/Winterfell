@@ -35,8 +35,15 @@ export default class Profile extends React.Component {
       this.props.onScrollBottom();
     }
   }
+  
+  componentWillMount() {
+    if (!this.props.authorized) {
+      this.props.onAuthFail();
+    }
+  }
 
   componentDidMount() {
+    this.props.fetchUser(this.props.id);
     document.addEventListener("scroll", this.scrollHandler);
   }
 
@@ -49,25 +56,55 @@ export default class Profile extends React.Component {
       window.scrollTo(0, 0);
     }
   }
+  
+  componentWillUpdate(props) {
+    if (!props.userData) {
+      props.fetchUser(props.id);
+    }
+  }
+  
+  getContent() {
+    const { id, isSelf, userData } = this.props;
+    console.log(this.props);
+    
+    if (!userData) {
+      return null;
+    }
+    
+    if (userData.fetching) {
+      return <div className="center-block"><div className="loader"></div></div>;
+    } else if (userData.fetched && userData.id) {
+      return (
+        <div>
+          <ProfileHeaderContainer isSelf={isSelf} id={id}/>
+
+          {isSelf &&
+            <PublicationSelectorContainer/>
+          }
+
+          <PublicationListContainer className={isSelf ? "in-self" : ""}/>
+        </div>
+      );
+    } else {
+      return <h2>Non ecziste</h2>
+    }
+  }
 
   render() {
     const { id, isSelf, notifications } = this.props;
 
+    if (!id) {
+      return null;
+    }
+    
     return (
       <div>
         <NavigationBarContainer withSearch/>
         <Grid fluid>
           <Row>
             <Col xs={12} md={8} mdOffset={2}>
-              {/* Profile header */}
-              <ProfileHeaderContainer isSelf={isSelf} id={id}/>
-
-              {/* Publication selector (all/own only) */}
-              {isSelf &&
-                <PublicationSelectorContainer/>
-              }
-
-              <PublicationListContainer className={isSelf ? "in-self" : ""}/>
+              {this.getContent()}
+              
               <ModalRoot modals={this.modals}/>
             </Col>
           </Row>

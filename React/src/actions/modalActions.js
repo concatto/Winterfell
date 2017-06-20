@@ -38,8 +38,8 @@ export const closeModal = (type) => ({
 
 export const openFollowing = (id) => {
   return (dispatch, getState) => {
-    const following = getState().users[id].following.map((followingId) => {
-      return getState().users[followingId];
+    const following = getState().users.data[id].following.map((followingId) => {
+      return getState().users.data[followingId];
     });
 
     dispatch(openModal("FOLLOWING", {following}));

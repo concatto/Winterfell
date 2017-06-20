@@ -4,39 +4,48 @@ import { reducer as notifications } from 'react-notification-system-redux';
 import modalReducer from './modalReducer.js'
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-const currentUser = '30';
+const currentUser = JSON.parse(localStorage.getItem("USER_CREDENTIALS"));
+
 const users = {
-  '50': {
-    id: 50,
-    avatar: "/assets/avatar.jpg",
-    name: "Vinícius Almeida dos Santos",
-    publications: 50,
-    following: [30, 70],
-    isFollowing: true,
-  },
-  '70': {
-    id: 70,
-    avatar: "/assets/avatar.jpg",
-    name: "Vinícius Machado",
-    publications: 51,
-    following: [99, 30],
-    isFollowing: false,
-  },
-  '99': {
-    id: 99,
-    avatar: "/assets/avatar.jpg",
-    name: "Halersson Paris",
-    publications: 5,
-    following: [30, 70, 50],
-    isFollowing: true,
-  },
-  '30': {
-    id: 30,
-    avatar: "/assets/avatar.jpg",
-    name: "Miguel Copatti",
-    publications: 1,
-    following: [99, 50],
-    isFollowing: true,
+  fetching: false,
+  fetched: false,
+  data: {
+    '50': {
+      id: 50,
+      avatar: "/assets/avatar.jpg",
+      name: "Vinícius Almeida dos Santos",
+      publications: 50,
+      following: [30, 70],
+      isFollowing: true,
+      fetched: true,
+    },
+    '70': {
+      id: 70,
+      avatar: "/assets/avatar.jpg",
+      name: "Vinícius Machado",
+      publications: 51,
+      following: [99, 30],
+      isFollowing: false,
+      fetched: true,
+    },
+    '99': {
+      id: 99,
+      avatar: "/assets/avatar.jpg",
+      name: "Halersson Paris",
+      publications: 5,
+      following: [30, 70, 50],
+      isFollowing: true,
+      fetched: true,
+    },
+    '30': {
+      id: 30,
+      avatar: "/assets/avatar.jpg",
+      name: "Miguel Copatti",
+      publications: 1,
+      following: [99, 50],
+      isFollowing: true,
+      fetched: true,
+    }
   }
 };
 
@@ -84,13 +93,23 @@ const initialUiState = {
 };
 
 const currentUserReducer = (state=currentUser, action) => {
+  switch (action.type) {
+    case "LOG_IN":
+      localStorage.setItem("USER_CREDENTIALS", JSON.stringify(action.payload));
+      return action.payload;
+    case "LOG_OUT":
+      localStorage.removeItem("USER_CREDENTIALS");
+      return {};
+  }
+  
   return state;
 };
 
 const modifyUser = (state, id, properties) => {
-  const modifiedUser = {...state[id], ...properties};
-
-  return {...state, [id]: modifiedUser};
+  const data = {...state.data};
+  data[id] = {...data[id], ...properties};
+  
+  return {...state, data};
 };
 
 const usersReducer = (state=users, action) => {
@@ -101,6 +120,12 @@ const usersReducer = (state=users, action) => {
       return modifyUser(state, action.id, {avatar: action.image});
     case "TOGGLE_FOLLOWING":
       return modifyUser(state, action.id, {isFollowing: !state[action.id].isFollowing})
+    case "FETCH_USER_START":
+      return modifyUser(state, action.payload.id, {fetching: true, fetched: false});
+    case "FETCH_USER_FINISH":
+      return modifyUser(state, action.payload.id, {fetching: false, fetched: true});
+    case "INSERT_USER":
+      return modifyUser(state, action.payload.id, action.payload);
   }
   return state;
 };
@@ -130,7 +155,7 @@ const searchReducer = (state={}, action) => {
   switch (action.type) {
     case LOCATION_CHANGE:
       return {};
-    case "ASYNC_START":
+    case "SEARCH_START":
       return {working: true};
     case "SEARCH_SUCCESS":
       return {results: action.results, working: false, totalResults: action.total};
