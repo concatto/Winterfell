@@ -24,53 +24,40 @@ export default class Profile extends React.Component {
       "EDIT_AVATAR": ChangeAvatar,
       "NEW_PUBLICATION": NewPublication,
     };
-
-    this.scrollHandler = this.handleScroll.bind(this);
   }
 
-  handleScroll(e) {
-    const height = document.body.scrollTop + window.innerHeight;
-
-    if (document.body.scrollHeight === height) {
-      this.props.onScrollBottom();
-    }
-  }
-  
   componentWillMount() {
     if (!this.props.authorized) {
       this.props.onAuthFail();
     }
   }
 
+  shouldFetch(props) {
+    const val = !props.isSelf && (!props.userData || !props.userData.id) && this.props.authorized;
+    console.log(props);
+    console.log(val);
+    return val;
+  }
+
   componentDidMount() {
-    this.props.fetchUser(this.props.id);
-    document.addEventListener("scroll", this.scrollHandler);
+    if (this.shouldFetch(this.props)) {
+      this.props.fetchUser(this.props.id);
+    }
   }
-
-  componentWillUnmount() {
-    document.removeEventListener("scroll", this.scrollHandler);
-  }
-
+  
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       window.scrollTo(0, 0);
     }
   }
-  
-  componentWillUpdate(props) {
-    if (!props.userData) {
-      props.fetchUser(props.id);
-    }
-  }
-  
+
   getContent() {
     const { id, isSelf, userData } = this.props;
-    console.log(this.props);
-    
+
     if (!userData) {
       return null;
     }
-    
+
     if (userData.fetching) {
       return <div className="center-block"><div className="loader"></div></div>;
     } else if (userData.fetched && userData.id) {
@@ -81,22 +68,20 @@ export default class Profile extends React.Component {
           {isSelf &&
             <PublicationSelectorContainer/>
           }
-
-          <PublicationListContainer className={isSelf ? "in-self" : ""}/>
         </div>
       );
     } else {
-      return <h2>Non ecziste</h2>
+      return <div className="text-center"><h2>Non ecziste</h2></div>;
     }
   }
 
   render() {
-    const { id, isSelf, notifications } = this.props;
+    const { id, isSelf, notifications, authorized } = this.props;
 
-    if (!id) {
+    if (!authorized) {
       return null;
     }
-    
+
     return (
       <div>
         <NavigationBarContainer withSearch/>
@@ -104,7 +89,9 @@ export default class Profile extends React.Component {
           <Row>
             <Col xs={12} md={8} mdOffset={2}>
               {this.getContent()}
-              
+
+              <PublicationListContainer className={isSelf ? "in-self" : ""}/>
+
               <ModalRoot modals={this.modals}/>
             </Col>
           </Row>

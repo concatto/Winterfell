@@ -24,6 +24,7 @@
     "webpack": "^2.6.1"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "prop-types": "^15.5.10",
     "query-string": "^4.3.4",

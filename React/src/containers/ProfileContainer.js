@@ -4,15 +4,15 @@ import { loadMorePublications, displayAuthError } from '../actions';
 import { fetchUser } from '../actions/asyncActions';
 import { withRouter } from 'react-router-dom';
 
-const stateMapper = (state, ownParams) => {
+const stateMapper = (state, ownProps) => {
   if (!state.currentUser) {
     return {
       authorized: false
     }
   }
-  
-  const { id = state.currentUser.id } = ownParams.match.params;
-  
+
+  const { id = state.currentUser.id } = ownProps.match.params;
+
   return {
     id,
     isSelf: state.currentUser.id == id,

@@ -1,13 +1,15 @@
 import { connect } from 'react-redux';
 import { openDeletion } from '../actions/modalActions';
+import { fetchPublications, fetchFeed } from '../actions/asyncActions';
 import PublicationList from '../components/PublicationList';
+import { withRouter } from 'react-router-dom';
 
-const collectPublications = (state) => {
-  const sorter = (a, b) => state.publications[a].timestamp < state.publications[b].timestamp;
+const enrichPublications = (state) => {
+  if (!state.publications.data) {
+    return undefined;
+  }
 
-  const pubs = Object.keys(state.publications).sort(sorter).map((key) => {
-    var pub = state.publications[key];
-
+  return state.publications.data.map((pub) => {
     return {
       ...pub,
       author: state.users.data[pub.author],
@@ -17,22 +19,27 @@ const collectPublications = (state) => {
       }
     };
   });
-
-  if (state.ui.publicationFilterType === "OWN_PUBLICATIONS") {
-    return pubs.filter((pub) => pub.isOwn);
-  }
-
-  return pubs;
 };
 
-const stateMapper = (state) => ({
-  publications: collectPublications(state)
-});
+const stateMapper = (state, ownProps) => {
+  const { id = state.currentUser.id } = ownProps.match.params;
+
+  return {
+    id,
+    fetching: state.publications.fetching,
+    fetched: state.publications.fetched,
+    data: enrichPublications(state),
+    ...ownProps,
+    isFeed: state.ui.publicationFilterType === "ALL_PUBLICATIONS",
+  }
+};
 
 const dispatchMapper = (dispatch) => ({
   onDelete: (id) => dispatch(openDeletion(id)),
+  fetchPublications: (id) => dispatch(fetchPublications(id)),
+  fetchFeed: () => dispatch(fetchFeed()),
 });
 
-const PublicationListContainer = connect(stateMapper, dispatchMapper)(PublicationList);
+const PublicationListContainer = withRouter(connect(stateMapper, dispatchMapper)(PublicationList));
 
 export default PublicationListContainer;

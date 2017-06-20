@@ -11,13 +11,15 @@ const stateMapper = (state, ownProps) => {
       id: state.currentUser.id,
       avatar: null,
       name: "",
-    }
+      shouldFetch: true,
+    };
   }
-  
+
   return {
     ...state.users.data[state.currentUser.id],
     ...ownProps,
-  }
+    shouldFetch: false,
+  };
 };
 
 const dispatchMapper = (dispatch) => ({

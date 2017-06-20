@@ -50,42 +50,44 @@ const users = {
 };
 
 const publications = {
-  99: {
-    author: 30,
-    timestamp: 1492061255,
-    title: "Prova de que o React funciona",
-    image: "/assets/react.png",
-    reactions: [100, 184, 28, 81, 72, 116, 131, 177, 47],
-    ownReaction: 8,
-    id: 99
-  },
-  233: {
-    author: 50,
-    timestamp: 1492060255,
-    title: "Prova de que o React funciona",
-    image: "/assets/react.png",
-    reactions: [119, 52, 185, 67, 112, 189, 36, 166, 32],
-    ownReaction: 3,
-    id: 233
-  },
-  177: {
-    author: 99,
-    timestamp: 1492058255,
-    title: "Prova de que o React funciona",
-    image: "/assets/react.png",
-    reactions: [38, 81, 96, 177, 81, 196, 63, 116, 166],
-    ownReaction: null,
-    id: 177
-  },
-  123: {
-    author: 30,
-    timestamp: 1492061254,
-    title: "Prova de que o React funciona e deleta direito",
-    image: "/assets/react.png",
-    reactions: [188, 24, 111, 20, 29, 143, 92, 56, 154],
-    ownReaction: 1,
-    id: 123
-  }
+  fetching: false,
+  fetched: false,
+  data: [],
+  secretData: [
+    {
+      author: 30,
+      timestamp: 1492061255,
+      title: "Prova de que o React funciona",
+      image: "/assets/react.png",
+      reactions: [100, 184, 28, 81, 72, 116, 131, 177, 47],
+      ownReaction: 8,
+      id: 99
+    }, {
+      author: 50,
+      timestamp: 1492060255,
+      title: "Prova de que o React funciona",
+      image: "/assets/react.png",
+      reactions: [119, 52, 185, 67, 112, 189, 36, 166, 32],
+      ownReaction: 3,
+      id: 233
+    }, {
+      author: 99,
+      timestamp: 1492058255,
+      title: "Prova de que o React funciona",
+      image: "/assets/react.png",
+      reactions: [38, 81, 96, 177, 81, 196, 63, 116, 166],
+      ownReaction: null,
+      id: 177
+    }, {
+      author: 30,
+      timestamp: 1492061254,
+      title: "Prova de que o React funciona e deleta direito",
+      image: "/assets/react.png",
+      reactions: [188, 24, 111, 20, 29, 143, 92, 56, 154],
+      ownReaction: 1,
+      id: 123
+    }
+  ]
 };
 
 const initialUiState = {
@@ -101,14 +103,14 @@ const currentUserReducer = (state=currentUser, action) => {
       localStorage.removeItem("USER_CREDENTIALS");
       return {};
   }
-  
+
   return state;
 };
 
 const modifyUser = (state, id, properties) => {
   const data = {...state.data};
   data[id] = {...data[id], ...properties};
-  
+
   return {...state, data};
 };
 
@@ -120,25 +122,33 @@ const usersReducer = (state=users, action) => {
       return modifyUser(state, action.id, {avatar: action.image});
     case "TOGGLE_FOLLOWING":
       return modifyUser(state, action.id, {isFollowing: !state[action.id].isFollowing})
-    case "FETCH_USER_START":
-      return modifyUser(state, action.payload.id, {fetching: true, fetched: false});
-    case "FETCH_USER_FINISH":
-      return modifyUser(state, action.payload.id, {fetching: false, fetched: true});
+    case "PREPARE_USER":
+      return modifyUser(state, action.id, {fetching: true, fetched: false});
     case "INSERT_USER":
-      return modifyUser(state, action.payload.id, action.payload);
+      return modifyUser(state, action.payload.id, {...action.payload, fetching: false, fetched: true});
   }
   return state;
 };
 
 const publicationsReducer = (state=publications, action) => {
   switch (action.type) {
+    case "FETCH_PUBLICATIONS_START":
+      return {...state, fetching: true, fetched: false};
+    case "FETCH_PUBLICATIONS_FINISH":
+      return {...state, fetching: false, fetched: true};
     case "INSERT_PUBLICATION":
-      return {...state, [action.data.id]: action.data};
+      return {...state, data: action.data.concat(state.data)};
+    case "INSERT_PUBLICATION_SET":
+      return {...state, data: state.data.concat(action.payload)};
+    case "CHANGE_PUBLICATION_FILTER":
+    case LOCATION_CHANGE:
+      return publications; //Hard reset
     case "REMOVE_PUBLICATION":
       state = {...state};
-      delete state[action.id];
+      delete state.data[action.id];
       return state;
   }
+
   return state;
 }
 

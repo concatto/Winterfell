@@ -18,7 +18,9 @@ export default class NavigationBar extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchUser(this.props.id);
+    if (this.props.shouldFetch) {
+      this.props.fetchUser(this.props.id);
+    }
     window.addEventListener("resize", this.handleResize);
   }
 

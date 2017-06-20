@@ -1,45 +1,36 @@
 import { modifyName, modifyAvatar, removePublication, insertPublication, notifySuccess } from './index';
 
-export const startAsync = (name, payload) => ({
-  type: name + "_START", payload
+export const startAsync = (name) => ({
+  type: name + "_START"
 });
 
-export const finishAsync = (name, outcome, payload) => ({
-  type: name + "_FINISH", outcome, payload
+export const finishAsync = (name) => ({
+  type: name + "_FINISH"
 });
 
 export const handleRename = ({name}) => (dispatch, getState) => {
-  dispatch(startAsync("M_RENAME"));
-  setTimeout(() => {
-    dispatch(finishAsync("M_RENAME", "SUCCESS"));
+  makeRequest(dispatch, "post", "", "M_RENAME", () => {
     dispatch(notifySuccess("Seu nome foi alterado com sucesso."));
     dispatch(modifyName(name, getState().currentUser.id));
-  }, 1000);
+  });
 };
 
 export const handleDeletion = ({id}) => (dispatch) => {
-  dispatch(startAsync("M_DELETION"));
-  setTimeout(() => {
-    dispatch(finishAsync("M_DELETION", "SUCCESS"));
+  makeRequest(dispatch, "post", "", "M_DELETION", () => {
     dispatch(notifySuccess("Publicação excluída com sucesso."));
     dispatch(removePublication(id));
-  }, 1000);
+  });
 }
 
 export const handleEditAvatar = ({image}) => (dispatch, getState) => {
-  dispatch(startAsync("M_EDIT_AVATAR"));
-  setTimeout(() => {
-    dispatch(finishAsync("M_EDIT_AVATAR", "SUCCESS"));
+  makeRequest(dispatch, "post", "", "M_EDIT_AVATAR", () => {
     dispatch(notifySuccess("Sua imagem foi alterada com sucesso."));
     dispatch(modifyAvatar(image, getState().currentUser.id));
-  }, 1000);
+  });
 }
 
 export const handleSearch = (searchString) => (dispatch, getState) => {
-  dispatch(startAsync("SEARCH"));
-  setTimeout(() => {
-    dispatch(finishAsync("SEARCH", "SUCCESS"));
-
+  makeRequest(dispatch, "get", "", "SEARCH", () => {
     const users = Object.values(getState().users.data);
 
     dispatch({
@@ -47,15 +38,11 @@ export const handleSearch = (searchString) => (dispatch, getState) => {
       results: users,
       total: Math.ceil(users.length / 10),
     });
-  }, 1000);
+  });
 }
 
 export const handleNewPublication = ({title, image}) => (dispatch, getState) => {
-  dispatch(startAsync("M_NEW_PUBLICATION"));
-  setTimeout(() => {
-    dispatch(finishAsync("M_NEW_PUBLICATION", "SUCCESS"));
-    dispatch(notifySuccess("Publicação realizada com sucesso."));
-
+  makeRequest(dispatch, "post", "", "M_NEW_PUBLICATION", () => {
     const data = {
       author: getState().currentUser.id,
       timestamp: Math.floor(Date.now() / 1000),
@@ -67,15 +54,13 @@ export const handleNewPublication = ({title, image}) => (dispatch, getState) => 
     };
 
     dispatch(insertPublication(data));
-  }, 1000);
+    dispatch(notifySuccess("Publicação realizada com sucesso."));
+  });
 }
 
-export const authenticate = ({user, password}) => (dispatch, getState) => {
-  dispatch(startAsync("AUTH"));
-  const credentials = btoa(user + ":" + password);
-    
-  setTimeout(() => {
-    dispatch(finishAsync("AUTH", "SUCCESS"));
+export const authenticate = ({user, password}) => (dispatch) => {
+  makeRequest(dispatch, "post", "", "AUTH", () => {
+    const credentials = btoa(user + ":" + password);
 
     dispatch({
       type: "LOG_IN",
@@ -84,29 +69,48 @@ export const authenticate = ({user, password}) => (dispatch, getState) => {
         credentials
       }
     });
-  }, 1000);
+  });
 }
 
 export const fetchUser = (id) => (dispatch, getState) => {
-  if (getState().users.data[id] && getState().users.data[id].id) {
-    dispatch(finishAsync("FETCH_USER", "SUCCESS", {id}));
-    return;
-  }
-  
-  dispatch(startAsync("FETCH_USER", {id}));
-  setTimeout(() => {    
+  dispatch({type: "PREPARE_USER", id});
+
+  makeRequest(dispatch, "get", "", "FETCH_USER", () => {
+    const data = {
+      id,
+      avatar: "/assets/avatar.jpg",
+      name: "Aquele que voltou do além",
+      publications: 50,
+      following: [30, 70],
+      isFollowing: true,
+    };
+
     dispatch({
       type: "INSERT_USER",
-      payload: {
-        id,
-        avatar: "/assets/avatar.jpg",
-        name: "Aquele que voltou do além",
-        publications: 50,
-        following: [30, 70],
-        isFollowing: true,
-      }
+      payload: data
     });
-    
-    dispatch(finishAsync("FETCH_USER", "SUCCESS", {id}));
+  });
+}
+
+export const fetchPublications = (id) => (dispatch, getState) => {
+  makeRequest(dispatch, "get", "", "FETCH_PUBLICATIONS", (response) => {
+    dispatch({
+      type: "INSERT_PUBLICATION_SET",
+      payload: getState().publications.secretData
+    });
+  });
+}
+
+export const fetchFeed = () => (dispatch) => {
+  makeRequest(dispatch, "get", "", "FETCH_PUBLICATIONS", (response) => {
+    //Despachar algo como SET_PUBLICATIONS. Tratamento: inserir usuários que vieram!
+  });
+}
+
+const makeRequest = (dispatch, method, url, name, onSuccess) => {
+  dispatch(startAsync(name));
+  setTimeout(() => {
+    dispatch(finishAsync(name));
+    onSuccess();
   }, 1000);
 }
