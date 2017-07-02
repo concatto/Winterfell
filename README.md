@@ -6,7 +6,7 @@ Rede Social para Compartilhamento de Imagens
 #### Rest
 * /authentication/newuser
     * Cadastro de novo usuário;
-    * Post com Json;
+    * POST com Json;
     * Retorna true ou false;
     * Content-Type: application/json 
     * Body: 
@@ -16,22 +16,46 @@ Rede Social para Compartilhamento de Imagens
           "login": "samuelbfav",
           "pass": "666666",
           "email": "a@b.com.br",
-          "photoPath": "./avatar.jpg"
+          "photopath": "./avatar.jpg"
         }
    ```
-
-* /authenticatin/login
-   * Login de usuário;
-   * Post com Json;
-   * Retorna Id;
-   * Content-Type: application/json 
-   * Body: 
+   
+* /services/winteruser
+   * Login de usuário e obtenção de dados do usuário
+   * GET
+   * Header necessário `Authorization: Basic btoa(login:pass)`
+      * btoa: Conversão para base64 no JavaScript
+   * Retorna dados do usuário:
    ```json
-           {
-             "login": "samuelbfav",
-             "pass": "666666",
-           }
+      {
+          "email": "teste2@teste2.br",
+          "id": 102,
+          "login": "teste 2",
+          "nFollowing": 0,
+          "name": "Teste 2",
+          "photopath": "./teste.jpg"
+      }
    ```
+   
+* /services/winteruser/{otherID}
+   * Obtenção de dados de outro usuário de acordo com ID
+   * GET
+   * Header necessário `Authorization: Basic btoa(login:pass)`
+      * btoa: Conversão para base64 no JavaScript
+   * Retorna dados do usuário:
+   ```json
+      {
+          "email": "teste2@teste2.br",
+          "id": 102,
+          "isFollowing": false,
+          "login": "teste 2",
+          "nFollowing": 0,
+          "nPublications": 1,
+          "name": "Teste 2",
+          "photopath": "./teste.jpg"
+      }
+   ```
+   
  * /services/winteruser/\<action\>
    * action: changename|changephoto|changelogin|changepass|changeemail
    * Header necessário `Authorization: Basic btoa(login:pass)`
@@ -41,15 +65,85 @@ Rede Social para Compartilhamento de Imagens
    * Return true ou false;
    * Content-Type: text/plain 
 
-* /services/winteruser
-   * GET 
+
+* /services/publications[/{offset}/{limit}]
+   * GET
    * Header necessário `Authorization: Basic btoa(login:pass)`
       * btoa: Conversão para base64 no JavaScript
-   * Retorna Json com os dados do usuário 
-      
- 
- 
-   
+   * Retorna uma lista de publicações do usuário:
+   ```json
+      [
+          {
+              "author": {
+                  "email": "a@b",
+                  "id": 51,
+                  "login": "viniciusas",
+                  "nFollowing": 1,
+                  "nPublications": 1,
+                  "name": "Vinicius",
+                  "photopath": "/"
+              },
+              "id": 1,
+              "imagepath": "/image.png",
+              "moment": "2017-06-19T22:29:56.134-03:00",
+              "reactions": [],
+              "title": "TITULO"
+          }
+      ]
+   ```
+* /services/publications/otherID[/{offset}/{limit}]
+   * GET
+   * Header necessário `Authorization: Basic btoa(login:pass)`
+      * btoa: Conversão para base64 no JavaScript
+   * Retorna uma lista de publicações do outro usuário:
+   ```json
+      [
+          {
+              "author": {
+                  "email": "a@b",
+                  "id": 51,
+                  "isFollowing": true,
+                  "login": "viniciusas",
+                  "nFollowing": 1,
+                  "nPublications": 1,
+                  "name": "Vinicius",
+                  "photopath": "/"
+              },
+              "id": 1,
+              "imagepath": "/image.png",
+              "moment": "2017-06-19T22:29:56.134-03:00",
+              "reactions": [],
+              "title": "TITULO"
+          }
+      ]
+   ```
+
+* /services/feed/{offset}/{limit}
+   * GET
+   * Header necessário `Authorization: Basic btoa(login:pass)`
+      * btoa: Conversão para base64 no JavaScript
+   * Retorna uma lista de publicações que compõe o feed:
+   ```json
+      [
+          {
+              "author": {
+                  "email": "a@b",
+                  "id": 51,
+                  "isFollowing": true,
+                  "login": "viniciusas",
+                  "nFollowing": 1,
+                  "nPublications": 1,
+                  "name": "Vinicius",
+                  "photopath": "/"
+              },
+              "id": 1,
+              "imagepath": "/image.png",
+              "moment": "2017-06-19T22:29:56.134-03:00",
+              "reactions": [],
+              "title": "TITULO"
+          }
+      ]
+   ```
 
 
 
