@@ -45,7 +45,8 @@ public class FeedREST {
             + "FROM WinterUser u "
             + "JOIN u.following f "
             + "JOIN f.publications p "
-            + "WHERE u = :user OR p.author = :user"
+            + "WHERE u = :user OR p.author = :user "
+            + "ORDER BY p.moment DESC"
         )
         .setParameter("user", user)
         .setFirstResult(offset)
