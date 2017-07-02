@@ -1,30 +1,60 @@
 package com.winterpics.entities;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
+@Table(name = "reaction")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Reaction.findAll", query = "SELECT r FROM Reaction r")
+    , @NamedQuery(name = "Reaction.findByPublication", query = "SELECT r FROM Reaction r WHERE r.publication.id = :publication_id")
+    , @NamedQuery(name = "Reaction.findById", query = "SELECT r FROM Reaction r WHERE r.id = :id")
+    , @NamedQuery(name = "Reaction.findByType", query = "SELECT r FROM Reaction r WHERE r.type = :type")})
 public class Reaction implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Basic(optional = false)
+    @Column(name = "id", nullable = false)
     private Long id;
     
-    @Column(nullable = false)
+    @Basic(optional = false)
+    @Column(name = "type", nullable = false)
     private int type;
     
-    @ManyToOne
-    private WinterUser author;
-    
+    @JoinColumn(name = "publication_id", referencedColumnName = "id")
     @ManyToOne
     private Publication publication;
+    
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @ManyToOne
+    private WinterUser author;
+
+    public Reaction() {
+    }
+
+    public Reaction(Long id) {
+        this.id = id;
+    }
+
+    public Reaction(Long id, int type) {
+        this.id = id;
+        this.type = type;
+    }
 
     public Long getId() {
         return id;
@@ -32,6 +62,30 @@ public class Reaction implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+    
+    public Publication getPublication() {
+        return publication;
+    }
+
+    public void setPublication(Publication publication) {
+        this.publication = publication;
+    }
+
+    public WinterUser getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(WinterUser author) {
+        this.author = author;
     }
 
     @Override
@@ -56,31 +110,7 @@ public class Reaction implements Serializable {
 
     @Override
     public String toString() {
-        return "com.winterpics.Reaction[ id=" + id + " ]";
+        return "entities.Reaction[ id=" + id + " ]";
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public WinterUser getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(WinterUser author) {
-        this.author = author;
-    }
-
-    public Publication getPublication() {
-        return publication;
-    }
-
-    public void setPublication(Publication publication) {
-        this.publication = publication;
-    }
-    
 }

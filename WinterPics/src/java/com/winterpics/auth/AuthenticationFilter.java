@@ -57,6 +57,8 @@ public class AuthenticationFilter implements Filter {
         } catch (UserAuthenticator.UserNotFoundException e) {
             httpResponse.setHeader("WWW-Authenticate", "Basic realm=\"Autenticação\"");
             httpResponse.sendError(401);
+        } catch (Exception e){
+            e.printStackTrace();
         }
         
     }

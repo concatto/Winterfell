@@ -9,11 +9,11 @@ public class ServicesConfig extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
-        resources.add(com.winterpics.entities.services.PublicationFacadeREST.class);
-        resources.add(com.winterpics.entities.services.ReactionFacadeREST.class);
-        resources.add(com.winterpics.entities.services.WinterUserFacadeREST.class);
-        
         resources.add(com.winterpics.services.WinterUserREST.class);
+        resources.add(com.winterpics.services.PublicationsREST.class);
+        resources.add(com.winterpics.services.FeedREST.class);
+        resources.add(com.winterpics.services.FollowingREST.class);
+        resources.add(com.winterpics.services.ReactionREST.class);
         return resources;
     }
 }

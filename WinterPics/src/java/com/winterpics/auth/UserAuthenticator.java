@@ -11,10 +11,7 @@ import javax.persistence.Query;
 
 public class UserAuthenticator {
 
-    private final PasswordConverter passwordConverter;
-
     public UserAuthenticator() {
-        passwordConverter = new PasswordConverter();
     }
 
     public WinterUser userAuthenticated(String authString) throws IOException, UserNotFoundException {

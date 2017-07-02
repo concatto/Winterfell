@@ -10,7 +10,6 @@ public class AuthenticationConfig extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
         resources.add(com.winterpics.auth.NewUserREST.class);
-        resources.add(com.winterpics.auth.LoginREST.class);
         return resources;
     }
 }

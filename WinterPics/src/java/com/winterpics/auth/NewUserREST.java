@@ -21,11 +21,17 @@ public class NewUserREST {
         if (entity == null){
             return false;
         }
-        EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
-        em.getTransaction().begin();
-        em.persist(entity);
-        em.getTransaction().commit();
-        em.close();
-        return true;
+        try {
+            EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
+            em.getTransaction().begin();
+            em.persist(entity);
+            em.flush();
+            em.getTransaction().commit();
+            em.close();
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }

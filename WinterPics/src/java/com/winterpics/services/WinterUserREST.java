@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -25,7 +26,7 @@ public class WinterUserREST {
     
     static {
         avaiableColumns.put("changename" , "name");
-        avaiableColumns.put("changephoto", "photoPath");
+        avaiableColumns.put("changephoto", "photopath");
         avaiableColumns.put("changelogin", "login");
         avaiableColumns.put("changepass" , "pass");
         avaiableColumns.put("changeemail", "email");
@@ -36,6 +37,31 @@ public class WinterUserREST {
     public WinterUser getUser(@Context HttpServletRequest request){
         return (WinterUser) request.getAttribute("winteruser");
     }
+    
+    @GET
+    @Path("{otherID}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public WinterUser getOtherUser(
+            @PathParam("otherID") long otherID,
+            @Context HttpServletRequest request
+    ){
+        WinterUser user = (WinterUser) request.getAttribute("winteruser");
+        EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
+        Query query = em.createNamedQuery("WinterUser.findById");
+        query.setParameter("id", otherID);
+        try {
+            WinterUser other = (WinterUser) query.getSingleResult();
+            Query followingQuery = em.createQuery(
+                    "SELECT COUNT(f.id) FROM WinterUser u JOIN u.following f WHERE u=:user AND f=:other"
+                )
+                    .setParameter("user", user)
+                    .setParameter("other", other);
+            other.setisFollowing( (long) followingQuery.getSingleResult() > 0 );
+            return other;
+        } catch (NoResultException e){}
+        return null;
+    }
+    
     
     @PUT
     @Path("{action}")

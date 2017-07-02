@@ -3,41 +3,67 @@ package com.winterpics.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
+@Table(name = "publication")
 @XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Publication.findAll", query = "SELECT p FROM Publication p")
+    , @NamedQuery(name = "Publication.findById", query = "SELECT p FROM Publication p WHERE p.id = :id")
+    , @NamedQuery(name = "Publication.findByImagepath", query = "SELECT p FROM Publication p WHERE p.imagepath = :imagepath")
+    , @NamedQuery(name = "Publication.findByMoment", query = "SELECT p FROM Publication p WHERE p.moment = :moment")
+    , @NamedQuery(name = "Publication.findByTitle", query = "SELECT p FROM Publication p WHERE p.title = :title")})
 public class Publication implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Basic(optional = false)
+    @Column(name = "id", nullable = false)
     private Long id;
     
-    @Column(nullable = true, length = 60)
+    @Basic(optional = false)
+    @Column(name = "imagepath", nullable = false, length = 255)
+    private String imagepath;
+    
+    @Column(name = "moment")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date moment;
+    
+    @Column(name = "title", length = 60)
     private String title;
     
-    @ManyToOne
-    private WinterUser author;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
-
-    @Column(nullable = false, length = 255)
-    private String imagePath;
-    
-    @OneToMany
+    @OneToMany(mappedBy = "publication")
     private List<Reaction> reactions;
     
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @ManyToOne
+    private WinterUser author;
+
+    public Publication() {
+    }
+
+    public Publication(Long id) {
+        this.id = id;
+    }
+
+    public Publication(Long id, String imagepath) {
+        this.id = id;
+        this.imagepath = imagepath;
+    }
+
     public Long getId() {
         return id;
     }
@@ -46,8 +72,46 @@ public class Publication implements Serializable {
         this.id = id;
     }
 
-    
-    
+    public String getImagepath() {
+        return imagepath;
+    }
+
+    public void setImagepath(String imagepath) {
+        this.imagepath = imagepath;
+    }
+
+    public Date getMoment() {
+        return moment;
+    }
+
+    public void setMoment(Date moment) {
+        this.moment = moment;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<Reaction> getReactions() {
+        return reactions;
+    }
+
+    public void setReactions(List<Reaction> reactions) {
+        this.reactions = reactions;
+    }
+
+    public WinterUser getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(WinterUser author) {
+        this.author = author;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -70,48 +134,7 @@ public class Publication implements Serializable {
 
     @Override
     public String toString() {
-        return "com.winterpics.Publication[ id=" + id + " ]";
+        return "entities.Publication[ id=" + id + " ]";
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public WinterUser getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(WinterUser author) {
-        this.author = author;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
-    @XmlTransient
-    public List<Reaction> getReactions() {
-        return reactions;
-    }
-
-    public void setReactions(List<Reaction> reactions) {
-        this.reactions = reactions;
-    }
-    
 }
