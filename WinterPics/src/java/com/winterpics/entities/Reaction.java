@@ -1,19 +1,19 @@
 package com.winterpics.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "reaction")
@@ -30,11 +30,13 @@ public class Reaction implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     @Basic(optional = false)
     @Column(name = "type", nullable = false)
-    private int type;
+    @Convert(converter = ReactionConverter.class)
+    private ReactionType type;
     
     @JoinColumn(name = "publication_id", referencedColumnName = "id")
     @ManyToOne
@@ -51,7 +53,7 @@ public class Reaction implements Serializable {
         this.id = id;
     }
 
-    public Reaction(Long id, int type) {
+    public Reaction(Long id, ReactionType type) {
         this.id = id;
         this.type = type;
     }
@@ -64,11 +66,11 @@ public class Reaction implements Serializable {
         this.id = id;
     }
 
-    public int getType() {
+    public ReactionType getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(ReactionType type) {
         this.type = type;
     }
     

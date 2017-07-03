@@ -1,11 +1,14 @@
 package com.winterpics.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,7 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "publication")
@@ -29,9 +35,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Publication implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     @Basic(optional = false)
@@ -63,7 +71,7 @@ public class Publication implements Serializable {
         this.id = id;
         this.imagepath = imagepath;
     }
-
+    
     public Long getId() {
         return id;
     }
@@ -96,12 +104,13 @@ public class Publication implements Serializable {
         this.title = title;
     }
 
+    @XmlTransient
     public List<Reaction> getReactions() {
         return reactions;
     }
 
-    public void setReactions(List<Reaction> reactions) {
-        this.reactions = reactions;
+    public void setReactions(List<Reaction> reaction) {
+        this.reactions = reaction;
     }
 
     public WinterUser getAuthor() {
@@ -111,7 +120,7 @@ public class Publication implements Serializable {
     public void setAuthor(WinterUser author) {
         this.author = author;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

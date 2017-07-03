@@ -2,6 +2,7 @@ package com.winterpics.services;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.Publication;
+import com.winterpics.entities.Reaction;
 import com.winterpics.entities.WinterUser;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -17,6 +18,13 @@ import javax.ws.rs.core.MediaType;
 @Path("feed")
 public class FeedREST {
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Reaction> getReactions(){
+        EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
+        return em.createNamedQuery("Reaction.findAll").getResultList();
+    }
+    
     @GET
     @Path("{offset}/{limit}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -71,9 +79,10 @@ public class FeedREST {
 //        return res.toArray(new Publication[res.size()]);
         List<Publication> feed = query.getResultList();
         feed.parallelStream().forEach((Publication p) -> {
-            p.getAuthor().setisFollowing(
-                user.getFollowing().contains(p.getAuthor())
-            );
+            if (p != null)
+                p.getAuthor().setisFollowing(
+                    user.getFollowing().contains(p.getAuthor())
+                );
         });
         return feed;
     }

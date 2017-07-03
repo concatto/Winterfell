@@ -93,8 +93,7 @@ public class WinterUser implements Serializable {
         this.pass = pass;
         this.photopath = photopath;
     }
-
-    @Id
+    
     public Long getId() {
         return id;
     }
