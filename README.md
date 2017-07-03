@@ -158,7 +158,8 @@ Rede Social para Compartilhamento de Imagens
           }
       ]
    ```
-
+* inserir reação -- somente documentação
+* buscar pessoas que está seguindo
 
 
 
