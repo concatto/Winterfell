@@ -65,6 +65,20 @@ Rede Social para Compartilhamento de Imagens
    * Return true ou false;
    * Content-Type: text/plain 
 
+* /services/publications
+   * Cadastro de nova publicação;
+   * Header necessário `Authorization: Basic btoa(login:pass)`
+      * btoa: Conversão para base64 no JavaScript
+   * POST com Json;
+   * Retorna true ou false;
+   * Content-Type: application/json 
+   * Body: 
+   ```json
+        {
+          "imagepath": "./path.png",
+          "title": "Minha publicação"
+        }
+   ```
 
 * /services/publications[/{offset}/{limit}]
    * GET
