@@ -1,19 +1,24 @@
 package com.winterpics.entities;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(name = "reactionType")
+@XmlEnum(Integer.class)
 public enum ReactionType implements Serializable {
 
-    SAD(0),
-    HAPPY(1),
-    R2(2),
-    R3(3),
-    R4(4),
-    R5(5),
-    R6(6),
-    R7(7),
-    R8(8),
-    R9(9);
+    @XmlEnumValue(value = "0") SAD(0),
+    @XmlEnumValue(value = "1") HAPPY(1),
+    @XmlEnumValue(value = "2") R2(2),
+    @XmlEnumValue(value = "3") R3(3),
+    @XmlEnumValue(value = "4") R4(4),
+    @XmlEnumValue(value = "5") R5(5),
+    @XmlEnumValue(value = "6") R6(6),
+    @XmlEnumValue(value = "7") R7(7),
+    @XmlEnumValue(value = "8") R8(8),
+    @XmlEnumValue(value = "9") R9(9);
     
     private int reactionCode;
     private ReactionType(int reactionCode) {
@@ -34,6 +39,11 @@ public enum ReactionType implements Serializable {
             }
         }
         return null;
+    }
+    
+    @Override
+    public String toString(){
+        return Integer.toString(reactionCode);
     }
     
 }

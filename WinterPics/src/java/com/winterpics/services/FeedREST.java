@@ -17,13 +17,6 @@ import javax.ws.rs.core.MediaType;
 
 @Path("feed")
 public class FeedREST {
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Reaction> getReactions(){
-        EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
-        return em.createNamedQuery("Reaction.findAll").getResultList();
-    }
     
     @GET
     @Path("{offset}/{limit}")
@@ -79,10 +72,12 @@ public class FeedREST {
 //        return res.toArray(new Publication[res.size()]);
         List<Publication> feed = query.getResultList();
         feed.parallelStream().forEach((Publication p) -> {
-            if (p != null)
+            if (p != null){
                 p.getAuthor().setisFollowing(
                     user.getFollowing().contains(p.getAuthor())
                 );
+//                p.loadReactionResume();
+            }
         });
         return feed;
     }

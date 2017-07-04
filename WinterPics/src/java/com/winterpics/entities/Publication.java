@@ -1,7 +1,6 @@
 package com.winterpics.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -109,10 +108,30 @@ public class Publication implements Serializable {
         return reactions;
     }
 
-    public void setReactions(List<Reaction> reaction) {
-        this.reactions = reaction;
+    public void setReactions(List<Reaction> reactions) {
+        this.reactions = reactions;
+    }
+    
+//    @XmlElement(name = "reactions_resume")
+    
+    @Transient
+    @XmlElement
+    ReactionResume reactionResume = null;
+
+    public ReactionResume getReactionResume() {
+        return reactionResume;
     }
 
+    public void setReactionResume(ReactionResume reactionResume) {
+        this.reactionResume = reactionResume;
+    }
+    
+    public void loadReactionResume(){
+        reactionResume = new ReactionResume(this);
+    }
+
+    
+    
     public WinterUser getAuthor() {
         return author;
     }

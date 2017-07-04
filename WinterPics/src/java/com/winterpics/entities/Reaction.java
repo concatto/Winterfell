@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -20,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Reaction.findAll", query = "SELECT r FROM Reaction r")
-    , @NamedQuery(name = "Reaction.findByPublication", query = "SELECT r FROM Reaction r WHERE r.publication.id = :publication_id")
+    , @NamedQuery(name = "Reaction.findByPublication", query = "SELECT r FROM Reaction r WHERE r.publication = :publication")
     , @NamedQuery(name = "Reaction.findById", query = "SELECT r FROM Reaction r WHERE r.id = :id")
     , @NamedQuery(name = "Reaction.findByType", query = "SELECT r FROM Reaction r WHERE r.type = :type")})
 public class Reaction implements Serializable {
@@ -38,6 +39,7 @@ public class Reaction implements Serializable {
     @Convert(converter = ReactionConverter.class)
     private ReactionType type;
     
+    @XmlElement(name = "related_publication")
     @JoinColumn(name = "publication_id", referencedColumnName = "id")
     @ManyToOne
     private Publication publication;

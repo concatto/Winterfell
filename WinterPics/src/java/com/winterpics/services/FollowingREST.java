@@ -18,6 +18,6 @@ public class FollowingREST {
     public List<WinterUser> getFeed(@Context HttpServletRequest request){
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
         return user.getFollowing();
-    }    
+    }
     
 }

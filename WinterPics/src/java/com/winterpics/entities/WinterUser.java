@@ -173,15 +173,6 @@ public class WinterUser implements Serializable {
     public void setisFollowing(Boolean isFollowing){
         this.isFollowing = isFollowing;
     }
-    
-//    @XmlTransient
-//    public List<Publication> getFollowingPublications() {
-//        return followingPublications;
-//    }
-//
-//    public void setFollowingPublications(List<Publication> followingPublications) {
-//        this.followingPublications = followingPublications;
-//    }
 
     @XmlTransient
     public List<Reaction> getReactions() {

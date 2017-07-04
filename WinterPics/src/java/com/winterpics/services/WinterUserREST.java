@@ -2,6 +2,13 @@ package com.winterpics.services;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.WinterUser;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Base64;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ejb.Stateless;
@@ -9,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -62,26 +70,75 @@ public class WinterUserREST {
         return null;
     }
     
+    String getImagesFolder(HttpServletRequest request){
+        String folder = request.getServletContext().getRealPath("/assets");
+        File ff = new File(folder);
+        if (!ff.exists()){
+            ff.mkdir();
+        }
+        return folder + "/";
+    }
     
     @PUT
     @Path("{action}")
-    @Consumes(MediaType.TEXT_PLAIN)
+    @Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_FORM_URLENCODED})
     public boolean edit(
             @PathParam("action") String action,
             String data,
-            @Context HttpServletRequest request
-    ){
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response
+    ) {
+        
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
+        
+        String imageName = null;
+        File old = new File(getImagesFolder(request)+"/"+user.getPhotopath());
+        
+        if ("changephoto".equals(action)){
+            String allData[] = data.split(";");
+            String imageType = allData[0];
+            imageName = Long.toString(Calendar.getInstance().getTimeInMillis())
+                            + Long.toString(user.getId()) +"."+ imageType.split("/")[1];
+        
+            try {
+                
+                String fileData = data.substring(data.indexOf(",")+1);
+                
+                byte[] decoded = Base64.getDecoder().decode(fileData);
+
+                try (OutputStream stream = new FileOutputStream(getImagesFolder(request)+"/"+imageName)) {
+                    stream.write(decoded);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+                response.setStatus(520);
+                return false;
+            }
+        }
+        
         try {
             EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
             Query query = em.createQuery(
                 "UPDATE WinterUser SET "+getColumn(action)+"=:data WHERE id=:id"
             );
-            query.setParameter("data", data);
+            if ("changephoto".equals(action)){
+                query.setParameter("data", "assets/"+imageName);
+            } else {
+                query.setParameter("data", data);
+            }
             query.setParameter("id", user.getId());
             em.getTransaction().begin();
             boolean res = query.executeUpdate() > 0;
             em.getTransaction().commit();
+            
+            
+            if ("changephoto".equals(action) && old.exists()){
+                try {
+                    old.delete();
+                } catch (Exception e){}
+            }
+            
+            
             return res;
         } catch (InvalidActionException ex) {
             return false;
