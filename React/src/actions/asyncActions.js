@@ -1,29 +1,50 @@
 import { modifyName, modifyAvatar, removePublication, insertPublication, notifySuccess } from './index';
+import axios from 'axios';
 
 export const startAsync = (name) => ({
   type: name + "_START"
 });
 
-export const finishAsync = (name) => ({
-  type: name + "_FINISH"
+export const succeedAsync = (name) => ({
+  type: name + "_SUCCESS"
 });
 
+export const failAsync = (name) => ({
+  type: name + "_FAILURE"
+});
+
+const createUrl = (suffix) => {
+  return "http://10.26.16.101:8084/WinterPics/" + suffix;
+};
+
 export const handleRename = ({name}) => (dispatch, getState) => {
-  makeRequest(dispatch, "post", "", "M_RENAME", () => {
+  const config = {
+    method: "put",
+    url: createUrl("services/winteruser/changename"),
+    data: name,
+  };
+  
+  makeAuthorizedRequest(dispatch, getCredentials(getState), config, "M_RENAME", () => {
     dispatch(notifySuccess("Seu nome foi alterado com sucesso."));
     dispatch(modifyName(name, getState().currentUser.id));
   });
 };
 
-export const handleDeletion = ({id}) => (dispatch) => {
-  makeRequest(dispatch, "post", "", "M_DELETION", () => {
+export const handleDeletion = ({id}) => (dispatch, getState) => {
+  makeAuthorizedRequest(dispatch, getState(), "put", "http://10.26.16.101:8084/WinterPics/services/winteruser/changename", "M_DELETION", () => {
     dispatch(notifySuccess("Publicação excluída com sucesso."));
     dispatch(removePublication(id));
   });
 }
 
 export const handleEditAvatar = ({image}) => (dispatch, getState) => {
-  makeRequest(dispatch, "post", "", "M_EDIT_AVATAR", () => {
+  const config = {
+    method: "put",
+    url: createUrl("/services/winteruser/changephoto"),
+    data: image
+  };
+  
+  makeAuthorizedRequest(dispatch, getCredentials(getState), config, "M_EDIT_AVATAR", () => {
     dispatch(notifySuccess("Sua imagem foi alterada com sucesso."));
     dispatch(modifyAvatar(image, getState().currentUser.id));
   });
@@ -58,14 +79,20 @@ export const handleNewPublication = ({title, image}) => (dispatch, getState) => 
   });
 }
 
-export const authenticate = ({user, password}) => (dispatch) => {
-  makeRequest(dispatch, "post", "", "AUTH", () => {
-    const credentials = btoa(user + ":" + password);
-
+export const authenticate = (user, password) => (dispatch, getState) => {
+  const credentials = btoa(user + ":" + password);
+  console.log(credentials);
+  
+  const config = {
+    method: "get",
+    url: createUrl("services/winteruser"),
+  };
+  
+  makeAuthorizedRequest(dispatch, credentials, config, "AUTH", (data) => {
     dispatch({
       type: "LOG_IN",
       payload: {
-        id: "30",
+        id: data.id,
         credentials
       }
     });
@@ -75,19 +102,24 @@ export const authenticate = ({user, password}) => (dispatch) => {
 export const fetchUser = (id) => (dispatch, getState) => {
   dispatch({type: "PREPARE_USER", id});
 
-  makeRequest(dispatch, "get", "", "FETCH_USER", () => {
-    const data = {
-      id,
-      avatar: "/assets/avatar.jpg",
-      name: "Aquele que voltou do além",
-      publications: 50,
-      following: [30, 70],
-      isFollowing: true,
+  const config = {
+    method: "get",
+    url: createUrl("services/winteruser/" + id),
+  };
+
+  makeAuthorizedRequest(dispatch, getCredentials(getState), config, "FETCH_USER", (data) => {
+    const user = {
+      id: data.id,
+      avatar: createUrl(data.photopath),
+      name: data.name,
+      publications: data.nPublications,
+      following: [],
+      isFollowing: data.isFollowing,
     };
 
     dispatch({
       type: "INSERT_USER",
-      payload: data
+      payload: user
     });
   });
 }
@@ -110,7 +142,26 @@ export const fetchFeed = () => (dispatch) => {
 const makeRequest = (dispatch, method, url, name, onSuccess) => {
   dispatch(startAsync(name));
   setTimeout(() => {
-    dispatch(finishAsync(name));
+    dispatch(succeedAsync(name));
     onSuccess();
   }, 1000);
+}
+
+const makeAuthorizedRequest = (dispatch, credentials, config, name, onSuccess, onError) => {
+    dispatch(startAsync(name));
+    config.headers = {"Authorization": "Basic " + credentials};
+  
+    axios(config).then((data) => {
+        console.log(data);
+        if (onSuccess) onSuccess(data.data);
+        dispatch(succeedAsync(name));
+    }).catch((error) => {
+        if (onError) onError(error);
+        console.log(error);
+        dispatch(succeedAsync(name));
+    });
+}
+
+const getCredentials = (getState) => {
+  return getState().currentUser.credentials;
 }

@@ -8,7 +8,7 @@ const stateMapper = (state, ownProps) => {
   if (!state.currentUser) {
     return {
       authorized: false
-    }
+    };
   }
 
   const { id = state.currentUser.id } = ownProps.match.params;
@@ -19,7 +19,7 @@ const stateMapper = (state, ownProps) => {
     notifications: state.notifications,
     authorized: true,
     userData: state.users.data[id],
-  }
+  };
 };
 
 const dispatchMapper = (dispatch) => ({

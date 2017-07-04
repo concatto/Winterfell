@@ -134,7 +134,7 @@ const publicationsReducer = (state=publications, action) => {
   switch (action.type) {
     case "FETCH_PUBLICATIONS_START":
       return {...state, fetching: true, fetched: false};
-    case "FETCH_PUBLICATIONS_FINISH":
+    case "FETCH_PUBLICATIONS_SUCCESS":
       return {...state, fetching: false, fetched: true};
     case "INSERT_PUBLICATION":
       return {...state, data: action.data.concat(state.data)};

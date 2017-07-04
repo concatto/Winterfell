@@ -33,6 +33,7 @@ export default class Profile extends React.Component {
   }
 
   shouldFetch(props) {
+    //If I am not myself and there is no data about me and I am authorized, fetch!
     const val = !props.isSelf && (!props.userData || !props.userData.id) && this.props.authorized;
     console.log(props);
     console.log(val);

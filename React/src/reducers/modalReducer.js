@@ -28,10 +28,8 @@ const modalReducer = (state={shown: false}, action) => {
   if (action.type.startsWith("M_")) {
     if (action.type.endsWith("_START")) {
       return {...state, busy: true};
-    } else if (action.type.endsWith("_FINISH")) {
-      if (action.outcome == "SUCCESS") {
-        state = hide(state);
-      }
+    } else if (action.type.endsWith("_SUCCESS")) {
+      state = hide(state);
 
       return {...state, busy: false};
     }

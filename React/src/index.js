@@ -14,6 +14,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 import Unauthorized from './components/Unauthorized';
+import Home from './containers/Home';
 
 moment.locale('pt-br');
 const history = createHistory({basename: "/"});
@@ -24,6 +25,7 @@ render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Switch>
+        <Route exact path="/" component={Home}/>
         <Route exact path="/profile/:id?" component={ProfileContainer}/>
         <Route exact path="/search" component={SearchContainer}/>
         <Route exact path="/unauthorized" component={Unauthorized}/>
