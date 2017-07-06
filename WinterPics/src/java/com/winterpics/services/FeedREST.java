@@ -2,7 +2,6 @@ package com.winterpics.services;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.Publication;
-import com.winterpics.entities.Reaction;
 import com.winterpics.entities.WinterUser;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -76,7 +75,7 @@ public class FeedREST {
                 p.getAuthor().setisFollowing(
                     user.getFollowing().contains(p.getAuthor())
                 );
-//                p.loadReactionResume();
+                p.loadReactionResume();
             }
         });
         return feed;
