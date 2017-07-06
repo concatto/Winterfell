@@ -17,7 +17,7 @@ public class ReactionRequest implements Serializable {
         return publication;
     }
     
-    public int getType() {
+    public int getReactionType() {
         return type;
     }
     
@@ -28,4 +28,5 @@ public class ReactionRequest implements Serializable {
     public void setType(int type) {
         this.type = type;
     }
+    
 }

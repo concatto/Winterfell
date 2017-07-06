@@ -23,7 +23,7 @@ import javax.servlet.http.Part;
 public class PhotoUploadServlet extends HttpServlet {
     
     String getImagesFolder(HttpServletRequest request){
-        String folder = request.getServletContext().getRealPath("/images");
+        String folder = request.getServletContext().getRealPath("/assets");
         File ff = new File(folder);
         if (!ff.exists()){
             ff.mkdir();

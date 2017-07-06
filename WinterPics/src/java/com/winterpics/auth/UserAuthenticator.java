@@ -1,7 +1,6 @@
 package com.winterpics.auth;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
-import com.winterpics.entities.PasswordConverter;
 import com.winterpics.entities.WinterUser;
 import java.io.IOException;
 import java.util.Base64;
@@ -14,25 +13,29 @@ public class UserAuthenticator {
     public UserAuthenticator() {
     }
 
-    public WinterUser userAuthenticated(String authString) throws IOException, UserNotFoundException {
-        if (authString == null){
+    public WinterUser userAuthenticated(String authString) throws UserNotFoundException {
+        try {
+            if (authString == null){
+                throw new UserNotFoundException();
+            }
+            String auth[];
+            auth = authString.split("\\s+");
+            if (auth.length != 2){
+                throw new UserNotFoundException();
+            }
+            authString = fromBase64(auth[1]);
+            auth = authString.split(":");
+            if (auth.length != 2){
+                throw new UserNotFoundException();
+            }
+            WinterUser userAuthenticated = userAuthenticated( auth[0], auth[1] );
+            if (userAuthenticated == null){
+                throw new UserNotFoundException();
+            }
+            return userAuthenticated;
+        } catch (Exception e){
             throw new UserNotFoundException();
         }
-        String auth[];
-        auth = authString.split("\\s+");
-        if (auth.length != 2){
-            throw new UserNotFoundException();
-        }
-        authString = fromBase64(auth[1]);
-        auth = authString.split(":");
-        if (auth.length != 2){
-            throw new UserNotFoundException();
-        }
-        WinterUser userAuthenticated = userAuthenticated( auth[0], auth[1] );
-        if (userAuthenticated == null){
-            throw new UserNotFoundException();
-        }
-        return userAuthenticated;
     }
     
     public WinterUser userAuthenticated(String login, String password) throws UserNotFoundException {

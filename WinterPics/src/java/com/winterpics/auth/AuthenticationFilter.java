@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
 
 @WebFilter(
         filterName = "AuthenticationFilter",
@@ -49,14 +50,23 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         
+        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpResponse.setHeader("Access-Control-Allow-Headers", "origin, content-type, accept, authorization");
+        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
+        httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        httpResponse.setHeader("Access-Control-Max-Age", "1209600");
         try {
+            if ("OPTIONS".equalsIgnoreCase(httpRequest.getMethod())){
+                httpResponse.setStatus(200);
+                return;
+            }
             WinterUser winterUser = userAuthenticator.userAuthenticated(httpRequest.getHeader("authorization"));
             httpRequest.setAttribute("winteruser", winterUser);
             chain.doFilter(request, response);
             
         } catch (UserAuthenticator.UserNotFoundException e) {
             httpResponse.setHeader("WWW-Authenticate", "Basic realm=\"Autenticação\"");
-            httpResponse.sendError(401);
+            httpResponse.sendError(401, "OPS");
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -25,7 +25,7 @@ public class ReactionREST {
             return false;
         }
         Reaction reaction = new Reaction();
-        reaction.setType(ReactionType.fromReactionCode(reactionRequest.getType()));
+        reaction.setType(ReactionType.fromReactionCode(reactionRequest.getReactionType()));
         reaction.setPublication(new Publication(reactionRequest.getPublication()));
         try {
             WinterUser user = (WinterUser) request.getAttribute("winteruser");
