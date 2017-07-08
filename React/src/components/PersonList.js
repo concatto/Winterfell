@@ -16,7 +16,7 @@ const PersonCard = ({avatar, id, name, publications, following, isFollowing, onC
         <Media.Heading>
           <strong>{name}</strong>
         </Media.Heading>
-        <small>{makeDescription(publications, following.length)}</small>
+        <small>{makeDescription(publications, following)}</small>
 
         {isFollowing && displayFollowing &&
           <p className="text-success">

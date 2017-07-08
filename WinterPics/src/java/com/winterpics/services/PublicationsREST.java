@@ -94,10 +94,10 @@ public class PublicationsREST {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
-    public boolean newPublication(Publication publication, @Context HttpServletRequest request){
+    @Produces(MediaType.APPLICATION_JSON)
+    public Publication newPublication(Publication publication, @Context HttpServletRequest request){
         if (publication == null){
-            return false;
+            return null;
         }
         try {
             WinterUser user = (WinterUser) request.getAttribute("winteruser");
@@ -108,11 +108,11 @@ public class PublicationsREST {
             em.persist(publication);
             em.flush();
             em.getTransaction().commit();
-            return true;
+            return publication;
         } catch (Exception e){
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
     
 }

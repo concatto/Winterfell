@@ -34,7 +34,8 @@ export default class Profile extends React.Component {
 
   shouldFetch(props) {
     //If I am not myself and there is no data about me and I am authorized, fetch!
-    const val = !props.isSelf && (!props.userData || !props.userData.id) && this.props.authorized;
+    //CHANGED: Fetch even if there is data. Make sure the data is updated.
+    const val = !props.isSelf && /* (!props.userData || !props.userData.id) && */ this.props.authorized;
     //If I am myself, then the data is going to be fetched by the NavigationBar.
     return val;
   }
@@ -47,7 +48,11 @@ export default class Profile extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0); //Go back to the beginning of the page
+    }
+
+    if (this.props.id != prevProps.id && this.shouldFetch(this.props)) {
+      this.props.fetchUser(this.props.id); //If we're looking at a different profile, fetch it!
     }
   }
 

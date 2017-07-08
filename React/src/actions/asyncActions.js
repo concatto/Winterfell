@@ -58,33 +58,38 @@ export const handleEditAvatar = ({image}) => (dispatch, getState) => {
 }
 
 export const handleSearch = (searchString) => (dispatch, getState) => {
-  makeRequest(dispatch, "get", "", "SEARCH", () => {
-    const users = Object.values(getState().users.data);
-
-    dispatch({
-      type: "SEARCH_SUCCESS",
-      results: users,
-      total: Math.ceil(users.length / 10),
-    });
-  });
+  // makeRequest(dispatch, "get", "", "SEARCH", () => {
+  //   const users = Object.values(getState().users.data);
+  //
+  //   dispatch({
+  //     type: "SEARCH_SUCCESS",
+  //     results: users,
+  //     total: Math.ceil(users.length / 10),
+  //   });
+  // });
 }
 
 export const handleNewPublication = ({title, image}) => (dispatch, getState) => {
-  makeRequest(dispatch, "post", "", "M_NEW_PUBLICATION", () => {
-    const data = {
-      author: getState().currentUser.id,
-      timestamp: Math.floor(Date.now() / 1000),
-      title,
-      image,
-      reactions: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ownReaction: undefined,
-      id: Date.now() % 9999
-    };
+  const config = {
+    method: "post",
+    url: createUrl("services/publications"),
+    data: {imagepath: "/test.png", title: title},
+  }
 
-    dispatch(insertPublication(data));
+  makeAuthorizedRequest(dispatch, getCredentials(getState), config, "M_NEW_PUBLICATION", (data) => {
+    console.log(data);
+    const pub = transformPublication(data);
+    pub.author = pub.author.id; //No need to re-insert the user.
+
+    dispatch(insertPublication(pub));
     dispatch(notifySuccess("Publicação realizada com sucesso."));
   });
 }
+
+export const handleToggleFollowing = (id) => (dispatch, getState) => {
+  dispatch({type: "TOGGLING_START", payload: id});
+  setTimeout(() => dispatch({type: "TOGGLING_END", payload: id}), 1000);
+};
 
 export const authenticate = (user, password) => (dispatch, getState) => {
   const credentials = btoa(user + ":" + password);
@@ -112,7 +117,7 @@ const transformAuthor = (data) => {
     avatar: createUrl(data.photopath),
     name: data.name,
     publications: data.nPublications,
-    following: [],
+    following: data.nFollowing,
     isFollowing: data.isFollowing,
     fetched: true,
   };
@@ -130,6 +135,16 @@ const transformPublication = (data) => {
   };
 }
 
+const extractAuthors = (data) => {
+  const authors = {};
+  data.forEach((item, index) => {
+    authors[item.author.id] = transformAuthor(item.author);
+    data[index].author = item.author.id;
+  });
+  return authors;
+}
+
+
 export const fetchUser = (id) => (dispatch, getState) => {
   dispatch({type: "PREPARE_USER", id});
 
@@ -146,43 +161,43 @@ export const fetchUser = (id) => (dispatch, getState) => {
   });
 }
 
-export const fetchPublications = (id) => (dispatch, getState) => {
+export const fetchPublications = (id, isFeed, limit) => (dispatch, getState) => {
+  const offset = getState().publications.data.length;
   const config = {
     method: "get",
-    url: createUrl("services/publications/" + id)
+    url: createUrl(isFeed ? "services/feed" : "services/publications/" + id)
   };
+
+  if (limit) {
+    config.url += "/" + offset + "/" + limit;
+  }
 
   makeAuthorizedRequest(dispatch, getCredentials(getState), config, "FETCH_PUBLICATIONS", (data) => {
     console.log(data);
     const authors = extractAuthors(data);
     const publications = data.map((item) => transformPublication(item));
 
-    dispatch({type: "INSERT_PUBLICATION_SET", payload: publications});
     dispatch({type: "INSERT_USER_SET", payload: authors});
+    dispatch({type: "INSERT_PUBLICATION_SET", payload: publications});
   });
 }
 
-const extractAuthors = (data) => {
-  const authors = {};
-  data.forEach((item, index) => {
-    authors[item.author.id] = transformAuthor(item.author);
-    data[index].author = item.author.id;
-  });
-  return authors;
-}
+export const fetchFollowing = (id, limit) => (dispatch, getState) => {
+  const config = {
+    method: "get",
+    url: createUrl("services/following")
+  };
 
-export const fetchFeed = () => (dispatch) => {
-  makeRequest(dispatch, "get", "", "FETCH_PUBLICATIONS", (response) => {
-    //Despachar algo como SET_PUBLICATIONS. Tratamento: inserir usuários que vieram!
-  });
-}
+  makeAuthorizedRequest(dispatch, getCredentials(getState), config, "FETCH_FOLLOWING", (data) => {
+    const ids = data.map((item) => item.id);
+    const users = {};
+    data.forEach((item) => {
+      users[item.id] = transformAuthor(item)
+    });
 
-const makeRequest = (dispatch, method, url, name, onSuccess) => {
-  dispatch(startAsync(name));
-  setTimeout(() => {
-    dispatch(succeedAsync(name));
-    onSuccess();
-  }, 1000);
+    dispatch({type: "INSERT_USER_SET", payload: users});
+    dispatch({type: "INSERT_FOLLOWING", payload: ids});
+  });
 }
 
 const makeAuthorizedRequest = (dispatch, credentials, config, name, onSuccess, onError) => {

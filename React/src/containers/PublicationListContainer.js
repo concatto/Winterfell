@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { openDeletion } from '../actions/modalActions';
-import { fetchPublications, fetchFeed } from '../actions/asyncActions';
+import { fetchPublications } from '../actions/asyncActions';
 import PublicationList from '../components/PublicationList';
 import { withRouter } from 'react-router-dom';
 
@@ -29,17 +29,13 @@ const stateMapper = (state, ownProps) => {
     fetching: state.publications.fetching,
     fetched: state.publications.fetched,
     data: enrichPublications(state),
+    isFeed: state.ui.publicationFilterType === "ALL_PUBLICATIONS" && id == state.currentUser.id,
+    ended: state.publications.ended,
     ...ownProps,
-    isFeed: state.ui.publicationFilterType === "ALL_PUBLICATIONS",
   }
 };
 
-const dispatchMapper = (dispatch) => ({
-  onDelete: (id) => dispatch(openDeletion(id)),
-  fetchPublications: (id) => dispatch(fetchPublications(id)),
-  fetchFeed: () => dispatch(fetchFeed()),
-});
-
-const PublicationListContainer = withRouter(connect(stateMapper, dispatchMapper)(PublicationList));
+const actions = {openDeletion, fetchPublications};
+const PublicationListContainer = withRouter(connect(stateMapper, actions)(PublicationList));
 
 export default PublicationListContainer;

@@ -7,11 +7,6 @@ export const setPublicationFilter = (filterType) => ({
   filterType
 });
 
-//Will use thunk eventually
-export const loadMorePublications = () => ({
-  type: "LOAD_PUBLICATIONS"
-});
-
 export const loadMoreFriends = () => ({
   type: "LOAD_FRIENDS"
 });
@@ -41,7 +36,7 @@ export const visitProfile = (id) => push(createProfileHref(id));
 
 export const logOut = () => (dispatch) => {
     dispatch({type: "LOG_OUT"});
-    dispatch(push("/home"));
+    dispatch(push("/"));
 };
 
 export const displayAuthError = () => push("/unauthorized");

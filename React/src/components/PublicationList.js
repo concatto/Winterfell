@@ -2,6 +2,8 @@ import Publication from './Publication';
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 
+const LIMIT = 2;
+
 class PublicationList extends React.Component {
   constructor(props) {
     super(props);
@@ -13,18 +15,14 @@ class PublicationList extends React.Component {
     const height = document.body.scrollTop + window.innerHeight;
 
     if (document.body.scrollHeight === height) {
-      if (!this.props.fetching) {
-        //this.fetch(); //Tratar de offset, quantos sobrando, etc.
+      if (!this.props.fetching && !this.props.ended) {
+        this.fetch();
       }
     }
   }
 
   fetch() {
-    if (this.props.isFeed) {
-      this.props.fetchFeed();
-    } else {
-      this.props.fetchPublications(this.props.id);
-    }
+    this.props.fetchPublications(this.props.id, this.props.isFeed, LIMIT);
   }
 
   componentDidMount() {

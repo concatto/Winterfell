@@ -36,16 +36,7 @@ export const closeModal = (type) => ({
   type: `CLOSE_${type}_MODAL`
 });
 
-export const openFollowing = (id) => {
-  return (dispatch, getState) => {
-    const following = getState().users.data[id].following.map((followingId) => {
-      return getState().users.data[followingId];
-    });
-
-    dispatch(openModal("FOLLOWING", {following}));
-  }
-}
-
+export const openFollowing = (id) => openModal("FOLLOWING", {id});
 export const openDeletion = (id) => openModal("DELETION", {id});
 export const openRename = (name) => openModal("RENAME", {name});
 export const openNewPublication = () => openModal("NEW_PUBLICATION");

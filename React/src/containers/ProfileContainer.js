@@ -18,7 +18,7 @@ const stateMapper = (state, ownProps) => {
     isSelf: state.currentUser.id == id,
     notifications: state.notifications,
     authorized: true,
-    userData: state.users.data[id],
+    userData: state.users.data ? state.users.data[id] : undefined,
   };
 };
 

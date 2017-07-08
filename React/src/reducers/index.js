@@ -52,6 +52,7 @@ const users = {
 const publications = {
   fetching: false,
   fetched: false,
+  ended: false,
   data: [],
   secretData: [
     {
@@ -90,6 +91,13 @@ const publications = {
   ]
 };
 
+const initialFollowing = {
+  fetching: false,
+  fetched: false,
+  ended: false,
+  data: [],
+};
+
 const initialUiState = {
   publicationFilterType: "ALL_PUBLICATIONS"
 };
@@ -114,7 +122,7 @@ const modifyUser = (state, id, properties) => {
   return {...state, data};
 };
 
-const usersReducer = (state=users, action) => {
+const usersReducer = (state={data: {}}, action) => {
   switch (action.type) {
     case "MODIFY_NAME":
       return modifyUser(state, action.id, {name: action.name});
@@ -126,6 +134,9 @@ const usersReducer = (state=users, action) => {
       return modifyUser(state, action.id, {fetching: true, fetched: false});
     case "INSERT_USER":
       return modifyUser(state, action.payload.id, {...action.payload, fetching: false, fetched: true});
+    case "TOGGLING_START":
+    case "TOGGLING_END":
+      return modifyUser(state, action.payload, {toggling: action.type == "TOGGLING_START"});
     case "INSERT_USER_SET":
       return {...state, data: {...state.data, ...action.payload}};
   }
@@ -139,9 +150,9 @@ const publicationsReducer = (state=publications, action) => {
     case "FETCH_PUBLICATIONS_SUCCESS":
       return {...state, fetching: false, fetched: true};
     case "INSERT_PUBLICATION":
-      return {...state, data: action.data.concat(state.data)};
+      return {...state, data: [action.data].concat(state.data)};
     case "INSERT_PUBLICATION_SET":
-      return {...state, data: state.data.concat(action.payload)};
+      return {...state, data: state.data.concat(action.payload), ended: action.payload.length == 0};
     case "CHANGE_PUBLICATION_FILTER":
     case LOCATION_CHANGE:
       return publications; //Hard reset
@@ -176,6 +187,17 @@ const searchReducer = (state={}, action) => {
   return state;
 }
 
+const followingReducer = (state=initialFollowing, action) => {
+  switch (action.type) {
+    case LOCATION_CHANGE:
+      return initialFollowing;
+    case "INSERT_FOLLOWING":
+      return {...state, data: state.data.concat(action.payload), ended: action.payload.length == 0};
+  }
+
+  return state;
+}
+
 const reducer = combineReducers({
   publications: publicationsReducer,
   currentUser: currentUserReducer,
@@ -184,6 +206,7 @@ const reducer = combineReducers({
   ui: uiReducer,
   router: routerReducer,
   search: searchReducer,
+  following: followingReducer,
   notifications,
 });
 

@@ -5,7 +5,7 @@ import { fetchUser } from '../actions/asyncActions';
 import { withRouter } from 'react-router-dom';
 
 const stateMapper = (state, ownProps) => {
-  if (!state.users.data[state.currentUser.id]) {
+  if (!state.users.data || !state.users.data[state.currentUser.id]) {
     return {
       ...ownProps,
       id: state.currentUser.id,
