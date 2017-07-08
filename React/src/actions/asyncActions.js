@@ -14,7 +14,9 @@ export const failAsync = (name) => ({
 });
 
 const createUrl = (suffix) => {
-  return "http://10.26.16.101:8084/WinterPics/" + suffix;
+  if (suffix[0] == "/") suffix = suffix.substring(1); //Remove the initial slash
+
+  return "http://localhost:8084/WinterPics/" + suffix;
 };
 
 export const handleRename = ({name}) => (dispatch, getState) => {
@@ -23,7 +25,7 @@ export const handleRename = ({name}) => (dispatch, getState) => {
     url: createUrl("services/winteruser/changename"),
     data: name,
   };
-  
+
   makeAuthorizedRequest(dispatch, getCredentials(getState), config, "M_RENAME", () => {
     dispatch(notifySuccess("Seu nome foi alterado com sucesso."));
     dispatch(modifyName(name, getState().currentUser.id));
@@ -31,7 +33,12 @@ export const handleRename = ({name}) => (dispatch, getState) => {
 };
 
 export const handleDeletion = ({id}) => (dispatch, getState) => {
-  makeAuthorizedRequest(dispatch, getState(), "put", "http://10.26.16.101:8084/WinterPics/services/winteruser/changename", "M_DELETION", () => {
+  const config = {
+    method: "delete",
+    url: createUrl("services/?"),
+  };
+
+  makeAuthorizedRequest(dispatch, getCredentials(getState), config, "M_DELETION", () => {
     dispatch(notifySuccess("Publicação excluída com sucesso."));
     dispatch(removePublication(id));
   });
@@ -43,7 +50,7 @@ export const handleEditAvatar = ({image}) => (dispatch, getState) => {
     url: createUrl("/services/winteruser/changephoto"),
     data: image
   };
-  
+
   makeAuthorizedRequest(dispatch, getCredentials(getState), config, "M_EDIT_AVATAR", () => {
     dispatch(notifySuccess("Sua imagem foi alterada com sucesso."));
     dispatch(modifyAvatar(image, getState().currentUser.id));
@@ -82,12 +89,12 @@ export const handleNewPublication = ({title, image}) => (dispatch, getState) => 
 export const authenticate = (user, password) => (dispatch, getState) => {
   const credentials = btoa(user + ":" + password);
   console.log(credentials);
-  
+
   const config = {
     method: "get",
     url: createUrl("services/winteruser"),
   };
-  
+
   makeAuthorizedRequest(dispatch, credentials, config, "AUTH", (data) => {
     dispatch({
       type: "LOG_IN",
@@ -99,6 +106,30 @@ export const authenticate = (user, password) => (dispatch, getState) => {
   });
 }
 
+const transformAuthor = (data) => {
+  return {
+    id: data.id,
+    avatar: createUrl(data.photopath),
+    name: data.name,
+    publications: data.nPublications,
+    following: [],
+    isFollowing: data.isFollowing,
+    fetched: true,
+  };
+};
+
+const transformPublication = (data) => {
+  return {
+    author: data.author,
+    id: data.id,
+    image: createUrl(data.imagepath),
+    title: data.title,
+    timestamp: Date.parse(data.moment),
+    ownReaction: 0,
+    reactions: [0, 0, 0, 0, 0, 0, 0, 0, 0]
+  };
+}
+
 export const fetchUser = (id) => (dispatch, getState) => {
   dispatch({type: "PREPARE_USER", id});
 
@@ -108,29 +139,36 @@ export const fetchUser = (id) => (dispatch, getState) => {
   };
 
   makeAuthorizedRequest(dispatch, getCredentials(getState), config, "FETCH_USER", (data) => {
-    const user = {
-      id: data.id,
-      avatar: createUrl(data.photopath),
-      name: data.name,
-      publications: data.nPublications,
-      following: [],
-      isFollowing: data.isFollowing,
-    };
-
     dispatch({
       type: "INSERT_USER",
-      payload: user
+      payload: transformAuthor(data)
     });
   });
 }
 
 export const fetchPublications = (id) => (dispatch, getState) => {
-  makeRequest(dispatch, "get", "", "FETCH_PUBLICATIONS", (response) => {
-    dispatch({
-      type: "INSERT_PUBLICATION_SET",
-      payload: getState().publications.secretData
-    });
+  const config = {
+    method: "get",
+    url: createUrl("services/publications/" + id)
+  };
+
+  makeAuthorizedRequest(dispatch, getCredentials(getState), config, "FETCH_PUBLICATIONS", (data) => {
+    console.log(data);
+    const authors = extractAuthors(data);
+    const publications = data.map((item) => transformPublication(item));
+
+    dispatch({type: "INSERT_PUBLICATION_SET", payload: publications});
+    dispatch({type: "INSERT_USER_SET", payload: authors});
   });
+}
+
+const extractAuthors = (data) => {
+  const authors = {};
+  data.forEach((item, index) => {
+    authors[item.author.id] = transformAuthor(item.author);
+    data[index].author = item.author.id;
+  });
+  return authors;
 }
 
 export const fetchFeed = () => (dispatch) => {
@@ -150,7 +188,7 @@ const makeRequest = (dispatch, method, url, name, onSuccess) => {
 const makeAuthorizedRequest = (dispatch, credentials, config, name, onSuccess, onError) => {
     dispatch(startAsync(name));
     config.headers = {"Authorization": "Basic " + credentials};
-  
+
     axios(config).then((data) => {
         console.log(data);
         if (onSuccess) onSuccess(data.data);

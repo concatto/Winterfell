@@ -126,6 +126,8 @@ const usersReducer = (state=users, action) => {
       return modifyUser(state, action.id, {fetching: true, fetched: false});
     case "INSERT_USER":
       return modifyUser(state, action.payload.id, {...action.payload, fetching: false, fetched: true});
+    case "INSERT_USER_SET":
+      return {...state, data: {...state.data, ...action.payload}};
   }
   return state;
 };

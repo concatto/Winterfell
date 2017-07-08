@@ -25,7 +25,7 @@ const Publication = ({author, timestamp, title, image, reactions, isOwn, onDelet
                 <strong>{author.name}</strong>
               </Media.Heading>
             </Link>
-            <p><TimeAgo date={timestamp * 1000} formatter={formatter}/></p>
+            <p><TimeAgo date={timestamp} formatter={formatter}/></p>
           </Media.Body>
         </Media>
       </Col>
