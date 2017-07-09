@@ -65,22 +65,9 @@ Rede Social para Compartilhamento de Imagens
    * Return true ou false;
    * Content-Type: text/plain 
 
-* /services/publications
-   * Cadastro de nova publicação;
-   * Header necessário `Authorization: Basic btoa(login:pass)`
-      * btoa: Conversão para base64 no JavaScript
-   * POST com Json;
-   * Retorna true ou false;
-   * Content-Type: application/json 
-   * Body: 
-   ```json
-        {
-          "imagepath": "./path.png",
-          "title": "Minha publicação"
-        }
-   ```
 
-* /services/publications[/{offset}/{limit}]
+* /services/publications[?[limit=<lim>][&offset=<off>]]
+   * Observação sobre os query params: Se não houver offset, será setado para zero, se não houver limit ou for zero, retornará todas as publicações utilizando o offset, se não houver nenhum, retornará todas as publicaçes
    * GET
    * Header necessário `Authorization: Basic btoa(login:pass)`
       * btoa: Conversão para base64 no JavaScript
@@ -88,24 +75,39 @@ Rede Social para Compartilhamento de Imagens
    ```json
       [
           {
+              "reactionResume": {
+                  "reactions": [
+                      0,
+                      0,
+                      2,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1
+                  ]
+              },
               "author": {
                   "email": "a@b",
                   "id": 51,
                   "login": "viniciusas",
                   "nFollowing": 1,
-                  "nPublications": 1,
-                  "name": "Vinicius",
-                  "photopath": "/"
+                  "nPublications": 5,
+                  "name": "Vinícius Almeida dos Santos",
+                  "photopath": "assets/149954145233651.png"
               },
-              "id": 1,
-              "imagepath": "/image.png",
-              "moment": "2017-06-19T22:29:56.134-03:00",
-              "reactions": [],
-              "title": "TITULO"
+              "id": 501,
+              "imagepath": "/test.png",
+              "moment": "2017-07-08T18:53:54.266-03:00",
+              "title": "Experimentação"
           }
       ]
    ```
-* /services/publications/otherID[/{offset}/{limit}]
+   
+**Diferença entre com otherID no JSon: se tiver for otherID, haverá o dado isFollowing em author**
+* /services/publications/<otherID>[?[limit={lim}][&offset={off}]]
+   * Observação sobre os query params: Se não houver offset, será setado para zero, se não houver limit ou for zero, retornará todas as publicações utilizando o offset, se não houver nenhum, retornará todas as publicaçes
    * GET
    * Header necessário `Authorization: Basic btoa(login:pass)`
       * btoa: Conversão para base64 no JavaScript
@@ -113,53 +115,77 @@ Rede Social para Compartilhamento de Imagens
    ```json
       [
           {
+              "reactionResume": {
+                  "reactions": [
+                      0,
+                      0,
+                      2,
+                      0,
+                      0,
+                      0,
+                      1,
+                      0,
+                      1
+                  ]
+              },
               "author": {
                   "email": "a@b",
                   "id": 51,
-                  "isFollowing": true,
+                  "isFollowing": false,
                   "login": "viniciusas",
                   "nFollowing": 1,
-                  "nPublications": 1,
-                  "name": "Vinicius",
-                  "photopath": "/"
+                  "nPublications": 5,
+                  "name": "Vinícius Almeida dos Santos",
+                  "photopath": "assets/149954145233651.png"
               },
-              "id": 1,
-              "imagepath": "/image.png",
-              "moment": "2017-06-19T22:29:56.134-03:00",
-              "reactions": [],
-              "title": "TITULO"
+              "id": 501,
+              "imagepath": "/test.png",
+              "moment": "2017-07-08T18:53:54.266-03:00",
+              "title": "Experimentação"
           }
       ]
    ```
 
-* /services/feed/{offset}/{limit}
+* /services/feed[?[limit={lim}][&offset={off}]]
    * GET
    * Header necessário `Authorization: Basic btoa(login:pass)`
       * btoa: Conversão para base64 no JavaScript
    * Retorna uma lista de publicações que compõe o feed:
    ```json
       [
-         {
+          {
+              "reactionResume": {
+                  "reactions": [
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
+                  ]
+              },
               "author": {
                   "email": "a@b",
                   "id": 51,
-                  "isFollowing": true,
+                  "isFollowing": false,
                   "login": "viniciusas",
                   "nFollowing": 1,
-                  "nPublications": 1,
-                  "name": "Vinicius",
-                  "photopath": "/"
+                  "nPublications": 5,
+                  "name": "Vinícius Almeida dos Santos",
+                  "photopath": "assets/149954145233651.png"
               },
               "id": 1,
               "imagepath": "/image.png",
               "moment": "2017-06-19T22:29:56.134-03:00",
-              "reactions": [],
               "title": "TITULO"
-         }
+          }
       ]
    ```
 * /services/reaction
-    * Cadastro de novo usuário;
+    * Cadastro de nova reação;
     * POST com Json;
     * Retorna true ou false;
     * Content-Type: application/json 
@@ -169,26 +195,6 @@ Rede Social para Compartilhamento de Imagens
             "type": 3,
             "publication": 23
          }
-   ```
-
-* /services/feed/{offset}/{limit}
-   * buscar pessoas que está seguindo
-   * GET
-   * Header necessário `Authorization: Basic btoa(login:pass)`
-      * btoa: Conversão para base64 no JavaScript
-   * Retorna uma lista de pessoas que está seguindo:
-   ```json
-      [
-         {
-            "email": "samuel@s.com",
-            "id": 101,
-            "login": "samuelbfav",
-            "nFollowing": 1,
-            "nPublications": 1,
-            "name": "Samuel Bratti Favarin",
-            "photopath": "123.png"
-         }
-      ]
    ```
 
 
