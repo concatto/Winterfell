@@ -9,7 +9,6 @@ import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -75,12 +74,10 @@ public class FeedREST {
 //        return res.toArray(new Publication[res.size()]);
         List<Publication> feed = query.getResultList();
         feed.parallelStream().forEach((Publication p) -> {
-            if (p != null){
-                p.getAuthor().setisFollowing(
-                    user.getFollowing().contains(p.getAuthor())
-                );
-                p.loadReactionResume();
-            }
+            p.getAuthor().setisFollowing(
+                user.getFollowing().contains(p.getAuthor())
+            );
+            p.loadReactionResume(user);
         });
         return feed;
     }

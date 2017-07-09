@@ -50,7 +50,7 @@ public class PublicationsREST {
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
         List<Publication> publications = getPublications( user.getId(), offset, limit );
         publications.parallelStream().forEach((Publication p) -> {
-            p.loadReactionResume();
+            p.loadReactionResume(user);
         });
         return publications;
     }
@@ -71,7 +71,7 @@ public class PublicationsREST {
             p.getAuthor().setisFollowing(
                 user.getFollowing().contains(p.getAuthor())
             );
-            p.loadReactionResume();
+            p.loadReactionResume(user);
         });
         return publications;
     }

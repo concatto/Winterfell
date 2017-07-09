@@ -126,8 +126,8 @@ public class Publication implements Serializable {
         this.reactionResume = reactionResume;
     }
     
-    public void loadReactionResume(){
-        reactionResume = new ReactionResume(this);
+    public void loadReactionResume(WinterUser winterUser){
+        reactionResume = new ReactionResume(this, winterUser);
     }
 
     
