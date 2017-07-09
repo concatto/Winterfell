@@ -46,6 +46,7 @@ public class NewUserREST {
             return buildResponse(500);
         }
         EntityManager em = null;
+        String photo = null;
         try {
             em = DefaultEntityManagerFactory.newDefaultEntityManager();
             em.getTransaction().begin();
@@ -53,7 +54,7 @@ public class NewUserREST {
             em.persist(data.getUserdata());
             em.flush();
             
-            String photo = ImageConversor.saveImage(data.getPhoto(), data.getUserdata(), request);
+            photo = ImageConversor.saveImage(data.getPhoto(), data.getUserdata(), request);
             data.getUserdata().setPhotopath(photo);
             
             em.persist(data.getUserdata());
@@ -63,9 +64,12 @@ public class NewUserREST {
             return buildResponse(200);
         } catch (Exception e){
             e.printStackTrace();
-            if (em != null && em.getTransaction().isActive()){
-                em.getTransaction().rollback();
-            }
+        }
+        if (em != null && em.getTransaction().isActive()){
+            em.getTransaction().rollback();
+        }
+        if (photo != null){
+            ImageConversor.deleteImage(photo, request);
         }
         return buildResponse(500);
     }

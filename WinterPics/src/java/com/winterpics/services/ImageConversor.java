@@ -13,6 +13,17 @@ public abstract class ImageConversor {
     private ImageConversor() {
     }
     
+    public static void deleteImage(String image, HttpServletRequest request){
+        try {
+            File img = new File( getImagesFolder(request) + "/" + image );
+            if (img.exists()){
+                img.delete();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    
     public static String getImagesFolder(HttpServletRequest request){
         String folder = request.getServletContext().getRealPath("/assets");
         File ff = new File(folder);

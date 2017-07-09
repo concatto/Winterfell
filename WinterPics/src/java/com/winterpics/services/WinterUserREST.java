@@ -2,11 +2,6 @@ package com.winterpics.services;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.WinterUser;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.Base64;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ejb.Stateless;
@@ -80,7 +75,7 @@ public class WinterUserREST {
         
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
         
-        File old = new File(ImageConversor.getImagesFolder(request)+"/"+user.getPhotopath());
+        String oldPhoto = user.getPhotopath();
         
         EntityManager em = null;
         try {
@@ -98,12 +93,8 @@ public class WinterUserREST {
             query.executeUpdate();
             
             
-            if ("changephoto".equals(action) && old.exists()){
-                try {
-                    old.delete();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+            if ("changephoto".equals(action)){
+                ImageConversor.deleteImage(oldPhoto, request);
             }
             
             em.getTransaction().commit();
