@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -79,23 +80,34 @@ public class PublicationsREST {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Publication newPublication(Publication publication, @Context HttpServletRequest request){
+    public Publication newPublication(
+        Publication publication,
+        @Context HttpServletRequest request,
+        @Context HttpServletResponse response
+    ){
         if (publication == null){
+            response.setStatus(500);
             return null;
         }
+        EntityManager em = null;
         try {
             WinterUser user = (WinterUser) request.getAttribute("winteruser");
             publication.setAuthor(user);
             publication.setMoment(Calendar.getInstance().getTime());
-            EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
+            em = DefaultEntityManagerFactory.newDefaultEntityManager();
             em.getTransaction().begin();
             em.persist(publication);
             em.flush();
             em.getTransaction().commit();
+            response.setStatus(200);
             return publication;
         } catch (Exception e){
             e.printStackTrace();
         }
+        if (em != null && em.getTransaction().isActive()){
+            em.getTransaction().rollback();
+        }
+        response.setStatus(500);
         return null;
     }
     
