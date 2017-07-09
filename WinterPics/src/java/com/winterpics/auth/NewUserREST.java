@@ -2,13 +2,17 @@ package com.winterpics.auth;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.WinterUser;
+import com.winterpics.services.ImageConversor;
+import com.winterpics.services.customParams.NewUserRequest;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -16,35 +20,53 @@ import javax.ws.rs.core.Response;
 @Path("newuser")
 public class NewUserREST {
     
-    @OPTIONS
-    public Response acceptAllWithOptions(){
-        return Response.ok()
+    private Response buildResponse(int status){
+        return Response.status(status)
             .header("Access-Control-Allow-Origin", "*")
             .header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
             .header("Access-Control-Allow-Credentials", "true")
             .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
             .header("Access-Control-Max-Age", "1209600")
-        .build();
+            .build();
+    }
+    
+    @OPTIONS
+    public Response acceptAllWithOptions(){
+        return buildResponse(200);
     }
     
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    @Produces(MediaType.TEXT_PLAIN)
-    public boolean newUser(WinterUser entity) {
-        if (entity == null){
-            return false;
+    public Response newUser(
+            NewUserRequest data,
+            @Context HttpServletRequest request,
+            @Context HttpServletResponse response
+    ) {
+        if (data == null){
+            return buildResponse(500);
         }
+        EntityManager em = null;
         try {
-            EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
+            em = DefaultEntityManagerFactory.newDefaultEntityManager();
             em.getTransaction().begin();
-            em.persist(entity);
+            data.getUserdata().setPhotopath("");
+            em.persist(data.getUserdata());
+            em.flush();
+            
+            String photo = ImageConversor.saveImage(data.getPhoto(), data.getUserdata(), request);
+            data.getUserdata().setPhotopath(photo);
+            
+            em.persist(data.getUserdata());
             em.flush();
             em.getTransaction().commit();
             em.close();
-            return true;
+            return buildResponse(200);
         } catch (Exception e){
             e.printStackTrace();
+            if (em != null && em.getTransaction().isActive()){
+                em.getTransaction().rollback();
+            }
         }
-        return false;
+        return buildResponse(500);
     }
 }
