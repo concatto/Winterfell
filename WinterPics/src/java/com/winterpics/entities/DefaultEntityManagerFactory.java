@@ -6,12 +6,12 @@ import javax.persistence.Persistence;
 
 public abstract class DefaultEntityManagerFactory {
 
+    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WinterPicsPU");
+
     private DefaultEntityManagerFactory() {
     }
 
-    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WinterPicsPU");
-
-    public static EntityManager newDefaultEntityManager()
+    public static final EntityManager newDefaultEntityManager()
     {
         return entityManagerFactory.createEntityManager();
     }

@@ -1,5 +1,6 @@
 package com.winterpics.services;
 
+import com.winterpics.services.customParams.ReactionRequest;
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.Publication;
 import com.winterpics.entities.Reaction;

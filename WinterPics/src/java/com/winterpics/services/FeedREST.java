@@ -11,6 +11,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -18,12 +19,11 @@ import javax.ws.rs.core.MediaType;
 public class FeedREST {
     
     @GET
-    @Path("{offset}/{limit}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Publication> getFeed(
             @Context HttpServletRequest request,
-            @PathParam("offset") int offset,
-            @PathParam("limit") int limit
+            @QueryParam("offset") int offset,
+            @QueryParam("limit") int limit
     ){
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
         EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
@@ -48,9 +48,13 @@ public class FeedREST {
             + "WHERE u = :user OR p.author = :user "
             + "ORDER BY p.moment DESC"
         )
-        .setParameter("user", user)
-        .setFirstResult(offset)
-        .setMaxResults(limit);
+        .setParameter("user", user);
+//        .setFirstResult(offset)
+//        .setMaxResults(limit);
+        query.setFirstResult(offset);
+        if (limit > 0){
+            query.setMaxResults(limit);
+        }
 //        Query query = em.createQuery(
 //                "SELECT p "
 //                        +"FROM Publication AS p "

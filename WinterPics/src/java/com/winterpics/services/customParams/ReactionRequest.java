@@ -1,4 +1,4 @@
-package com.winterpics.services;
+package com.winterpics.services.customParams;
 
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
