@@ -12,12 +12,14 @@ Rede Social para Compartilhamento de Imagens
     * Body: 
    ```json
         {
-          "name": "Samuel Brati Favarin",
-          "login": "samuelbfav",
-          "pass": "666666",
-          "email": "a@b.com.br",
-          "photopath": "./avatar.jpg"
-        }
+             "userdata":{
+                 "name": "Vinícius Almeida dos Santos",
+                 "login": "vvv",
+                 "pass": "123456",
+                 "email": "vinicius@rudinei.cnt.br"
+             },
+             "photo":" data:image/png;base64,iVB..." /* imagem em base64*/
+         }
    ```
    
 * /services/winteruser
@@ -76,17 +78,7 @@ Rede Social para Compartilhamento de Imagens
       [
           {
               "reactionResume": {
-                  "reactions": [
-                      0,
-                      0,
-                      2,
-                      0,
-                      0,
-                      0,
-                      1,
-                      0,
-                      1
-                  ],
+                  "reactions": [ 0, 0, 2, 0, 0, 0, 1, 0, 1 ],
                   "userReaction": 1
               },
               "author": {
@@ -107,6 +99,8 @@ Rede Social para Compartilhamento de Imagens
    ```
 * userReaction só existirá se o usuário fez alguma reação
 * Diferença entre com e sem otherID no JSon de resposta: se for otherID, haverá o dado isFollowing em author
+
+
 * /services/publications/<otherID>[?[limit={lim}][&offset={off}]]
    * Observação sobre os query params: Se não houver offset, será setado para zero, se não houver limit ou for zero, retornará todas as publicações utilizando o offset, se não houver nenhum, retornará todas as publicaçes
    * GET
@@ -117,17 +111,7 @@ Rede Social para Compartilhamento de Imagens
       [
           {
               "reactionResume": {
-                  "reactions": [
-                      0,
-                      0,
-                      2,
-                      0,
-                      0,
-                      0,
-                      1,
-                      0,
-                      1
-                  ],
+                  "reactions": [ 0, 0, 2, 0, 0, 0, 1, 0, 1 ],
                   "userReaction": 1
               },
               "author": {
@@ -157,17 +141,7 @@ Rede Social para Compartilhamento de Imagens
       [
           {
               "reactionResume": {
-                  "reactions": [
-                      0,
-                      0,
-                      1,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0
-                  ],
+                  "reactions": [ 0, 0, 1, 0, 0, 0, 0, 0, 0 ],
                   "userReaction": 1
               },
               "author": {
@@ -229,6 +203,7 @@ Rede Social para Compartilhamento de Imagens
     * Header necessário `Authorization: Basic btoa(login:pass)`
        * btoa: Conversão para base64 no JavaScript
     * POST;
+    * Content-Type: application/json 
     * Retorna status 204 ou 500, se deu certo ou deu erro, respectivamente;
       * 204: No Content
     * Body:
@@ -243,6 +218,7 @@ Rede Social para Compartilhamento de Imagens
     * Header necessário `Authorization: Basic btoa(login:pass)`
        * btoa: Conversão para base64 no JavaScript
     * POST;
+    * Content-Type: application/json 
     * Retorna status 204 ou 500, se deu certo ou deu erro, respectivamente;
       * 204: No Content
     * Body:
