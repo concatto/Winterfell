@@ -86,7 +86,8 @@ Rede Social para Compartilhamento de Imagens
                       1,
                       0,
                       1
-                  ]
+                  ],
+                  "userReaction": 1
               },
               "author": {
                   "email": "a@b",
@@ -104,7 +105,7 @@ Rede Social para Compartilhamento de Imagens
           }
       ]
    ```
-   
+** userReaction só existirá se o usuário fez alguma reação **
 **Diferença entre com e sem otherID no JSon de resposta: se for otherID, haverá o dado isFollowing em author**
 * /services/publications/<otherID>[?[limit={lim}][&offset={off}]]
    * Observação sobre os query params: Se não houver offset, será setado para zero, se não houver limit ou for zero, retornará todas as publicações utilizando o offset, se não houver nenhum, retornará todas as publicaçes
@@ -126,7 +127,8 @@ Rede Social para Compartilhamento de Imagens
                       1,
                       0,
                       1
-                  ]
+                  ],
+                  "userReaction": 1
               },
               "author": {
                   "email": "a@b",
@@ -165,7 +167,8 @@ Rede Social para Compartilhamento de Imagens
                       0,
                       0,
                       0
-                  ]
+                  ],
+                  "userReaction": 1
               },
               "author": {
                   "email": "a@b",
