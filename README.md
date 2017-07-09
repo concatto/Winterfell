@@ -105,8 +105,8 @@ Rede Social para Compartilhamento de Imagens
           }
       ]
    ```
-** userReaction só existirá se o usuário fez alguma reação **
-**Diferença entre com e sem otherID no JSon de resposta: se for otherID, haverá o dado isFollowing em author**
+* userReaction só existirá se o usuário fez alguma reação
+* Diferença entre com e sem otherID no JSon de resposta: se for otherID, haverá o dado isFollowing em author
 * /services/publications/<otherID>[?[limit={lim}][&offset={off}]]
    * Observação sobre os query params: Se não houver offset, será setado para zero, se não houver limit ou for zero, retornará todas as publicações utilizando o offset, se não houver nenhum, retornará todas as publicaçes
    * GET
@@ -187,8 +187,11 @@ Rede Social para Compartilhamento de Imagens
           }
       ]
    ```
+   
 * /services/reaction
     * Cadastro de nova reação;
+    * Header necessário `Authorization: Basic btoa(login:pass)`
+       * btoa: Conversão para base64 no JavaScript
     * POST com Json;
     * Retorna true ou false;
     * Content-Type: application/json 
@@ -197,6 +200,56 @@ Rede Social para Compartilhamento de Imagens
          {
             "type": 3,
             "publication": 23
+         }
+   ```
+   
+* /services/following
+    * Busca de pessoas que está seguindo;
+    * Header necessário `Authorization: Basic btoa(login:pass)`
+       * btoa: Conversão para base64 no JavaScript
+    * GET;
+    * Retorna lista em JSon;
+    * returns:
+   ```json
+         [
+             {
+                 "email": "samuel@s.com",
+                 "id": 101,
+                 "login": "samuelbfav",
+                 "nFollowing": 1,
+                 "nPublications": 1,
+                 "name": "Samuel Bratti Favarin",
+                 "photopath": "assets/1499549280503101.png"
+             }
+         ]
+   ```
+   
+* /services/following/follow
+    * Começa a seguir uma pessoa;
+    * Header necessário `Authorization: Basic btoa(login:pass)`
+       * btoa: Conversão para base64 no JavaScript
+    * POST;
+    * Retorna status 204 ou 500, se deu certo ou deu erro, respectivamente;
+      * 204: No Content
+    * Body:
+      * pode conter mais dados do usuário, o id é o único necessário
+   ```json
+         {
+            "id":"53"
+         }
+   ```
+* /services/following/unfollow
+    * Para de a seguir uma pessoa;
+    * Header necessário `Authorization: Basic btoa(login:pass)`
+       * btoa: Conversão para base64 no JavaScript
+    * POST;
+    * Retorna status 204 ou 500, se deu certo ou deu erro, respectivamente;
+      * 204: No Content
+    * Body:
+      * pode conter mais dados do usuário, o id é o único necesário
+   ```json
+         {
+            "id":"53"
          }
    ```
 
