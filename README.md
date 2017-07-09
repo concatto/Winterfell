@@ -105,7 +105,7 @@ Rede Social para Compartilhamento de Imagens
       ]
    ```
    
-**Diferença entre com otherID no JSon: se tiver for otherID, haverá o dado isFollowing em author**
+**Diferença entre com e sem otherID no JSon de resposta: se for otherID, haverá o dado isFollowing em author**
 * /services/publications/<otherID>[?[limit={lim}][&offset={off}]]
    * Observação sobre os query params: Se não houver offset, será setado para zero, se não houver limit ou for zero, retornará todas as publicações utilizando o offset, se não houver nenhum, retornará todas as publicaçes
    * GET
