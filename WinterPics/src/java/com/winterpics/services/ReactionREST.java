@@ -14,33 +14,52 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("reaction")
 public class ReactionREST {
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
-    public boolean newReaction(ReactionRequest reactionRequest, @Context HttpServletRequest request){
+    public Response newReaction(ReactionRequest reactionRequest, @Context HttpServletRequest request){
         if (reactionRequest == null){
-            return false;
+            return Response.serverError().build();
         }
-        Reaction reaction = new Reaction();
-        reaction.setType(ReactionType.fromReactionCode(reactionRequest.getReactionType()));
-        reaction.setPublication(new Publication(reactionRequest.getPublication()));
+        WinterUser user = (WinterUser) request.getAttribute("winteruser");
+        EntityManager em = null;
+        
         try {
-            WinterUser user = (WinterUser) request.getAttribute("winteruser");
+            em = DefaultEntityManagerFactory.newDefaultEntityManager();
+            
+            if (reactionRequest.getReactionType() == -1){
+                Reaction r = (Reaction) em.createQuery("SELECT r FROM Reaction r WHERE r.author=:user AND r.publication.id=:publicationID")
+                        .setParameter("user", user)
+                        .setParameter("publicationID", reactionRequest.getPublication())
+                        .getSingleResult();
+                em.getTransaction().begin();
+                em.remove(r);
+                em.getTransaction().commit();
+                return Response.ok().build();
+            }
+
+            Reaction reaction = new Reaction();
+            reaction.setType(ReactionType.fromReactionCode(reactionRequest.getReactionType()));
+            reaction.setPublication(new Publication(reactionRequest.getPublication()));
             reaction.setAuthor(user);
-            EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
+            
             em.getTransaction().begin();
             em.persist(reaction);
             em.flush();
             em.getTransaction().commit();
-            return true;
+            
+            return Response.ok().build();
         } catch (Exception e){
             e.printStackTrace();
         }
-        return false;
+        if (em != null && em.getTransaction().isActive()){
+            em.getTransaction().rollback();
+        }
+        return Response.serverError().build();
     }
     
 }

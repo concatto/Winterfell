@@ -17,8 +17,7 @@ public enum ReactionType implements Serializable {
     @XmlEnumValue(value = "5") R5(5),
     @XmlEnumValue(value = "6") R6(6),
     @XmlEnumValue(value = "7") R7(7),
-    @XmlEnumValue(value = "8") R8(8),
-    @XmlEnumValue(value = "9") R9(9);
+    @XmlEnumValue(value = "8") R8(8);
     
     private int reactionCode;
     private ReactionType(int reactionCode) {
