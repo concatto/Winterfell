@@ -3,6 +3,7 @@ package com.winterpics.services;
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.WinterUser;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,6 +66,9 @@ public class FollowingREST {
         if (em != null && em.getTransaction().isActive()){
             em.getTransaction().rollback();
         }
+        if (em != null){
+            em.close();
+        }
         return Response.serverError().build();
     }
     
@@ -77,6 +81,12 @@ public class FollowingREST {
             @Context HttpServletResponse response
     ){
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
+        if (
+                Objects.equals(user.getId(), other.getId())
+            || user.getFollowing().contains(other)
+        ){
+            return Response.serverError().build();
+        }
         user.getFollowing().add(other);
         return updateFolowing(user);
     }
@@ -90,6 +100,13 @@ public class FollowingREST {
             @Context HttpServletResponse response
     ){
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
+        if (
+                Objects.equals(user.getId(), other.getId())
+            || user.getFollowing().contains(other)
+        ){
+            return Response.serverError().build();
+        }
+        user.getFollowing().add(other);
         user.getFollowing().remove(other);
         return updateFolowing(user);
     }

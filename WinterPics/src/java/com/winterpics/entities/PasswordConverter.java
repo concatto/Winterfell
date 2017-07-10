@@ -28,7 +28,7 @@ public class PasswordConverter implements AttributeConverter<String,String> {
 
     @Override
     public String convertToEntityAttribute(String dbData) {
-        return null;
+        return dbData;
     }
 
 }
