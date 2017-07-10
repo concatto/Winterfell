@@ -248,6 +248,26 @@ Rede Social para Compartilhamento de Imagens
              }
          ]
    ```
+* /services/following/{otherID}
+    * Busca de pessoas que outro está seguindo;
+    * Header necessário `Authorization: Basic btoa(login:pass)`
+       * btoa: Conversão para base64 no JavaScript
+    * GET;
+    * Retorna lista em JSon;
+    * returns:
+   ```json
+         [
+           {
+              "email": "teste@teste.br",
+              "id": 53,
+              "login": "teste",
+              "nFollowing": 0,
+              "nPublications": 0,
+              "name": "Teste",
+              "photopath": "./teste.jpg"
+          }
+         ]
+   ```
    
 * /services/following/follow
     * Começa a seguir uma pessoa;
