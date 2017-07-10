@@ -49,7 +49,7 @@ public class NewUserREST {
         try {
             em = DefaultEntityManagerFactory.newDefaultEntityManager();
             em.getTransaction().begin();
-            data.getUserdata().setPhotopath("assets/defaultphoto.jpg");
+            data.getUserdata().setPhotopath("assets/defaultphoto.png");
             em.persist(data.getUserdata());
             em.flush();
             
