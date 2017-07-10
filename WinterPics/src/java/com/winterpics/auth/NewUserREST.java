@@ -49,15 +49,18 @@ public class NewUserREST {
         try {
             em = DefaultEntityManagerFactory.newDefaultEntityManager();
             em.getTransaction().begin();
-            data.getUserdata().setPhotopath("");
+            data.getUserdata().setPhotopath("assets/defaultphoto.jpg");
             em.persist(data.getUserdata());
             em.flush();
             
-            photo = ImageConversor.saveImage(data.getPhoto(), data.getUserdata(), request);
-            data.getUserdata().setPhotopath(photo);
+            if (data.getPhoto() != null && !data.getPhoto().isEmpty()){
+                photo = ImageConversor.saveImage(data.getPhoto(), data.getUserdata(), request);
+                data.getUserdata().setPhotopath(photo);
+                
+                em.persist(data.getUserdata());
+                em.flush();
+            }
             
-            em.persist(data.getUserdata());
-            em.flush();
             em.getTransaction().commit();
             em.close();
             return buildResponse(200);
