@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,7 +53,7 @@ public class Publication implements Serializable {
     @Column(name = "title", length = 60)
     private String title;
     
-    @OneToMany(mappedBy = "publication")
+    @OneToMany(mappedBy = "publication", cascade = CascadeType.REMOVE)
     private List<Reaction> reactions;
     
     @JoinColumn(name = "author_id", referencedColumnName = "id")
