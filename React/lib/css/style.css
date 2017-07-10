@@ -641,7 +641,7 @@ div.panel.post div.panel-body {
 }
 
 .reaction .thumbnail img {
-  height: 100px;
+  max-height: 100px;
 }
 /* END REACTIONS */
 

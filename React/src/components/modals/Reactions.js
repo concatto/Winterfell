@@ -46,7 +46,7 @@ export default class Reactions extends React.Component {
       const text = isNaN(percent) ? "-" : (Math.round(percent) + "%");
 
       return (
-        <Col xs={4} key={index} className={className}>
+        <Col md={4} xs={6} key={index} className={className}>
           <Thumbnail src={item.image} alt={item.label} onClick={() => this.handleReact(index)}>
             <p>{item.label}</p>
             <h5>{text}</h5>
