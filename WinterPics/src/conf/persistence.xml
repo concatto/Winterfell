@@ -5,6 +5,8 @@
     <class>com.winterpics.entities.Publication</class>
     <class>com.winterpics.entities.Reaction</class>
     <class>com.winterpics.entities.WinterUser</class>
+    <class>com.winterpics.entities.PasswordConverter</class>
+    <class>com.winterpics.entities.ReactionConverter</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://31.220.22.185:5432/winterpics"/>

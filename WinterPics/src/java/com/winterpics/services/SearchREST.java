@@ -27,14 +27,14 @@ public class SearchREST {
     ){
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
         
-        String query = "FROM WinterUser u WHERE LOWER(u.name) LIKE LOWER(:name) ORDER BY u.name";
+        String query = "FROM WinterUser u WHERE LOWER(u.name) LIKE LOWER(:name)";
         EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
         
         Query counter = em.createQuery("SELECT COUNT(u.id) "+query);
         counter.setParameter("name", "%"+data+"%");
         long count = (long) counter.getSingleResult();
         
-        Query res = em.createQuery("SELECT u "+query);
+        Query res = em.createQuery("SELECT u "+query+" ORDER BY u.name");
         res.setParameter("name", "%"+data+"%");
         res.setFirstResult(offset);
         if (limit > 0){
