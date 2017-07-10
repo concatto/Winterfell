@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 
+@Deprecated
 @WebServlet(urlPatterns = {"/fileupload/*"})
 @MultipartConfig
 public class PhotoUploadServlet extends HttpServlet {

@@ -18,6 +18,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Stateless
 @Path("winteruser")
@@ -66,7 +67,7 @@ public class WinterUserREST {
     @PUT
     @Path("{action}")
     @Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_FORM_URLENCODED})
-    public void edit(
+    public Response edit(
             @PathParam("action") String action,
             String data,
             @Context HttpServletRequest request,
@@ -98,8 +99,7 @@ public class WinterUserREST {
             }
             
             em.getTransaction().commit();
-            response.setStatus(200);
-            return;
+            return Response.ok().build();
             
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -107,7 +107,7 @@ public class WinterUserREST {
         if (em != null && em.getTransaction().isActive()){
             em.getTransaction().rollback();
         }
-        response.setStatus(500);
+        return Response.serverError().build();
     }
     
     

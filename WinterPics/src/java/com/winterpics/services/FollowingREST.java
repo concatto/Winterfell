@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("following")
 public class FollowingREST {
@@ -25,48 +26,47 @@ public class FollowingREST {
         return user.getFollowing();
     }
     
-    private void updateFolowing(WinterUser user, HttpServletResponse response){
+    private Response updateFolowing(WinterUser user){
         EntityManager em = null;
         try {
             em = DefaultEntityManagerFactory.newDefaultEntityManager();
             em.getTransaction().begin();
             em.merge(user);
             em.getTransaction().commit();
-            response.setStatus(200);
-            return;
+            return Response.ok().build();
         } catch (Exception e){
             e.printStackTrace();
         }
         if (em != null && em.getTransaction().isActive()){
             em.getTransaction().rollback();
         }
-        response.setStatus(500);
+        return Response.serverError().build();
     }
     
     @POST
     @Path("follow")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void follow(
+    public Response follow(
             WinterUser other,
             @Context HttpServletRequest request,
             @Context HttpServletResponse response
     ){
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
         user.getFollowing().add(other);
-        updateFolowing(user, response);
+        return updateFolowing(user);
     }
     
     @POST
     @Path("unfollow")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void unfollow(
+    public Response unfollow(
             WinterUser other,
             @Context HttpServletRequest request,
             @Context HttpServletResponse response
     ){
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
         user.getFollowing().remove(other);
-        updateFolowing(user, response);
+        return updateFolowing(user);
     }
     
 }
