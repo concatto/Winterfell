@@ -14,6 +14,7 @@ public class ServicesConfig extends Application {
         resources.add(com.winterpics.services.FeedREST.class);
         resources.add(com.winterpics.services.FollowingREST.class);
         resources.add(com.winterpics.services.ReactionREST.class);
+        resources.add(com.winterpics.services.SearchREST.class);
         return resources;
     }
 }
