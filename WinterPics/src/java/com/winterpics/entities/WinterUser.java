@@ -6,6 +6,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -158,10 +160,17 @@ public class WinterUser implements Serializable {
     void setnFollowing(int n){}
     
     @Transient
-    public int getnPublications(){
-        return publications.size();
+    public long getnPublications(){
+        try {
+            EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
+            return (long) em.createQuery("SELECT COUNT(p) FROM Publication p WHERE p.author=:user")
+                    .setParameter("user", this).getSingleResult();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
-    void setnPublications(int n){}
+    void setnPublications(long n){}
     
     @Transient
     Boolean isFollowing = null;

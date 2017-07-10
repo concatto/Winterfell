@@ -27,7 +27,7 @@ public class FeedREST {
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
         EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
         Query query = em.createQuery(
-            "SELECT p "
+            "SELECT DISTINCT p "
             + "FROM WinterUser u "
             + "JOIN u.following f "
             + "JOIN f.publications p "
