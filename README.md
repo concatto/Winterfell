@@ -134,6 +134,8 @@ Rede Social para Compartilhamento de Imagens
    
 * /services/publications
     * Cadastro de nova publicação;
+    * Header necessário `Authorization: Basic btoa(login:pass)`
+       * btoa: Conversão para base64 no JavaScript
     * POST com Json;
     * Usa status 200 ou 500;
     * Content-Type: application/json 
@@ -165,6 +167,20 @@ Rede Social para Compartilhamento de Imagens
          }
    ```
 
+* /services/publications
+    * Deletar publicação;
+    * Header necessário `Authorization: Basic btoa(login:pass)`
+        * btoa: Conversão para base64 no JavaScript
+    * Só é possível deletar publicações do usuário logado
+    * DELETE com Json;
+    * Usa status 200 ou 500;
+    * Content-Type: application/json 
+    * Body:
+   ```json
+      {
+          "id": 1
+      }
+   ```
 
 * /services/feed[?[limit={lim}][&offset={off}]]
    * GET
