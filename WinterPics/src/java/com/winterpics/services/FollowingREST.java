@@ -137,11 +137,10 @@ public class FollowingREST {
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
         if (
                 Objects.equals(user.getId(), other.getId())
-            || user.getFollowing().contains(other)
+            || !user.getFollowing().contains(other)
         ){
             return Response.serverError().build();
         }
-        user.getFollowing().add(other);
         user.getFollowing().remove(other);
         return updateFolowing(user);
     }
