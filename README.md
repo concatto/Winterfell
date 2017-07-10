@@ -217,8 +217,9 @@ Rede Social para Compartilhamento de Imagens
     * Header necessário `Authorization: Basic btoa(login:pass)`
        * btoa: Conversão para base64 no JavaScript
     * POST com Json;
-    * Retorna true ou false;
+    * Retorna status 200 ou 500
     * Content-Type: application/json 
+    * Se o tipo for -1, a reação será removida
     * Body: 
    ```json
          {
