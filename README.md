@@ -7,7 +7,7 @@ Rede Social para Compartilhamento de Imagens
 * /authentication/newuser
     * Cadastro de novo usuário;
     * POST com Json;
-    * Retorna true ou false;
+    * Usa status 200 ou 500;
     * Content-Type: application/json 
     * Body: 
    ```json
@@ -18,7 +18,7 @@ Rede Social para Compartilhamento de Imagens
                  "pass": "123456",
                  "email": "vinicius@rudinei.cnt.br"
              },
-             "photo":" data:image/png;base64,iVB..." /* imagem em base64*/
+             "photo":"data:image/png;base64,iVB..." /* imagem em base64*/
          }
    ```
    
@@ -131,6 +131,40 @@ Rede Social para Compartilhamento de Imagens
           }
       ]
    ```
+   
+* /services/publications
+    * Cadastro de nova publicação;
+    * POST com Json;
+    * Usa status 200 ou 500;
+    * Content-Type: application/json 
+    * Body: 
+   ```json
+        {
+             "publication":{
+                 "title": "Minha incrível publicação"
+             },
+             "photo":"data:image/png;base64,iVB..." /* imagem em base64*/
+         }
+   ```
+   * Resposta:
+   ```json
+         {
+             "author": {
+                 "email": "a@b",
+                 "id": 51,
+                 "login": "viniciusas",
+                 "nFollowing": 2,
+                 "nPublications": 7,
+                 "name": "Vinícius Almeida dos Santos",
+                 "photopath": "assets/1499640313876_51.png"
+             },
+             "id": 801,
+             "imagepath": "assets/1499645507183_51.png",
+             "moment": "2017-07-09T21:11:47.18-03:00",
+             "title": "Minha incrível publicação"
+         }
+   ```
+
 
 * /services/feed[?[limit={lim}][&offset={off}]]
    * GET
