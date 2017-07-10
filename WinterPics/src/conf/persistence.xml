@@ -2,11 +2,11 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="WinterPicsPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.winterpics.entities.PasswordConverter</class>
+    <class>com.winterpics.entities.ReactionConverter</class>
     <class>com.winterpics.entities.Publication</class>
     <class>com.winterpics.entities.Reaction</class>
     <class>com.winterpics.entities.WinterUser</class>
-    <class>com.winterpics.entities.PasswordConverter</class>
-    <class>com.winterpics.entities.ReactionConverter</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://31.220.22.185:5432/winterpics"/>
