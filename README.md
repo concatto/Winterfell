@@ -262,6 +262,26 @@ Rede Social para Compartilhamento de Imagens
             "id":"53"
          }
    ```
-
+* /services/search/<nome>[?[limit={lim}][&offset={off}]]
+   * GET
+   * Header necessário `Authorization: Basic btoa(login:pass)`
+      * btoa: Conversão para base64 no JavaScript
+   * Retorna uma lista de usuários com um contador de resultados:
+   ```json
+      {
+          "result": [
+              {
+                  "email": "samuel@s.com",
+                  "id": 101,
+                  "login": "samuelbfav",
+                  "nFollowing": 1,
+                  "nPublications": 1,
+                  "name": "Samuel Bratti Favarin",
+                  "photopath": "assets/1499549280503101.png"
+              }
+          ],
+          "nResults": 4
+      }
+   ```
 
 
