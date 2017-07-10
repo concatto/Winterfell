@@ -18,7 +18,7 @@ export default class FileChooser extends React.Component {
 
   render() {
     return (
-      <div className="text-center">
+      <div className={"text-center " + this.props.className}>
         <Button onClick={(e) => this.fileInput.click()}>
           {this.props.children}
         </Button>

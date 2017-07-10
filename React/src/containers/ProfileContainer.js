@@ -16,7 +16,6 @@ const stateMapper = (state, ownProps) => {
   return {
     id,
     isSelf: state.currentUser.id == id,
-    notifications: state.notifications,
     authorized: true,
     userData: state.users.data ? state.users.data[id] : undefined,
     error: state.users.error,

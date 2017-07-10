@@ -42,4 +42,6 @@
     background-size: 60%;
     background-repeat: no-repeat;
     background-color: #000;
+    height: 100vh;
+    overflow-y: scroll;
 }

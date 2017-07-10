@@ -14,7 +14,7 @@ export const failAsync = (name, payload) => ({
   type: name + "_FAILURE", error: payload
 });
 
-const createUrl = (suffix) => {
+export const createUrl = (suffix) => {
   if (suffix[0] == "/") suffix = suffix.substring(1); //Remove the initial slash
 
   return "http://localhost:8084/WinterPics/" + suffix;
@@ -157,10 +157,16 @@ export const authenticate = (user, password, remember) => (dispatch, getState) =
     });
 
     dispatch(push("/profile"));
+  }, (error) => {
+    if (error.response.status == 401) { //Unauthorized
+      dispatch(notifyError("Usuário e/ou senha incorretos."));
+    } else {
+      dispatch(notifyError("Falha na comunicação com o servidor."));
+    }
   });
 }
 
-export const createAccount = (name, user, email, password) => (dispatch) => {
+export const createAccount = (name, user, email, password, image) => (dispatch) => {
   const config = {
     method: "post",
     url: createUrl("authentication/newuser"),
@@ -170,12 +176,15 @@ export const createAccount = (name, user, email, password) => (dispatch) => {
         email,
         login: user,
         pass: password
-      }
+      },
+      photo: image,
     }
   };
 
   makeRequest(dispatch, config, "CREATE_ACCOUNT", (data) => {
-    
+    dispatch(notifySuccess("Sua conta foi criada com sucesso! Entre com seu usuário e senha para iniciar a navegação."));
+  }, () => {
+    dispatch(notifyError("Falha ao criar a conta."));
   });
 };
 

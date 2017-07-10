@@ -43,7 +43,7 @@ export const displayAuthError = () => push("/unauthorized");
 
 const notificationOptions = {
   position: "bc",
-  autoDismiss: 2,
+  autoDismiss: 3,
 };
 
 export const notifySuccess = (message) => (

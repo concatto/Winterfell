@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { fetchFollowing } from '../../actions/asyncActions';
 import FailureAlert from '../../components/FailureAlert';
 
-const LIMIT = 2;
+const LIMIT = 10;
 
 class ViewFollowing extends React.Component {
   componentDidMount() {
@@ -14,7 +14,10 @@ class ViewFollowing extends React.Component {
   }
 
   handleScroll(e) {
-    console.log(e);
+    const isBottom = e.target.scrollTop + e.target.offsetHeight === e.target.scrollHeight;
+    if (isBottom && !this.props.following.ended && !this.props.following.error) {
+      this.props.fetchFollowing(this.props.id, LIMIT);
+    }
   }
 
   getContent() {
@@ -24,8 +27,7 @@ class ViewFollowing extends React.Component {
       const data = this.props.following.data.map((item) => this.props.users.data[item]);
       return (
         <PersonListContainer data={data}
-          className="following-list"
-          onScroll={(e) => this.handleScroll(e)}/>
+          className="following-list"/>
       );
     }
   }
@@ -35,7 +37,7 @@ class ViewFollowing extends React.Component {
       <BaseModal.Wrapper>
         <BaseModal.Header>Pessoas que você segue</BaseModal.Header>
 
-        <BaseModal.Body maximumHeight={400}>
+        <BaseModal.Body maximumHeight={400} onScroll={(e) => this.handleScroll(e)}>
           {this.getContent()}
         </BaseModal.Body>
 

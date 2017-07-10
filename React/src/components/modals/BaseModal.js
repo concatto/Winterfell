@@ -49,8 +49,8 @@ BaseModal.Header = ({children}) => (
   </Modal.Header>
 );
 
-BaseModal.Body = ({children, maximumHeight=undefined}) => (
-  <Modal.Body>
+BaseModal.Body = ({onScroll, children, maximumHeight=undefined}) => (
+  <Modal.Body onScroll={onScroll}>
     <div style={{maxHeight: maximumHeight}}>
       {children}
     </div>

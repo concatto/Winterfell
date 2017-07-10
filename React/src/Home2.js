@@ -1,10 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Button, Col, Row, Glyphicon, Carousel, Modal, showModal, Show, FormGroup, FormControl, Form, ControlLabel, Checkbox, Thumbnail, Grid, Navbar,InputGroup} from 'react-bootstrap';
+import { Image, Button, Col, Row, Glyphicon, Carousel, Modal, showModal, Show, FormGroup, FormControl, Form, ControlLabel, Checkbox, Thumbnail, Grid, Navbar,InputGroup} from 'react-bootstrap';
 import { Parallax } from 'react-parallax';
 import FadeIn from 'react-fade-in';
 import { connect } from 'react-redux';
-import { authenticate, createAccount } from './actions/asyncActions';
+import { authenticate, createAccount, createUrl } from './actions/asyncActions';
+import FileChooser from './components/FileChooser';
 
 const Esquecer_Senha = React.createClass({
   getInitialState() {
@@ -62,7 +63,7 @@ const Esquecer_Senha = React.createClass({
 
 let ModalCadastrar = React.createClass({
   getInitialState() {
-    return { showModal: false };
+    return { showModal: false, image: undefined };
   },
 
   close() {
@@ -80,7 +81,17 @@ let ModalCadastrar = React.createClass({
       return;
     }
 
-    this.props.createAccount(this.name.value, this.user.value, this.email.value, this.pass.value);
+    this.props.createAccount(this.name.value, this.user.value, this.email.value, this.pass.value, this.state.image);
+  },
+
+  handleChoose(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      console.log(e);
+      this.setState({image: e.target.result});
+    }
+
+    reader.readAsDataURL(file);
   },
 
   render() {
@@ -97,6 +108,15 @@ let ModalCadastrar = React.createClass({
           <Modal.Body>
           <div>
             <Form onSubmit={(e) => this.handleSubmit(e)}>
+              <div className="change-avatar">
+                <Image src={this.state.image || createUrl("assets/defaultphoto.jpg")} circle
+                  onClick={() => this.chooser.click()}/>
+
+                <FileChooser className="hidden"
+                  onChoose={(f) => this.handleChoose(f)}
+                  refCallback={(r) => this.chooser = r}/>
+              </div>
+
               <FormGroup controlId="formHorizontalEmail">
                 <p> Nome completo </p>
                 <Col>

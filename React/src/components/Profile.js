@@ -12,7 +12,6 @@ import RenameUser from '../components/modals/RenameUser';
 import Reactions from '../components/modals/Reactions';
 import BaseModal from '../components/modals/BaseModal';
 import { Grid, Row, Col, Nav } from 'react-bootstrap';
-import Notifications from 'react-notification-system-redux';
 import FailureAlert from './FailureAlert';
 
 export default class Profile extends React.Component {
@@ -82,7 +81,7 @@ export default class Profile extends React.Component {
   }
 
   render() {
-    const { id, notifications, authorized, isSelf } = this.props;
+    const { id, authorized, isSelf } = this.props;
 
     if (!authorized) {
       return null;
@@ -106,8 +105,6 @@ export default class Profile extends React.Component {
             </Col>
           </Row>
         </Grid>
-
-        <Notifications notifications={notifications}/>
       </div>
     );
   }
