@@ -50,7 +50,7 @@ public class Publication implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date moment;
     
-    @Column(name = "title", length = 60)
+    @Column(name = "title", length = 150)
     private String title;
     
     @OneToMany(mappedBy = "publication", cascade = CascadeType.REMOVE)
