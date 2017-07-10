@@ -3,6 +3,7 @@ package com.winterpics.services;
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.Publication;
 import com.winterpics.entities.WinterUser;
+import com.winterpics.services.customParams.NewPublicationRequest;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -81,31 +82,43 @@ public class PublicationsREST {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Publication newPublication(
-        Publication publication,
+        NewPublicationRequest data,
         @Context HttpServletRequest request,
         @Context HttpServletResponse response
     ){
-        if (publication == null){
+        if (data == null){
             response.setStatus(500);
             return null;
         }
         EntityManager em = null;
+        String photo = null;
         try {
             WinterUser user = (WinterUser) request.getAttribute("winteruser");
-            publication.setAuthor(user);
-            publication.setMoment(Calendar.getInstance().getTime());
+            
+            data.getPublication().setAuthor(user);
+            data.getPublication().setMoment(Calendar.getInstance().getTime());
+            
             em = DefaultEntityManagerFactory.newDefaultEntityManager();
             em.getTransaction().begin();
-            em.persist(publication);
+            
+            photo = ImageConversor.saveImage(data.getPhoto(), user, request);
+            
+            data.getPublication().setImagepath(photo);
+            
+            em.persist(data.getPublication());
             em.flush();
             em.getTransaction().commit();
+            
             response.setStatus(200);
-            return publication;
+            return data.getPublication();
         } catch (Exception e){
             e.printStackTrace();
         }
         if (em != null && em.getTransaction().isActive()){
             em.getTransaction().rollback();
+        }
+        if (photo != null){
+            ImageConversor.deleteImage(photo, request);
         }
         response.setStatus(500);
         return null;

@@ -1,7 +1,6 @@
 package com.winterpics.auth;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
-import com.winterpics.entities.WinterUser;
 import com.winterpics.services.ImageConversor;
 import com.winterpics.services.customParams.NewUserRequest;
 import javax.ejb.Stateless;
