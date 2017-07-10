@@ -275,8 +275,7 @@ Rede Social para Compartilhamento de Imagens
        * btoa: Conversão para base64 no JavaScript
     * POST;
     * Content-Type: application/json 
-    * Retorna status 204 ou 500, se deu certo ou deu erro, respectivamente;
-      * 204: No Content
+    * Retorna status 200 ou 500, se deu certo ou deu erro, respectivamente;
     * Body:
       * pode conter mais dados do usuário, o id é o único necessário
    ```json
@@ -299,7 +298,7 @@ Rede Social para Compartilhamento de Imagens
             "id":"53"
          }
    ```
-* /services/search/<nome>[?[limit={lim}][&offset={off}]]
+* /services/search/[?[&data=<nome>][&limit=<lim>][&offset=<off>]]
    * GET
    * Header necessário `Authorization: Basic btoa(login:pass)`
       * btoa: Conversão para base64 no JavaScript
