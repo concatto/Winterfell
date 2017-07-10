@@ -27,7 +27,7 @@ public class SearchREST {
     ){
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
         
-        String query = "FROM WinterUser u WHERE LOWER(u.name) LIKE LOWER(:name)";
+        String query = "FROM WinterUser u WHERE LOWER(u.name) LIKE LOWER(:name) ORDER BY u.name";
         EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
         
         Query counter = em.createQuery("SELECT COUNT(u.id) "+query);
