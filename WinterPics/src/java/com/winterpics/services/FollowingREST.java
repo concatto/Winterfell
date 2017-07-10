@@ -2,9 +2,11 @@ package com.winterpics.services;
 
 import com.winterpics.entities.DefaultEntityManagerFactory;
 import com.winterpics.entities.WinterUser;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -13,6 +15,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -20,12 +23,36 @@ import javax.ws.rs.core.Response;
 @Path("following")
 public class FollowingREST {
 
+    
+    private List<WinterUser> searchFollowing(long id, int offset, int limit)
+    {
+        EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
+        
+        Query query = em.createQuery("SELECT u.following FROM WinterUser u WHERE u.id=:id ORDER BY u.name")
+                .setParameter("id", id);
+        query.setFirstResult(offset);
+        if (limit > 0){
+            query.setMaxResults(limit);
+        }
+        List<WinterUser> list = query.getResultList();
+        for (int i = 0; i < list.size(); ++i) {
+            if (list.get(i) == null){
+                list.remove(i);
+                i--;
+            }
+        }
+        return list;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<WinterUser> getFollowing(@Context HttpServletRequest request){
+    public List<WinterUser> getFollowing(
+            @Context HttpServletRequest request,
+            @QueryParam("offset") int offset,
+            @QueryParam("limit") int limit
+    ){
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
-        List<WinterUser> following = user.getFollowing();
+        List<WinterUser> following = searchFollowing(user.getId(), offset, limit);
         following.parallelStream().forEach((WinterUser w) -> {
             w.setisFollowing(Boolean.TRUE);
         });
@@ -37,18 +64,26 @@ public class FollowingREST {
     @Produces(MediaType.APPLICATION_JSON)
     public List<WinterUser> getOtherFollowing(
             @Context HttpServletRequest request,
-            @PathParam("otherID") long otherID
+            @PathParam("otherID") long otherID,
+            @QueryParam("offset") int offset,
+            @QueryParam("limit") int limit
     ){
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
-        EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
-        List<WinterUser> res = em.createQuery("SELECT u.following FROM WinterUser u WHERE u.id=:id")
-                                .setParameter("id", otherID)
-                                .getResultList();
+        
+        List<WinterUser> res = searchFollowing(otherID, offset, limit);
+        
         res.parallelStream().forEach((WinterUser w) -> {
+            if (w == null){
+                return;
+            }
             w.setisFollowing(
                 user.getFollowing().contains(w)
             );
         });
+        
+        if (res.isEmpty()){
+            return new ArrayList<>();
+        }
         return res;
     }
     

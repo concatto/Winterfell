@@ -228,7 +228,7 @@ Rede Social para Compartilhamento de Imagens
          }
    ```
    
-* /services/following
+* /services/following[?[limit={lim}][&offset={off}]]
     * Busca de pessoas que está seguindo;
     * Header necessário `Authorization: Basic btoa(login:pass)`
        * btoa: Conversão para base64 no JavaScript
@@ -248,7 +248,7 @@ Rede Social para Compartilhamento de Imagens
              }
          ]
    ```
-* /services/following/{otherID}
+* /services/following/{otherID}[?[limit={lim}][&offset={off}]]
     * Busca de pessoas que outro está seguindo;
     * Header necessário `Authorization: Basic btoa(login:pass)`
        * btoa: Conversão para base64 no JavaScript
