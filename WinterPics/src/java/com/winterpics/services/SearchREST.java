@@ -15,10 +15,9 @@ import javax.ws.rs.core.MediaType;
 public class SearchREST {
     
     @GET
-    @Path("{data}")
     @Produces(MediaType.APPLICATION_JSON)
     public SearchResponse searchUsers(
-        @PathParam("data") String data,
+        @QueryParam("data") String data,
         @QueryParam("offset") int offset,
         @QueryParam("limit") int limit
     ){
