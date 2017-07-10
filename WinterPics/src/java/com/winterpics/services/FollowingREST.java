@@ -30,11 +30,21 @@ public class FollowingREST {
     @GET
     @Path("{otherID}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<WinterUser> getOtherFollowing(@PathParam("otherID") long otherID){
+    public List<WinterUser> getOtherFollowing(
+            @Context HttpServletRequest request,
+            @PathParam("otherID") long otherID
+    ){
+        WinterUser user = (WinterUser) request.getAttribute("winteruser");
         EntityManager em = DefaultEntityManagerFactory.newDefaultEntityManager();
-        return em.createQuery("SELECT u.following FROM WinterUser u WHERE u.id=:id")
-            .setParameter("id", otherID)
-            .getResultList();
+        List<WinterUser> res = em.createQuery("SELECT u.following FROM WinterUser u WHERE u.id=:id")
+                                .setParameter("id", otherID)
+                                .getResultList();
+        res.parallelStream().forEach((WinterUser w) -> {
+            w.setisFollowing(
+                user.getFollowing().contains(w)
+            );
+        });
+        return res;
     }
     
     private Response updateFolowing(WinterUser user){
