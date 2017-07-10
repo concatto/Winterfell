@@ -4,7 +4,17 @@ import { reducer as notifications } from 'react-notification-system-redux';
 import modalReducer from './modalReducer.js'
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-const currentUser = JSON.parse(localStorage.getItem("USER_CREDENTIALS"));
+const retrieveUser = () => {
+  if (localStorage.getItem("USER_CREDENTIALS")) {
+    return JSON.parse(localStorage.getItem("USER_CREDENTIALS"));
+  } else if (sessionStorage.getItem("USER_CREDENTIALS")) {
+    return JSON.parse(sessionStorage.getItem("USER_CREDENTIALS"));
+  }
+
+  return undefined;
+}
+
+const currentUser = retrieveUser() || {};
 
 const users = {
   fetching: false,
@@ -91,6 +101,21 @@ const publications = {
   ]
 };
 
+const tryModifyPublication = (publications, id, callback) => {
+  let index = -1;
+  for (let i = 0; i < publications.length; i++) {
+    if (publications[i].id == id) {
+      index = i;
+      break;
+    }
+  }
+
+  if (index >= 0) {
+    return callback(publications, index);
+  }
+  return publications;
+}
+
 const initialFollowing = {
   fetching: false,
   fetched: false,
@@ -103,12 +128,18 @@ const initialUiState = {
 };
 
 const currentUserReducer = (state=currentUser, action) => {
+  let storage = undefined;
   switch (action.type) {
     case "LOG_IN":
-      localStorage.setItem("USER_CREDENTIALS", JSON.stringify(action.payload));
+      storage = action.payload.remember ? localStorage : sessionStorage;
+      storage.setItem("USER_CREDENTIALS", JSON.stringify(action.payload));
+
       return action.payload;
     case "LOG_OUT":
+      //Remove from both, who cares
+      sessionStorage.removeItem("USER_CREDENTIALS");
       localStorage.removeItem("USER_CREDENTIALS");
+
       return {};
   }
 
@@ -128,8 +159,8 @@ const usersReducer = (state={data: {}}, action) => {
       return modifyUser(state, action.id, {name: action.name});
     case "MODIFY_AVATAR":
       return modifyUser(state, action.id, {avatar: action.image});
-    case "TOGGLE_FOLLOWING":
-      return modifyUser(state, action.id, {isFollowing: !state[action.id].isFollowing})
+    case "SET_FOLLOWING":
+      return modifyUser(state, action.id, {isFollowing: action.payload})
     case "PREPARE_USER":
       return modifyUser(state, action.id, {fetching: true, fetched: false});
     case "INSERT_USER":
@@ -139,27 +170,63 @@ const usersReducer = (state={data: {}}, action) => {
       return modifyUser(state, action.payload, {toggling: action.type == "TOGGLING_START"});
     case "INSERT_USER_SET":
       return {...state, data: {...state.data, ...action.payload}};
+    case "FETCH_USER_SUCCESS":
+      return {...state, error: undefined};
+    case LOCATION_CHANGE:
+      const user = retrieveUser();
+      if (user) {
+        //Keep the user only.
+        return {...state, data: {[user.id]: state.data[user.id]}, error: undefined};
+      } else {
+        return {data: {}};
+      }
+    case "FETCH_USER_FAILURE":
+      return {...state, error: action.error};
   }
   return state;
 };
 
 const publicationsReducer = (state=publications, action) => {
+  let newData = null;
   switch (action.type) {
     case "FETCH_PUBLICATIONS_START":
       return {...state, fetching: true, fetched: false};
     case "FETCH_PUBLICATIONS_SUCCESS":
-      return {...state, fetching: false, fetched: true};
+    case "FETCH_PUBLICATIONS_FAILURE":
+      return {...state, fetching: false, fetched: true, error: action.error};
     case "INSERT_PUBLICATION":
       return {...state, data: [action.data].concat(state.data)};
     case "INSERT_PUBLICATION_SET":
       return {...state, data: state.data.concat(action.payload), ended: action.payload.length == 0};
     case "CHANGE_PUBLICATION_FILTER":
+      return {...publications, pathname: state.pathname};
     case LOCATION_CHANGE:
-      return publications; //Hard reset
+      return publications;
     case "REMOVE_PUBLICATION":
-      state = {...state};
-      delete state.data[action.id];
-      return state;
+      newData = tryModifyPublication(state.data, action.id, (data, index) => {
+        console.log("Splicing at " + index);
+        data.splice(index, 1);
+        return data;
+      });
+
+      return {...state, data: newData};
+    case "REGISTER_REACTION":
+      newData = tryModifyPublication(state.data, action.payload.id, (data, index) => {
+        if (data[index].ownReaction !== undefined) {
+          //If the user had reacted to the publication previously, remove it.
+          data[index].reactions[data[index].ownReaction]--;
+        }
+
+        if (action.payload.index !== -1) {
+          //If the user did not remove his reaction, increase the selected reaction amount.
+          data[index].reactions[action.payload.index]++;
+        }
+
+        data[index].ownReaction = action.payload.index;
+        return data;
+      });
+
+      return {...state, data: newData};
   }
 
   return state;
@@ -169,6 +236,13 @@ const uiReducer = (state=initialUiState, action) => {
   switch (action.type) {
     case "CHANGE_PUBLICATION_FILTER":
       return {...state, publicationFilterType: action.filterType};
+    case LOCATION_CHANGE:
+      return initialUiState; //Hard reset
+    case "AUTH_SUCCESS":
+    case "AUTH_FAILURE":
+      return {...state, authenticating: false};
+    case "AUTH_START":
+      return {...state, authenticating: true};
   }
 
   return state;
@@ -180,8 +254,10 @@ const searchReducer = (state={}, action) => {
       return {};
     case "SEARCH_START":
       return {working: true};
-    case "SEARCH_SUCCESS":
+    case "SEARCH_COMPLETED":
       return {results: action.results, working: false, totalResults: action.total};
+    case "SEARCH_FAILURE":
+      return {working: false, error: action.error};
   }
 
   return state;
@@ -193,6 +269,8 @@ const followingReducer = (state=initialFollowing, action) => {
       return initialFollowing;
     case "INSERT_FOLLOWING":
       return {...state, data: state.data.concat(action.payload), ended: action.payload.length == 0};
+    case "FETCH_FOLLOWING_FAILURE":
+      return {...state, error: action.error};
   }
 
   return state;

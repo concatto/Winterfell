@@ -5,7 +5,7 @@ import { fetchUser } from '../actions/asyncActions';
 import { withRouter } from 'react-router-dom';
 
 const stateMapper = (state, ownProps) => {
-  if (!state.currentUser) {
+  if (!state.currentUser.id) {
     return {
       authorized: false
     };
@@ -19,6 +19,7 @@ const stateMapper = (state, ownProps) => {
     notifications: state.notifications,
     authorized: true,
     userData: state.users.data ? state.users.data[id] : undefined,
+    error: state.users.error,
   };
 };
 

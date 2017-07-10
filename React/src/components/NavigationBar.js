@@ -62,12 +62,14 @@ export default class NavigationBar extends React.Component {
     return (
       <Navbar fixedTop fluid>
         <Navbar.Header className={this.state.expanded ? "hidden" : ""}>
-          <Link to={createProfileHref(id)}>
-            <Navbar.Brand>
-              <Image src={avatar} circle/>
-              <span>{name}</span>
-            </Navbar.Brand>
-          </Link>
+          {id !== undefined &&
+            <Link to={createProfileHref(id)}>
+              <Navbar.Brand>
+                <Image src={avatar} circle/>
+                <span>{name}</span>
+              </Navbar.Brand>
+            </Link>
+          }
         </Navbar.Header>
 
         <div className={this.computeClassname()}>

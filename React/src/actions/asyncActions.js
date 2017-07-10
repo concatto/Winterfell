@@ -1,16 +1,17 @@
-import { modifyName, modifyAvatar, removePublication, insertPublication, notifySuccess } from './index';
+import { modifyName, modifyAvatar, removePublication, insertPublication, notifySuccess, notifyError } from './index';
 import axios from 'axios';
+import { push } from 'react-router-redux';
 
-export const startAsync = (name) => ({
-  type: name + "_START"
+export const startAsync = (name, payload) => ({
+  type: name + "_START", payload
 });
 
-export const succeedAsync = (name) => ({
-  type: name + "_SUCCESS"
+export const succeedAsync = (name, payload) => ({
+  type: name + "_SUCCESS", payload
 });
 
-export const failAsync = (name) => ({
-  type: name + "_FAILURE"
+export const failAsync = (name, payload) => ({
+  type: name + "_FAILURE", error: payload
 });
 
 const createUrl = (suffix) => {
@@ -18,6 +19,26 @@ const createUrl = (suffix) => {
 
   return "http://localhost:8084/WinterPics/" + suffix;
 };
+
+export const handleReaction = ({id, index, info}) => (dispatch, getState) => {
+  const config = {
+    method: "post",
+    url: createUrl("services/reaction"),
+    data: {type: index, publication: id}
+  };
+
+  makeAuthorizedRequest(dispatch, getCredentials(getState), config, "M_REACTIONS", (data) => {
+    if (index === -1) {
+      dispatch(notifySuccess("Reação removida com sucesso!"));
+    } else {
+      dispatch(notifySuccess("Reação \"" + info.label + "\" registrada com sucesso!"));
+    }
+
+    dispatch({type: "REGISTER_REACTION", payload: {id, index}});
+  }, () => {
+    dispatch(notifyError("Falha ao registrar a reação."));
+  });
+}
 
 export const handleRename = ({name}) => (dispatch, getState) => {
   const config = {
@@ -29,18 +50,23 @@ export const handleRename = ({name}) => (dispatch, getState) => {
   makeAuthorizedRequest(dispatch, getCredentials(getState), config, "M_RENAME", () => {
     dispatch(notifySuccess("Seu nome foi alterado com sucesso."));
     dispatch(modifyName(name, getState().currentUser.id));
+  }, () => {
+    dispatch(notifyError("Falha ao alterar seu nome."));
   });
 };
 
 export const handleDeletion = ({id}) => (dispatch, getState) => {
   const config = {
     method: "delete",
-    url: createUrl("services/?"),
+    url: createUrl("services/publications"),
+    data: {id}
   };
 
   makeAuthorizedRequest(dispatch, getCredentials(getState), config, "M_DELETION", () => {
     dispatch(notifySuccess("Publicação excluída com sucesso."));
     dispatch(removePublication(id));
+  }, () => {
+    dispatch(notifyError("Falha ao excluir a publicação."));
   });
 }
 
@@ -54,26 +80,35 @@ export const handleEditAvatar = ({image}) => (dispatch, getState) => {
   makeAuthorizedRequest(dispatch, getCredentials(getState), config, "M_EDIT_AVATAR", () => {
     dispatch(notifySuccess("Sua imagem foi alterada com sucesso."));
     dispatch(modifyAvatar(image, getState().currentUser.id));
+  }, () => {
+    dispatch(notifyError("Falha ao alterar sua imagem."));
   });
 }
 
-export const handleSearch = (searchString) => (dispatch, getState) => {
-  // makeRequest(dispatch, "get", "", "SEARCH", () => {
-  //   const users = Object.values(getState().users.data);
-  //
-  //   dispatch({
-  //     type: "SEARCH_SUCCESS",
-  //     results: users,
-  //     total: Math.ceil(users.length / 10),
-  //   });
-  // });
+export const handleSearch = (searchString, offset, limit) => (dispatch, getState) => {
+  const config = {
+    method: "get",
+    url: createUrl("services/search"),
+    params: {data: searchString, offset, limit}
+  };
+
+  makeAuthorizedRequest(dispatch, getCredentials(getState), config, "SEARCH", (data) => {
+    const ids = data.result.map((item) => item.id);
+    const users = {};
+    data.result.forEach((item) => {
+      users[item.id] = transformAuthor(item)
+    });
+
+    dispatch({type: "INSERT_USER_SET", payload: users});
+    dispatch({type: "SEARCH_COMPLETED", results: ids, total: data.nResults});
+  });
 }
 
 export const handleNewPublication = ({title, image}) => (dispatch, getState) => {
   const config = {
     method: "post",
     url: createUrl("services/publications"),
-    data: {imagepath: "/test.png", title: title},
+    data: {publication: {title}, photo: image},
   }
 
   makeAuthorizedRequest(dispatch, getCredentials(getState), config, "M_NEW_PUBLICATION", (data) => {
@@ -83,15 +118,30 @@ export const handleNewPublication = ({title, image}) => (dispatch, getState) => 
 
     dispatch(insertPublication(pub));
     dispatch(notifySuccess("Publicação realizada com sucesso."));
+  }, () => {
+    dispatch(notifyError("Falha ao realizar a publicação."));
   });
 }
 
-export const handleToggleFollowing = (id) => (dispatch, getState) => {
+export const handleToggleFollowing = (id, shouldFollow) => (dispatch, getState) => {
+  const config = {
+    method: "post",
+    url: createUrl("services/following/" + (shouldFollow ? "follow" : "unfollow")),
+    data: {id}
+  }
+
   dispatch({type: "TOGGLING_START", payload: id});
-  setTimeout(() => dispatch({type: "TOGGLING_END", payload: id}), 1000);
+
+  makeAuthorizedRequest(dispatch, getCredentials(getState), config, "TOGGLE_FOLLOW", (data) => {
+    dispatch({type: "TOGGLING_END", payload: id});
+    dispatch({type: "SET_FOLLOWING", id, payload: shouldFollow});
+  }, () => {
+    dispatch({type: "TOGGLING_END", payload: id});
+    dispatch(notifyError("Falha ao modificar seu relacionamento com este usuário."));
+  })
 };
 
-export const authenticate = (user, password) => (dispatch, getState) => {
+export const authenticate = (user, password, remember) => (dispatch, getState) => {
   const credentials = btoa(user + ":" + password);
   console.log(credentials);
 
@@ -103,13 +153,31 @@ export const authenticate = (user, password) => (dispatch, getState) => {
   makeAuthorizedRequest(dispatch, credentials, config, "AUTH", (data) => {
     dispatch({
       type: "LOG_IN",
-      payload: {
-        id: data.id,
-        credentials
-      }
+      payload: {id: data.id, remember, credentials}
     });
+
+    dispatch(push("/profile"));
   });
 }
+
+export const createAccount = (name, user, email, password) => (dispatch) => {
+  const config = {
+    method: "post",
+    url: createUrl("authentication/newuser"),
+    data: {
+      userdata: {
+        name,
+        email,
+        login: user,
+        pass: password
+      }
+    }
+  };
+
+  makeRequest(dispatch, config, "CREATE_ACCOUNT", (data) => {
+    
+  });
+};
 
 const transformAuthor = (data) => {
   return {
@@ -130,8 +198,8 @@ const transformPublication = (data) => {
     image: createUrl(data.imagepath),
     title: data.title,
     timestamp: Date.parse(data.moment),
-    ownReaction: 0,
-    reactions: [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ownReaction: data.reactionResume ? data.reactionResume.userReaction : undefined,
+    reactions: data.reactionResume ? data.reactionResume.reactions : [0, 0, 0, 0, 0, 0, 0, 0, 0], //Default: no reactions
   };
 }
 
@@ -165,12 +233,9 @@ export const fetchPublications = (id, isFeed, limit) => (dispatch, getState) => 
   const offset = getState().publications.data.length;
   const config = {
     method: "get",
-    url: createUrl(isFeed ? "services/feed" : "services/publications/" + id)
+    url: createUrl(isFeed ? "services/feed" : "services/publications/" + id),
+    params: {offset, limit},
   };
-
-  if (limit) {
-    config.url += "/" + offset + "/" + limit;
-  }
 
   makeAuthorizedRequest(dispatch, getCredentials(getState), config, "FETCH_PUBLICATIONS", (data) => {
     console.log(data);
@@ -182,10 +247,12 @@ export const fetchPublications = (id, isFeed, limit) => (dispatch, getState) => 
   });
 }
 
-export const fetchFollowing = (id, limit) => (dispatch, getState) => {
+export const fetchFollowing = (id, limit, offset) => (dispatch, getState) => {
+  const offset = getState().following.data.length;
   const config = {
     method: "get",
-    url: createUrl("services/following")
+    url: createUrl("services/following/" + id),
+    params: {offset, limit},
   };
 
   makeAuthorizedRequest(dispatch, getCredentials(getState), config, "FETCH_FOLLOWING", (data) => {
@@ -201,17 +268,22 @@ export const fetchFollowing = (id, limit) => (dispatch, getState) => {
 }
 
 const makeAuthorizedRequest = (dispatch, credentials, config, name, onSuccess, onError) => {
-    dispatch(startAsync(name));
-    config.headers = {"Authorization": "Basic " + credentials};
+  config.headers = {"Authorization": "Basic " + credentials};
+
+  makeRequest(dispatch, config, name, onSuccess, onError);
+}
+
+const makeRequest = (dispatch, config, name, onSuccess, onError) => {
+    dispatch(startAsync(name, config));
 
     axios(config).then((data) => {
         console.log(data);
         if (onSuccess) onSuccess(data.data);
-        dispatch(succeedAsync(name));
+        dispatch(succeedAsync(name, data));
     }).catch((error) => {
         if (onError) onError(error);
         console.log(error);
-        dispatch(succeedAsync(name));
+        dispatch(failAsync(name, error));
     });
 }
 

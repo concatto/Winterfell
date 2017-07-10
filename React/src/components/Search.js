@@ -3,17 +3,23 @@ import NavigationBarContainer from '../containers/NavigationBarContainer';
 import PersonListContainer from '../containers/PersonListContainer';
 import { Grid, Row, Col, Pagination } from 'react-bootstrap';
 
+const LIMIT = 5;
+
 export default class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {page: 1};
   }
+
   componentDidMount() {
-    this.props.searchFor(this.props.searchString);
+    this.props.searchFor(this.props.searchString, 0, LIMIT);
   }
 
   handleSelect(key) {
-    this.setState({page: key});
+    if (key != this.state.page) {
+      this.setState({page: key});
+      this.props.searchFor(this.props.searchString, (key - 1) * LIMIT, LIMIT);
+    }
   }
 
   render() {
@@ -30,7 +36,7 @@ export default class Search extends React.Component {
       <div>
         <NavigationBarContainer/>
 
-        <Grid fluid>
+        <Grid fluid className="main">
           <Row>
             <Col xs={12} md={10} mdOffset={1}>
               <h3>Resultados da pesquisa por "{this.props.searchString}":</h3>
@@ -42,7 +48,7 @@ export default class Search extends React.Component {
               <Col xs={12}>
                 <div className="text-center">
                   <Pagination prev next maxButtons={5} ellipsis={null}
-                    items={this.props.totalResults} activePage={this.state.page}
+                    items={Math.ceil(this.props.totalResults / LIMIT)} activePage={this.state.page}
                     onSelect={(e) => this.handleSelect(e)}
                   />
                 </div>

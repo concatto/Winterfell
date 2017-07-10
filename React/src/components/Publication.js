@@ -9,58 +9,80 @@ import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 
 const formatter = buildFormatter(brStrings);
 
-const Publication = ({author, timestamp, title, image, reactions, isOwn, onDelete}) => (
-  <Panel className="post">
-    <Row>
-      <Col sm={10} xs={9}>
-        <Media>
-          <Media.Left>
-            <Link to={createProfileHref(author.id)}>
-              <Image src={author.avatar} rounded/>
-            </Link>
-          </Media.Left>
-          <Media.Body>
-            <Link to={createProfileHref(author.id)}>
-              <Media.Heading>
-                <strong>{author.name}</strong>
-              </Media.Heading>
-            </Link>
-            <p><TimeAgo date={timestamp} formatter={formatter}/></p>
-          </Media.Body>
-        </Media>
-      </Col>
+class Publication extends React.Component {
+  wrapIfNeeded(children) {
+    if (this.props.isOwn) {
+      return children;
+    }
 
-      {isOwn && /* If the current user is the owner of this publication */
-        <Col sm={2} xs={3} className="text-right">
-          <Button bsStyle="danger" onClick={() => onDelete()}>
-            <Glyphicon glyph="trash"/>
-          </Button>
-        </Col>
-      }
-    </Row>
+    return (
+      <Link to={createProfileHref(this.props.author.id)}>
+        {children}
+      </Link>
+    );
+  }
 
-    <Row className="post-title">
-      <Col sm={10} xs={9}>
-        <h4>{title}</h4>
-      </Col>
-    </Row>
+  render() {
+    const { author, timestamp, title, image, reactions, isOwn, onDelete, onReact } = this.props;
 
-    <Row className="post-content">
-      <Col xs={12}>
-        <Image src={image}/>
-      </Col>
-    </Row>
+    return (
+      <Panel className="post">
+        <Row>
+          <Col sm={10} xs={9}>
+            <Media>
+              <Media.Left>
+                {this.wrapIfNeeded(
+                  <Image src={author.avatar} rounded/>
+                )}
+              </Media.Left>
+              <Media.Body>
+                {this.wrapIfNeeded(
+                  <Media.Heading>
+                    <strong>{author.name}</strong>
+                  </Media.Heading>
+                )}
+                <Link to={createProfileHref(author.id)}>
+                </Link>
+                <p><TimeAgo date={timestamp} formatter={formatter}/></p>
+              </Media.Body>
+            </Media>
+          </Col>
 
-    <Row className="post-footer">
-      <Col xs={6}>
-        <h4>{reactions.sum} reações</h4>
-      </Col>
+          {isOwn && /* If the current user is the owner of this publication */
+            <Col sm={2} xs={3} className="text-right">
+              <Button bsStyle="danger" onClick={() => onDelete()}>
+                <Glyphicon glyph="trash"/>
+              </Button>
+            </Col>
+          }
+        </Row>
 
-      <Col xs={6} className="text-right">
-        <Button bsStyle="success">Reagir</Button>
-      </Col>
-    </Row>
-  </Panel>
-);
+        <Row className="post-title">
+          <Col sm={10} xs={9}>
+            <h4>{title}</h4>
+          </Col>
+        </Row>
+
+        <Row className="post-content">
+          <Col xs={12}>
+            <Image src={image}/>
+          </Col>
+        </Row>
+
+        <Row className="post-footer">
+          <Col xs={6}>
+            <h4>{reactions.sum + (reactions.sum == 1 ? " reação" : " reações")}</h4>
+          </Col>
+
+          <Col xs={6} className="text-right">
+            <Button bsStyle="success" onClick={() => onReact()}>
+              {isOwn ? "Ver reações" : "Reagir"}
+            </Button>
+          </Col>
+        </Row>
+      </Panel>
+    );
+  }
+}
 
 export default Publication;
