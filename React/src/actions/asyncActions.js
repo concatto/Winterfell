@@ -17,7 +17,7 @@ export const failAsync = (name, payload) => ({
 export const createUrl = (suffix) => {
   if (suffix[0] == "/") suffix = suffix.substring(1); //Remove the initial slash
 
-  return "http://localhost:8084/WinterPics/" + suffix;
+  return "http://31.220.22.185:8080/WinterPics/" + suffix;
 };
 
 export const handleReaction = ({id, index, info}) => (dispatch, getState) => {

@@ -1,0 +1,47 @@
+.home-root .espaco_Thumb {
+  padding: 9% 30px 30px 63%;
+}
+
+.home-root .thumbnail {
+  border: 0;
+  padding: 3%;
+  background-color: rgba(160, 160, 160, 0.1);
+}
+
+.home-root .nomeSite {
+   float: left;
+   padding: 12px 0px 0px 20px
+}
+
+.home-root h2 {
+  color: #CCC;
+}
+
+.home-root p {
+  color: #666;
+}
+
+.home-root .bottom {
+  position: relative;
+}
+
+.home-root .positionCopy {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.home-root .Checkbox {
+  color: #666;
+}
+
+.home-root {
+    /*http://more-sky.com/data/out/6/IMG_105570.gif*/
+    background-image: url("https://s-media-cache-ak0.pinimg.com/originals/1f/81/5c/1f815c749d9cbb566ea34c2c6a5f161f.gif");
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-color: #000;
+    height: 100vh;
+    overflow-y: scroll;
+}

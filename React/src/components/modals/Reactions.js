@@ -9,10 +9,10 @@ export default class Reactions extends React.Component {
     this.reactionData = [
       {image: "/assets/gostei.png", label: "Gostei!"},
       {image: "/assets/rimuito.png", label: "Ri muito!"},
-      {image: "/assets/pic.jpg", label: "Fofo!"},
+      {image: "/assets/fofo.png", label: "Fofo!"},
       {image: "/assets/fazeroque.png", label: "Fazer o que..."},
       {image: "/assets/quemseimporta.png", label: "Quem se importa?"},
-      {image: "/assets/pic.jpg", label: "Nojento!"},
+      {image: "/assets/nojento.png", label: "Nojento!"},
       {image: "/assets/odiei.png", label: "Odiei!"},
       {image: "/assets/frustrante.png", label: "Frustrante!"},
       {image: "/assets/aterrorizante.png", label: "Aterrorizante!"},
