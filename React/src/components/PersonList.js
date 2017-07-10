@@ -49,7 +49,7 @@ export default class PersonList extends React.Component {
 
   render() {
     return (
-      <ListGroup className={this.props.className}>
+      <ListGroup onScroll={(e) => this.props.onScroll(e)} className={this.props.className}>
         {this.mapDataToComponents()}
       </ListGroup>
     );

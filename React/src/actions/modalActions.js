@@ -1,9 +1,16 @@
 import { visitProfile } from './index';
-import { handleRename, handleDeletion, handleEditAvatar, handleNewPublication } from './asyncActions';
+import {
+  handleRename,
+  handleDeletion,
+  handleEditAvatar,
+  handleNewPublication,
+  handleReaction
+} from './asyncActions';
 
 const confirmHandlers = {
   "RENAME": handleRename,
   "DELETION": handleDeletion,
+  "REACTIONS": handleReaction,
   "EDIT_AVATAR": handleEditAvatar,
   "NEW_PUBLICATION": handleNewPublication
 };
@@ -41,3 +48,6 @@ export const openDeletion = (id) => openModal("DELETION", {id});
 export const openRename = (name) => openModal("RENAME", {name});
 export const openNewPublication = () => openModal("NEW_PUBLICATION");
 export const openEditAvatar = (avatar) => openModal("EDIT_AVATAR", {avatar});
+export const openReactions = (id, reactions, ownReaction, isOwn) => (
+  openModal("REACTIONS", {id, reactions, ownReaction, isOwn})
+);

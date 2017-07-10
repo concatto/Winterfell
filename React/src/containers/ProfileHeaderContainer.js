@@ -11,7 +11,7 @@ const stateMapper = (state, ownProps) => ({
 const dispatchMapper = (dispatch) => ({
   actions: {
     onRename: (name) => dispatch(openRename(name)),
-    onToggleFollowing: (id) => dispatch(handleToggleFollowing(id)),
+    onToggleFollowing: (id, shouldFollow) => dispatch(handleToggleFollowing(id, shouldFollow)),
     onEditAvatar: (avatar) => dispatch(openEditAvatar(avatar)),
     onSeeFollowing: (id) => dispatch(openFollowing(id)),
     onNewPublication: () => dispatch(openNewPublication()),

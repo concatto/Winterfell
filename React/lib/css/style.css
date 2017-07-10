@@ -1,7 +1,3 @@
-body {
-  padding-top: 80px;
-}
-
 .loader {
   border: 8px solid #f3f3f3; /* Light grey */
   border-top: 8px solid #2c3e50; /* Blue */
@@ -10,6 +6,10 @@ body {
   height: 60px;
   margin: 60px auto;
   animation: spin 1s linear infinite;
+}
+
+.main {
+  padding-top: 80px;
 }
 
 .post .loader {
@@ -614,6 +614,36 @@ div.panel.post div.panel-body {
   height: 60px;
   object-fit: cover;
 }
+
+/* BEGIN REACTIONS */
+.reaction .caption > * {
+  margin: 0px 2px;
+}
+
+.reaction .thumbnail {
+  cursor: pointer;
+  position: relative;
+  transition: border 0s linear;
+}
+
+.reaction.passive .thumbnail {
+  cursor: default;
+}
+
+.reaction:not(.passive) .thumbnail:hover {
+  background-color: #f1f9f7;
+  border-color: #ddefeb;
+}
+
+.reaction.active:not(.passive) .thumbnail {
+  background-color: #d8f5ef;
+  border-color: #bdded7;
+}
+
+.reaction .thumbnail img {
+  height: 100px;
+}
+/* END REACTIONS */
 
 @media (max-width: 768px) {
     .nav-justified > li {

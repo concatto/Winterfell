@@ -1,8 +1,9 @@
 import Publication from './Publication';
 import React from 'react';
 import { Panel } from 'react-bootstrap';
+import FailureAlert from './FailureAlert';
 
-const LIMIT = 2;
+const LIMIT = 5;
 
 class PublicationList extends React.Component {
   constructor(props) {
@@ -15,7 +16,8 @@ class PublicationList extends React.Component {
     const height = document.body.scrollTop + window.innerHeight;
 
     if (document.body.scrollHeight === height) {
-      if (!this.props.fetching && !this.props.ended) {
+      if (!this.props.fetching && !this.props.ended && !this.props.error) {
+        console.log("Scrolled");
         this.fetch();
       }
     }
@@ -26,6 +28,7 @@ class PublicationList extends React.Component {
   }
 
   componentDidMount() {
+    console.log("Mounted");
     this.fetch();
     document.addEventListener("scroll", this.scrollHandler);
   }
@@ -36,6 +39,7 @@ class PublicationList extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.isFeed != prevProps.isFeed || this.props.id != prevProps.id) {
+      console.log("Updated");
       this.fetch();
     }
   }
@@ -44,7 +48,8 @@ class PublicationList extends React.Component {
     return this.props.data.map((pub) => {
       pub = {
         ...pub,
-        onDelete: () => this.props.onDelete(pub.id),
+        onDelete: () => this.props.openDeletion(pub.id),
+        onReact: () => this.props.openReactions(pub.id, pub.reactions, pub.ownReaction, pub.isOwn),
       };
 
       return (
@@ -54,7 +59,9 @@ class PublicationList extends React.Component {
   }
 
   getContent() {
-    if (this.props.fetching && this.props.data.length == 0) {
+    if (this.props.error) {
+      return <FailureAlert error={this.props.error}/>;
+    } else if (this.props.fetching && this.props.data.length == 0) {
       return (
         <Panel className="post">
           <div className="center-block"><div className="loader"></div></div>

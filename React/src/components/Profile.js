@@ -9,9 +9,11 @@ import NewPublication from '../components/modals/NewPublication';
 import ViewFollowing from '../components/modals/ViewFollowing';
 import ChangeAvatar from '../components/modals/ChangeAvatar';
 import RenameUser from '../components/modals/RenameUser';
+import Reactions from '../components/modals/Reactions';
 import BaseModal from '../components/modals/BaseModal';
 import { Grid, Row, Col, Nav } from 'react-bootstrap';
 import Notifications from 'react-notification-system-redux';
+import FailureAlert from './FailureAlert';
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -19,6 +21,7 @@ export default class Profile extends React.Component {
 
     this.modals = {
       "DELETION": DeletePublication,
+      "REACTIONS": Reactions,
       "RENAME": RenameUser,
       "FOLLOWING": ViewFollowing,
       "EDIT_AVATAR": ChangeAvatar,
@@ -35,7 +38,7 @@ export default class Profile extends React.Component {
   shouldFetch(props) {
     //If I am not myself and there is no data about me and I am authorized, fetch!
     //CHANGED: Fetch even if there is data. Make sure the data is updated.
-    const val = !props.isSelf && /* (!props.userData || !props.userData.id) && */ this.props.authorized;
+    const val = (!props.userData || !props.userData.fetching) && /* (!props.userData || !props.userData.id) && */ this.props.authorized;
     //If I am myself, then the data is going to be fetched by the NavigationBar.
     return val;
   }
@@ -57,31 +60,29 @@ export default class Profile extends React.Component {
   }
 
   getContent() {
-    const { id, isSelf, userData } = this.props;
+    const { id, isSelf, userData, error } = this.props;
 
     if (!userData) {
       return null;
     }
 
-    if (userData.fetching) {
+    if (error) {
+      return <FailureAlert error={error}/>
+    } else if (userData.fetching) {
       return <div className="center-block"><div className="loader"></div></div>;
     } else if (userData.fetched && userData.id) {
       return (
         <div>
           <ProfileHeaderContainer isSelf={isSelf} id={id}/>
-
-          {isSelf &&
-            <PublicationSelectorContainer/>
-          }
         </div>
       );
     } else {
-      return <div className="text-center"><h2>Non ecziste</h2></div>;
+      return <div className="text-center"><h2>Este perfil não existe.</h2></div>;
     }
   }
 
   render() {
-    const { id, isSelf, notifications, authorized } = this.props;
+    const { id, notifications, authorized, isSelf } = this.props;
 
     if (!authorized) {
       return null;
@@ -90,10 +91,14 @@ export default class Profile extends React.Component {
     return (
       <div>
         <NavigationBarContainer withSearch/>
-        <Grid fluid>
+        <Grid fluid className="main">
           <Row>
             <Col xs={12} md={8} mdOffset={2}>
               {this.getContent()}
+
+              {isSelf &&
+                <PublicationSelectorContainer/>
+              }
 
               <PublicationListContainer className={isSelf ? "in-self" : ""}/>
 

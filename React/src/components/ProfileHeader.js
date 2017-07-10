@@ -18,7 +18,7 @@ const ProfileHeader = ({isSelf, isFollowing, id, name, avatar, following, action
     const buttonText = isFollowing ? "Parar de seguir" : "Seguir";
 
     button = (
-      <Button bsStyle={buttonType} onClick={() => onToggleFollowing(id)} disabled={toggling}>
+      <Button bsStyle={buttonType} onClick={() => onToggleFollowing(id, !isFollowing)} disabled={toggling}>
         {buttonText}
       </Button>
     );

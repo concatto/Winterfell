@@ -14,13 +14,13 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 import Unauthorized from './components/Unauthorized';
-import Home from './containers/Home';
+import Home from './Home2';
 
 moment.locale('pt-br');
 const history = createHistory({basename: "/"});
 const middleware = applyMiddleware(thunk, createLogger(), routerMiddleware(history));
 const store = createStore(reducer, middleware);
-
+window.store = store;
 render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
