@@ -24,7 +24,11 @@ public class FollowingREST {
     @Produces(MediaType.APPLICATION_JSON)
     public List<WinterUser> getFollowing(@Context HttpServletRequest request){
         WinterUser user = (WinterUser) request.getAttribute("winteruser");
-        return user.getFollowing();
+        List<WinterUser> following = user.getFollowing();
+        following.parallelStream().forEach((WinterUser w) -> {
+            w.setisFollowing(Boolean.TRUE);
+        });
+        return following;
     }
     
     @GET
